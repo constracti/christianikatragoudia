@@ -1,0 +1,91 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-26 15:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: album-post-type.php:8 song-content-filters.php:30
+msgid "Albums"
+msgstr ""
+
+#: links.php:12 links.php:95
+msgid "Links"
+msgstr ""
+
+#: links.php:29 tracks-metabox.php:34
+msgid "save"
+msgstr ""
+
+#: links.php:31 tracks-metabox.php:36
+msgid "add"
+msgstr ""
+
+#: links.php:38
+msgid "URL"
+msgstr ""
+
+#: links.php:40
+msgid "caption"
+msgstr ""
+
+#: links.php:41
+msgid "description"
+msgstr ""
+
+#: links.php:43 tracks-metabox.php:61
+msgid "delete"
+msgstr ""
+
+#: links.php:44 tracks-metabox.php:62
+msgid "up"
+msgstr ""
+
+#: links.php:45 tracks-metabox.php:63
+msgid "down"
+msgstr ""
+
+#: tracks-metabox.php:11
+msgid "Tracks"
+msgstr ""
+
+#: album-excerpt-filters.php:16
+msgid "songs"
+msgstr ""
+
+#: song-content-filters.php:43 song-post-type.php:31
+msgid "Subjects"
+msgstr ""
+
+#: song-content-filters.php:52 song-post-type.php:40
+msgid "Signatures"
+msgstr ""
+
+#: song-content-filters.php:88
+msgid "Files"
+msgstr ""
+
+#: song-post-type.php:8
+msgid "Songs"
+msgstr ""
+
+#. Name of the theme
+msgid "Total Child"
+msgstr ""
+
+#. Description of the theme
+msgid "Total Child Theme"
+msgstr ""
+
+#. Author of the theme
+msgid "constracti"
+msgstr ""
