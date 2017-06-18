@@ -109,16 +109,9 @@ add_filter( 'the_content', function( string $content ): string {
 		$content .= sprintf( '<span>[%s, %s]</span>', $ext, $size ) . "\n";
 		if ( $description !== '' )
 			$content .= '<br />' . "\n" . sprintf( '<i>%s</i>', $description ) . "\n";
-		if ( $ext === 'mid' )
-			$content .= '<span class="kgr-song-content-midijs" style="cursor: pointer; display: block;"></span>' . "\n";
 		if ( $ext === 'mp3' )
 			$content .= sprintf( '<audio controls="controls" src="%s" style="display: block;"></audio>', $url ) . "\n";
 		$content .= '</p>' . "\n";
 	}
 	return $content;
-} );
-
-add_action( 'wp_enqueue_scripts', function() {
-	wp_enqueue_script( 'kgr-midi', KGR_URL . 'lib/midi.js', [], NULL );
-	wp_enqueue_script( 'kgr-song-content', KGR_URL . 'song-content.js', [ 'jquery', 'kgr-midi' ] );
 } );
