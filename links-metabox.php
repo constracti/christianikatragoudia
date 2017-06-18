@@ -88,6 +88,9 @@ function kgr_links_content_filter( string $content, string $post_type ): string 
 		'youtube' => [
 			'dashicon' => 'dashicons-media-video',
 		],
+		'vimeo' => [
+			'dashicon' => 'dashicons-media-video',
+		],
 		'' => [
 			'dashicon' => 'dashicons-media-default',
 		],
