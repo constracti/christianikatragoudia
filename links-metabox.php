@@ -91,6 +91,9 @@ function kgr_links_content_filter( string $content, string $post_type ): string 
 		'vimeo' => [
 			'dashicon' => 'dashicons-media-video',
 		],
+		'livefilestore.com' => [
+			'dashicon' => 'dashicons-cloud',
+		],
 		'' => [
 			'dashicon' => 'dashicons-media-default',
 		],
@@ -112,7 +115,7 @@ function kgr_links_content_filter( string $content, string $post_type ): string 
 			$content .= sprintf( '<span>[%s]</span>', $key ) . "\n";
 		if ( $description !== '' )
 			$content .= '<br />' . "\n" . sprintf( '<i>%s</i>', $description ) . "\n";
-		if ( $key === '' )
+		if ( $key === 'livefilestore.com' )
 			$content .= sprintf( '<audio controls="controls" src="%s" style="display: block;"></audio>', $url ) . "\n";
 		$content .= '</p>' . "\n";
 	}
