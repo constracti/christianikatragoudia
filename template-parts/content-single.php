@@ -13,7 +13,7 @@
 		<div class="entry-meta ht-post-info">
 			<?php total_posted_on(); ?>
 		</div><!-- .entry-meta -->
-		<div style="display: inline-block;">
+		<div style="overflow: hidden;">
 			<?php the_content(); ?>
 		</div>
 		<?php
