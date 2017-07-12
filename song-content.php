@@ -102,6 +102,8 @@ add_filter( 'the_content', function( string $content ): string {
 		$url = wp_get_attachment_url( $attachment->ID );
 		$caption = $attachment->post_excerpt;
 		$description = $attachment->post_content;
+		if ( $caption === '' )
+			continue;
 		$content .= '<p>' . "\n";
 		if ( array_key_exists( 'dashicon', $param ) )
 			$content .= sprintf( '<span class="dashicons %s"></span>', $param['dashicon'] ) . "\n";
@@ -110,7 +112,7 @@ add_filter( 'the_content', function( string $content ): string {
 		if ( $description !== '' )
 			$content .= '<br />' . "\n" . sprintf( '<i>%s</i>', $description ) . "\n";
 		if ( $ext === 'mp3' )
-			$content .= sprintf( '<audio controls="controls" src="%s" style="display: block;"></audio>', $url ) . "\n";
+			$content .= do_shortcode( sprintf( '[audio mp3="%s"][/audio]', $url ) );
 		$content .= '</p>' . "\n";
 	}
 	return $content;
