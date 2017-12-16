@@ -54,3 +54,8 @@ add_filter( 'total_home_sections', function( array $sections ): array {
 add_action( 'after_setup_theme', function() {
 	load_child_theme_textdomain( 'kgr', KGR_DIR . 'languages' );
 } );
+
+add_action( 'wp_head', function() {
+	$color = get_theme_mod( 'total_template_color', '#FFC107' );
+	echo sprintf( '<meta name="theme-color" content="%s" />', $color ) . "\n";
+} );
