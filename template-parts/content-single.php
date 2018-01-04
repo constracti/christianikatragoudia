@@ -4,7 +4,6 @@
  *
  * @package Total
  */
-
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -16,6 +15,13 @@
 		<div style="overflow: hidden;">
 			<?php the_content(); ?>
 		</div>
+
+		<?php kgr_song_featured_audio(); ?>
+
+		<?php kgr_links(); ?>
+
+		<?php kgr_song_attachments(); ?>
+
 		<?php
 			wp_link_pages( array(
 				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'total' ),

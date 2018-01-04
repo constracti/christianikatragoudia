@@ -40,9 +40,3 @@ add_filter( 'the_content', function( string $content ): string {
 		$content .= do_shortcode( sprintf( '[playlist artists="false" ids="%s"]', implode( ',', $ids ) ) );
 	return $content;
 } );
-
-add_filter( 'the_content', function( string $content ): string {
-	if ( get_post_type() !== 'kgr-album' )
-		return $content;
-	return kgr_links_content_filter( $content, 'kgr-album' );
-} );
