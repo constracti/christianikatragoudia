@@ -19,7 +19,6 @@ add_action( 'after_setup_theme', function() {
 
 require_once( KGR_DIR . 'album-post-type.php' );
 require_once( KGR_DIR . 'album-content.php' );
-require_once( KGR_DIR . 'album-excerpt.php' );
 
 require_once( KGR_DIR . 'song-post-type.php' );
 require_once( KGR_DIR . 'song-content.php' );
@@ -155,6 +154,19 @@ function kgr_song_attachments() {
 			echo do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url( $url ) ) );
 		echo '</div><!-- .ht-clearfix -->' . "\n";
 	}
+}
+
+function kgr_album_tracks_count() {
+	if ( get_post_type() !== 'kgr-album' )
+		return;
+	$tracks = get_post_meta( get_the_ID(), 'kgr-tracks', TRUE );
+	if ( $tracks === '' )
+		return;
+	$count = 0;
+	foreach ( $tracks as $track_id )
+		if ( $track_id !== 0 )
+			$count++;
+	echo '<p>' . esc_html( sprintf( '%d %s', $count, __( 'songs', 'kgr' ) ) ) . '</p>' . "\n";
 }
 
 function kgr_thumbnail( WP_Post $attachment ): string {
