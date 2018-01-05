@@ -4,7 +4,7 @@
  * @package Total
  */
 
-# KGR: edited .ht-portfolio-posts
+# constracti: edited .ht-portfolio-posts
 
 if(get_theme_mod('total_portfolio_section_disable') != 'on' ){ ?>
 <section id="ht-portfolio-section" class="ht-section">

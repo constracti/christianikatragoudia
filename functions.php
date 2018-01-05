@@ -6,6 +6,7 @@ if ( !defined( 'ABSPATH' ) )
 define( 'KGR_DIR', trailingslashit( get_stylesheet_directory() ) );
 define( 'KGR_URL', trailingslashit( get_stylesheet_directory_uri() ) );
 
+// enqueue parent theme and child theme stylesheet
 add_action( 'wp_enqueue_scripts', function() {
 	# normally, the following should work:
 	# wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total-style' ] );
@@ -13,6 +14,7 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total' ] );
 } );
 
+// load translations for child theme
 add_action( 'after_setup_theme', function() {
 	load_child_theme_textdomain( 'kgr', KGR_DIR . 'languages' );
 } );
@@ -42,20 +44,13 @@ function kgr_filesize( string $filename ): string {
 	return sprintf( '%0.2fGB', $size );
 }
 
+// allow xml file uploading
 add_filter( 'upload_mimes', function( array $mimes ): array {
 	$mimes['xml'] = 'application/xml';
 	return $mimes;
 } );
 
-add_filter( 'total_home_sections', function( array $sections ): array {
-	$key = array_search( 'cta', $sections, TRUE );
-	$value = $sections[ $key ];
-	unset( $sections[ $key ] );
-	$key = array_search( 'portfolio', $sections, TRUE );
-	array_splice( $sections, $key, 0, [ $value ] );
-	return $sections;
-} );
-
+// set browser tab color
 add_action( 'wp_head', function() {
 	$color = get_theme_mod( 'total_template_color', '#FFC107' );
 	echo sprintf( '<meta name="theme-color" content="%s" />', $color ) . "\n";
