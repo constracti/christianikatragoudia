@@ -4,18 +4,8 @@
  * @package Total
  */
 
-// returns number of published albums
-function total_counter_callback_1( $count ) {
-	$posts = get_posts( [
-		'post_type' => 'kgr-album',
-		'nopaging' => TRUE,
-		'fields' => 'ids',
-	] );
-	return count( $posts );
-}
-
 // returns number of published songs
-function total_counter_callback_2( $count ) {
+function total_counter_callback_1( $count ) {
 	$posts = get_posts( [
 		'post_type' => 'kgr-song',
 		'nopaging' => TRUE,
@@ -25,7 +15,7 @@ function total_counter_callback_2( $count ) {
 }
 
 // returns number of links
-function total_counter_callback_3( $count ) {
+function total_counter_callback_2( $count ) {
 	$posts = get_posts( [
 		'post_type' => 'any',
 		'nopaging' => TRUE,
@@ -43,11 +33,22 @@ function total_counter_callback_3( $count ) {
 }
 
 // returns number of uploaded scores
+function total_counter_callback_3( $count ) {
+	$posts = get_posts( [
+		'post_type' => 'attachment',
+		'nopaging' => TRUE,
+		'post_mime_type' => 'application/pdf',
+		'fields' => 'ids',
+	] );
+	return count( $posts );
+}
+
+// returns number of published albums
 function total_counter_callback_4( $count ) {
 	$posts = get_posts( [
 		'post_type' => 'attachment',
 		'nopaging' => TRUE,
-		'post_mime_type' => 'application/xml',
+		'post_mime_type' => 'audio/midi',
 		'fields' => 'ids',
 	] );
 	return count( $posts );
