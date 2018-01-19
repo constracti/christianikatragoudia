@@ -174,10 +174,7 @@ function kgr_thumbnail( WP_Post $attachment ): string {
 	if ( !array_key_exists( 'thumbnail', $sizes ) )
 		return '';
 	$thumbnail = $sizes['thumbnail'];
-	$post = get_post( $attachment->post_parent );
-	if ( is_null( $post ) )
-		return '';
-	$url = trailingslashit( wp_upload_dir( $post->post_date )['url'] );
+	$url = trailingslashit( dirname( wp_get_attachment_url( $attachment->ID ) ) );
 	return sprintf( '<img src="%s" alt="%s" width="%d" height="%d" style="float: left; margin-right: 15px;" />',
 		esc_url( $url . $thumbnail['file'] ),
 		esc_html( $thumbnail['file'] ),
