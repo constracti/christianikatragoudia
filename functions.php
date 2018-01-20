@@ -14,6 +14,11 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total' ] );
 } );
 
+// remove smoothscroll script
+add_action( 'wp_enqueue_scripts', function() {
+	wp_dequeue_script( 'smoothscroll' );
+}, 11 );
+
 // load translations for child theme
 add_action( 'after_setup_theme', function() {
 	load_child_theme_textdomain( 'kgr', KGR_DIR . 'languages' );
