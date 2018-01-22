@@ -205,30 +205,42 @@ function kgr_mime_type_dashicon( string $mime_type ): string {
 }
 
 add_shortcode( 'kgr-list', function( array $atts ) {
-	# parameter $atts normally defines post_type="attachment", post_mime_type and posts_per_page
-	$attachments = get_posts( $atts );
 	$html = '';
-	foreach ( $attachments as $attachment ) {
-		$post = get_post( $attachment->post_parent );
-		if ( is_null( $post ) )
-			continue;
-		if ( $attachment->post_excerpt === '' )
-			continue;
-		$html .= '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
-		$html .= kgr_thumbnail( $attachment );
-		$html .= sprintf( '<a href="%s">%s</a>', esc_url( get_post_permalink( $post ) ), esc_html( $post->post_title ) ) . "\n";
-		$url = wp_get_attachment_url( $attachment->ID );
-		$dir = get_attached_file( $attachment->ID );
-		$ext = pathinfo( $dir, PATHINFO_EXTENSION );
-		$html .= '<br />' . "\n";
-		$html .= sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
-		$html .= sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
-		$html .= '<span style="white-space: nowrap;">' . esc_html( sprintf( '[%s, %s]', $ext, kgr_filesize( $dir ) ) ) . '</span>' . "\n";
-		$html .= '<br />' . "\n";
-		$html .= sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
-		if ( $attachment->post_mime_type === 'audio/mpeg' )
-			$html .= do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url( $url ) ) );
-		$html .= '</div><!-- .ht-clearfix -->' . "\n";
+	switch ( $atts['post_type'] ) {
+		case 'attachment':
+			# parameter $atts normally defines post_type="attachment", post_mime_type and posts_per_page
+			$attachments = get_posts( $atts );
+			foreach ( $attachments as $attachment ) {
+				$post = get_post( $attachment->post_parent );
+				if ( is_null( $post ) )
+					continue;
+				if ( $attachment->post_excerpt === '' )
+					continue;
+				$html .= '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
+				$html .= kgr_thumbnail( $attachment );
+				$html .= sprintf( '<a href="%s">%s</a>', esc_url( get_post_permalink( $post ) ), esc_html( $post->post_title ) ) . "\n";
+				$url = wp_get_attachment_url( $attachment->ID );
+				$dir = get_attached_file( $attachment->ID );
+				$ext = pathinfo( $dir, PATHINFO_EXTENSION );
+				$html .= '<br />' . "\n";
+				$html .= sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
+				$html .= sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
+				$html .= '<span style="white-space: nowrap;">' . esc_html( sprintf( '[%s, %s]', $ext, kgr_filesize( $dir ) ) ) . '</span>' . "\n";
+				$html .= '<br />' . "\n";
+				$html .= sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
+				if ( $attachment->post_mime_type === 'audio/mpeg' )
+					$html .= do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url( $url ) ) );
+				$html .= '</div><!-- .ht-clearfix -->' . "\n";
+			}
+			break;
+		case 'kgr-song':
+			# parameter $atts normally defines post_type="kgr-song" and nopaging
+			$posts = get_posts( $atts );
+			foreach ( $posts as $post ) {
+				$html .= sprintf( '<h3><a href="%s">%s</a></h3>', esc_url( get_permalink( $post ) ), esc_html( $post->post_title ) ) . "\n";
+				$html .= sprintf( '<p>%s</p>', esc_html( $post->post_excerpt ) ) . "\n";
+			}
+			break;
 	}
 	return $html;
 } );
