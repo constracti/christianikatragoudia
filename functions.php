@@ -196,9 +196,10 @@ function kgr_song_attachments( $args = [] ) {
 		$ext = pathinfo( $dir, PATHINFO_EXTENSION );
 		switch ( $args['mode'] ) {
 			case 'icons':
-				echo sprintf( '<a href="%s" target="_blank">', esc_url( $url ) ) . "\n";
+				echo '<span style="white-space: nowrap; margin-right: 1em;">' . "\n";
 				echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
-				echo '</a>' . "\n";
+				echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
+				echo '</span>' . "\n";
 				break;
 			default:
 				echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
