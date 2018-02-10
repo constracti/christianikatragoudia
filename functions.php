@@ -28,7 +28,6 @@ require_once( KGR_DIR . 'album-post-type.php' );
 require_once( KGR_DIR . 'album-content.php' );
 
 require_once( KGR_DIR . 'song-post-type.php' );
-require_once( KGR_DIR . 'song-content.php' );
 
 require_once( KGR_DIR . 'tracks-metabox.php' );
 require_once( KGR_DIR . 'links-metabox.php' );
@@ -98,17 +97,6 @@ function kgr_link_type_dashicon( string $link_type ): string {
 	}
 }
 
-function kgr_song_subjects() {
-	if ( get_post_type() !== 'kgr-song' )
-		return;
-	$song = get_the_ID();
-	$subjects = wp_get_post_terms( $song, 'kgr-subject' );
-	echo '<div class="tagcloud">' . "\n";
-	foreach ( $subjects as $subject )
-		echo sprintf( '<a href="%s">%s</a>', get_term_link( $subject ), $subject->name ) . "\n";
-	echo '</div>' . "\n";
-}
-
 function kgr_song_featured_audio() {
 	if ( get_post_type() !== 'kgr-song' )
 		return;
@@ -128,10 +116,68 @@ function kgr_song_featured_audio() {
 	}
 }
 
-function kgr_song_attachments() {
+function kgr_song_albums( $title = '' ) {
 	if ( get_post_type() !== 'kgr-song' )
 		return;
-	echo sprintf( '<h2>%s</h2>', __( 'Files', 'kgr' ) ) . "\n";
+	$song = get_the_ID();
+	$albums = get_posts( [
+		'post_type' => 'kgr-album',
+		'nopaging' => TRUE,
+		'orderby' => 'post_title',
+		'order' => 'ASC',
+	] );
+	$self = [];
+	foreach ( $albums as $album ) {
+		$tracks = get_post_meta( $album->ID, 'kgr-tracks', TRUE );
+		if ( $tracks === '' )
+			continue;
+		$key = array_search( $song, $tracks, TRUE );
+		if ( $key === FALSE )
+			continue;
+		$self[] = sprintf( '<p><a href="%s">%s</a> (%d)</p>',
+			esc_url( get_permalink( $album ) ),
+			esc_html( get_the_title( $album ) ),
+			$key + 1
+		) . "\n";
+	}
+	if ( empty( $self ) )
+		return;
+	if ( $title !== '' )
+		echo sprintf( '<h2>%s</h2>', esc_html( $title ) ) . "\n";
+	echo implode( $self );
+}
+
+function kgr_song_subjects( $title = '' ) {
+	if ( get_post_type() !== 'kgr-song' )
+		return;
+	$id = get_the_ID();
+	$terms = wp_get_post_terms( $id, 'kgr-subject' );
+	if ( $title !== '' )
+		echo sprintf( '<h2>%s</h2>', esc_html( $title ) ) . "\n";
+	echo '<div class="tagcloud">' . "\n";
+	foreach ( $terms as $term )
+		echo sprintf( '<a href="%s">%s</a>', esc_url( get_term_link( $term ) ), esc_html( $term->name ) ) . "\n";
+	echo '</div>' . "\n";
+}
+
+function kgr_song_signatures( $title = '' ) {
+	if ( get_post_type() !== 'kgr-song' )
+		return;
+	$id = get_the_ID();
+	$terms = wp_get_post_terms( $id, 'kgr-signature' );
+	if ( $title !== '' )
+		echo sprintf( '<h2>%s</h2>', esc_html( $title ) ) . "\n";
+	echo '<div class="tagcloud">' . "\n";
+	foreach ( $terms as $term )
+		echo sprintf( '<a href="%s">%s</a>', esc_url( get_term_link( $term ) ), esc_html( $term->name ) ) . "\n";
+	echo '</div>' . "\n";
+}
+
+function kgr_song_attachments( $args = [] ) {
+	if ( get_post_type() !== 'kgr-song' )
+		return;
+	if ( array_key_exists( 'title', $args ) )
+		echo sprintf( '<h2>%s</h2>', esc_html( $args['title'] ) ) . "\n";
 	$attachments = get_children( [
 		'post_parent' => get_the_ID(),
 		'post_type' => 'attachment',
@@ -143,16 +189,25 @@ function kgr_song_attachments() {
 		$url = wp_get_attachment_url( $attachment->ID );
 		$dir = get_attached_file( $attachment->ID );
 		$ext = pathinfo( $dir, PATHINFO_EXTENSION );
-		echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
-		echo kgr_thumbnail( $attachment );
-		echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
-		echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
-		echo '<span style="white-space: nowrap;">' . esc_html( sprintf( '[%s, %s]', $ext, kgr_filesize( $dir ) ) ) . '</span>' . "\n";
-		echo '<br />' . "\n";
-		echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
-		if ( $attachment->post_mime_type === 'audio/mpeg' )
-			echo do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url( $url ) ) );
-		echo '</div><!-- .ht-clearfix -->' . "\n";
+		switch ( $args['mode'] ) {
+			case 'icons':
+				echo sprintf( '<a href="%s" target="_blank">', esc_url( $url ) ) . "\n";
+				echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
+				echo '</a>' . "\n";
+				break;
+			default:
+				echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
+				echo kgr_thumbnail( $attachment );
+				echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
+				echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
+				echo '<span style="white-space: nowrap;">' . esc_html( sprintf( '[%s, %s]', $ext, kgr_filesize( $dir ) ) ) . '</span>' . "\n";
+				echo '<br />' . "\n";
+				echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
+				if ( $attachment->post_mime_type === 'audio/mpeg' )
+					echo do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url( $url ) ) );
+				echo '</div><!-- .ht-clearfix -->' . "\n";
+				break;
+		}
 	}
 }
 

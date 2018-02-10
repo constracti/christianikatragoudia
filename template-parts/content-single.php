@@ -18,9 +18,15 @@
 
 		<?php kgr_song_featured_audio(); ?>
 
+		<?php kgr_song_albums( __( 'Albums', 'kgr' ) ); ?>
+		<?php kgr_song_subjects( __( 'Subjects', 'kgr' ) ); ?>
+		<?php kgr_song_signatures( __( 'Signatures', 'kgr' ) ); ?>
+
 		<?php kgr_links(); ?>
 
-		<?php kgr_song_attachments(); ?>
+		<?php kgr_song_attachments( [
+			'title' => __( 'Files', 'kgr' ),
+		] ); ?>
 
 		<?php
 			wp_link_pages( array(
