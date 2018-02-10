@@ -256,7 +256,7 @@ function kgr_mime_type_dashicon( string $mime_type ): string {
 		case 'audio/midi':
 		case 'audio/mpeg':
 			return 'dashicons-media-audio';
-		case 'applicatoin/xml':
+		case 'application/xml':
 			return 'dashicons-media-code';
 		case 'text/plain':
 			return 'dashicons-media-text';
