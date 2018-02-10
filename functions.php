@@ -60,6 +60,11 @@ add_action( 'wp_head', function() {
 	echo sprintf( '<meta name="theme-color" content="%s" />', $color ) . "\n";
 } );
 
+// include dashicons in frontend
+add_action( 'wp_enqueue_scripts', function() {
+	wp_enqueue_style( 'dashicons' );
+} );
+
 function kgr_links() {
 	$links = get_post_meta( get_the_ID(), 'kgr-links', TRUE );
 	if ( $links === '' )
