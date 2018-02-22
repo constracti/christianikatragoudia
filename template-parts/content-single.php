@@ -8,11 +8,14 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<div class="entry-content">
+	<a class="entry-title" href="<?php the_permalink(); ?>" rel="bookmark" style="display: none;"><?php the_title(); ?></a>
+	<span class="entry-summary" style="display: none;"><?php the_excerpt(); ?></span>
+
+	<div>
 		<div class="entry-meta ht-post-info">
 			<?php total_posted_on(); ?>
 		</div><!-- .entry-meta -->
-		<div style="overflow: hidden;">
+		<div class="entry-content" style="overflow: hidden;">
 			<?php the_content(); ?>
 		</div>
 
