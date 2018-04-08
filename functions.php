@@ -6,7 +6,7 @@ if ( !defined( 'ABSPATH' ) )
 define( 'KGR_DIR', trailingslashit( get_stylesheet_directory() ) );
 define( 'KGR_URL', trailingslashit( get_stylesheet_directory_uri() ) );
 
-// enqueue parent theme and child theme stylesheet
+/* enqueue parent theme and child theme stylesheet */
 add_action( 'wp_enqueue_scripts', function() {
 	# normally, the following should work:
 	# wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total-style' ] );
@@ -14,12 +14,12 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total' ] );
 } );
 
-// remove smoothscroll script
+/* remove smoothscroll script */
 add_action( 'wp_enqueue_scripts', function() {
 	wp_dequeue_script( 'smoothscroll' );
-}, 11 );
+}, 20 );
 
-// load translations for child theme
+/* load translations for child theme */
 add_action( 'after_setup_theme', function() {
 	load_child_theme_textdomain( 'kgr', KGR_DIR . 'languages' );
 } );
@@ -34,7 +34,13 @@ require_once( KGR_DIR . 'links-metabox.php' );
 
 require_once( KGR_DIR . 'widgets.php' );
 
-function kgr_filesize( string $filename ): string {
+/*
+ * return the size of a file in a human friendly format
+ *
+ * @param  $filename string  the filename
+ * @return           string  the filesize in a human friendly format
+ */
+function kgr_filesize( $filename ) {
 	$size = filesize( $filename );
 	if ( $size < 1024 )
 		return sprintf( '%dB', $size );
@@ -48,23 +54,29 @@ function kgr_filesize( string $filename ): string {
 	return sprintf( '%0.2fGB', $size );
 }
 
-// allow xml file uploading
-add_filter( 'upload_mimes', function( array $mimes ): array {
+/*
+ * allow xml file uploading
+ *
+ * @param  $mimes array  the set of allowed mime types
+ * @return        array  the new set of allowed mime types
+ */
+add_filter( 'upload_mimes', function( $mimes ) {
 	$mimes['xml'] = 'application/xml';
 	return $mimes;
 } );
 
-// set browser tab color
+/* set browser tab color */
 add_action( 'wp_head', function() {
 	$color = get_theme_mod( 'total_template_color', '#FFC107' );
 	echo sprintf( '<meta name="theme-color" content="%s" />', $color ) . "\n";
 } );
 
-// include dashicons in frontend
+/* include dashicons in frontend */
 add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_style( 'dashicons' );
 } );
 
+/* print links related to a post of any type */
 function kgr_links() {
 	$links = get_post_meta( get_the_ID(), 'kgr-links', TRUE );
 	if ( $links === '' )
@@ -84,15 +96,28 @@ function kgr_links() {
 	}
 }
 
-function kgr_link_type( string $url ) {
+/*
+ * return the type of a link
+ * currently only simple youtube and vimeo links are handled
+ *
+ * @param  $url string       the link
+ * @return      string|NULL  the type
+ */
+function kgr_link_type( $url ) {
 	$link_types = [ 'youtube', 'vimeo' ];
 	foreach ( $link_types as $link_type )
 		if ( mb_strpos( $url, $link_type ) !== FALSE )
 			return $link_type;
-	return '';
+	return NULL;
 }
 
-function kgr_link_type_dashicon( string $link_type ): string {
+/*
+ * return the dashicon class for a specific link type
+ *
+ * @param  $link_type string|NULL  the link type
+ * @return            string       the dashicon class
+ */
+function kgr_link_type_dashicon( $link_type ) {
 	switch ( $link_type ) {
 		case 'youtube':
 		case 'vimeo':
