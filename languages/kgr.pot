@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-26 15:56+0000\n"
+"POT-Creation-Date: 2018-05-07 18:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,68 +14,132 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: album-post-type.php:8 song-content-filters.php:30
+#: album-post-type.php:8 template-parts/content-single.php:24
 msgid "Albums"
 msgstr ""
 
-#: links.php:12 links.php:95
-msgid "Links"
+#: song-post-type.php:8
+msgid "Songs"
 msgstr ""
 
-#: links.php:29 tracks-metabox.php:34
-msgid "save"
+#: song-post-type.php:31 template-parts/content-single.php:25
+msgid "Subjects"
 msgstr ""
 
-#: links.php:31 tracks-metabox.php:36
-msgid "add"
-msgstr ""
-
-#: links.php:38
-msgid "URL"
-msgstr ""
-
-#: links.php:40
-msgid "caption"
-msgstr ""
-
-#: links.php:41
-msgid "description"
-msgstr ""
-
-#: links.php:43 tracks-metabox.php:61
-msgid "delete"
-msgstr ""
-
-#: links.php:44 tracks-metabox.php:62
-msgid "up"
-msgstr ""
-
-#: links.php:45 tracks-metabox.php:63
-msgid "down"
+#: song-post-type.php:40 template-parts/content-single.php:26
+msgid "Signatures"
 msgstr ""
 
 #: tracks-metabox.php:11
 msgid "Tracks"
 msgstr ""
 
-#: album-excerpt-filters.php:16
+#: tracks-metabox.php:34 links-metabox.php:29
+msgid "save"
+msgstr ""
+
+#: tracks-metabox.php:36 links-metabox.php:31
+msgid "add"
+msgstr ""
+
+#: tracks-metabox.php:56 links-metabox.php:43
+msgid "delete"
+msgstr ""
+
+#: tracks-metabox.php:57 links-metabox.php:44 functions.php:261
+msgid "up"
+msgstr ""
+
+#: tracks-metabox.php:58 links-metabox.php:45 functions.php:262
+msgid "down"
+msgstr ""
+
+#: links-metabox.php:12 functions.php:84
+msgid "Links"
+msgstr ""
+
+#: links-metabox.php:38
+msgid "URL"
+msgstr ""
+
+#: links-metabox.php:40
+msgid "caption"
+msgstr ""
+
+#: links-metabox.php:41
+msgid "description"
+msgstr ""
+
+#: functions.php:242
+msgid "load"
+msgstr ""
+
+#: functions.php:251
+msgid "display part names"
+msgstr ""
+
+#: functions.php:257
+msgid "transpose"
+msgstr ""
+
+#: functions.php:265
+msgid "1st"
+msgstr ""
+
+#: functions.php:266
+msgid "2nd"
+msgstr ""
+
+#: functions.php:267
+msgid "3rd"
+msgstr ""
+
+#: functions.php:268
+msgid "4th"
+msgstr ""
+
+#: functions.php:269
+msgid "5th"
+msgstr ""
+
+#: functions.php:270
+msgid "6th"
+msgstr ""
+
+#: functions.php:271
+msgid "7th"
+msgstr ""
+
+#: functions.php:278 functions.php:287
+msgid "diminished"
+msgstr ""
+
+#: functions.php:279
+msgid "perfect"
+msgstr ""
+
+#: functions.php:280 functions.php:290
+msgid "augmented"
+msgstr ""
+
+#: functions.php:288
+msgid "minor"
+msgstr ""
+
+#: functions.php:289
+msgid "major"
+msgstr ""
+
+#: functions.php:300
+msgid "render"
+msgstr ""
+
+#: functions.php:479
 msgid "songs"
 msgstr ""
 
-#: song-content-filters.php:43 song-post-type.php:31
-msgid "Subjects"
-msgstr ""
-
-#: song-content-filters.php:52 song-post-type.php:40
-msgid "Signatures"
-msgstr ""
-
-#: song-content-filters.php:88
+#: template-parts/content-single.php:31
 msgid "Files"
-msgstr ""
-
-#: song-post-type.php:8
-msgid "Songs"
 msgstr ""
 
 #. Name of the theme
