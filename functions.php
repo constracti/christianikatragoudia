@@ -477,7 +477,7 @@ function kgr_album_tracks_count() {
 
 function kgr_thumbnail( WP_Post $attachment ): string {
 	$metadata = wp_get_attachment_metadata( $attachment->ID );
-	if ( $metadata === FALSE )
+	if ( !is_array( $metadata ) )
 		return '';
 	if ( !array_key_exists( 'sizes', $metadata ) )
 		return '';
