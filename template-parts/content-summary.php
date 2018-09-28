@@ -4,6 +4,7 @@
  *
  * @package Total
  */
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('total-hentry'); ?>>
@@ -15,7 +16,7 @@
 	<?php endif; ?>
 
 	<div class="ht-post-wrapper">
-		<?php if( has_post_thumbnail() ): ?>
+		<?php if(has_post_thumbnail() ): ?>
 		<figure class="entry-figure">
 			<?php
 			$total_image = wp_get_attachment_image_src( get_post_thumbnail_id() , 'total-blog-header' );
@@ -29,7 +30,7 @@
 		</header><!-- .entry-header -->
 
 		<div class="entry-categories">
-			<?php echo total_entry_category(); ?>
+			<?php echo total_entry_category(); // WPCS: XSS OK. ?>
 		</div>
 
 		<div class="entry-summary">

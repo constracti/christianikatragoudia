@@ -29,11 +29,11 @@ if(get_theme_mod('total_blog_section_disable') != 'on' ){ ?>
 			$total_blog_cat_exclude = get_theme_mod('total_blog_cat_exclude');
             $total_blog_cat_exclude = explode(',', $total_blog_cat_exclude);
 
-			$args = [
+			$args = array(
 				'post_type' => 'kgr-song',
 				'posts_per_page' => absint($total_blog_post_count),
 				'orderby' => 'rand',
-			];
+				);
 			$query = new WP_Query($args);
 			if($query -> have_posts()):
 				while($query -> have_posts()) : $query -> the_post();
@@ -54,15 +54,15 @@ if(get_theme_mod('total_blog_section_disable') != 'on' ){ ?>
 					<div class="ht-blog-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><?php echo get_the_date(); ?></div>
 						<?php 
 						if(has_excerpt()){
-							echo get_the_excerpt();
+							the_excerpt();
 						}else{
-							echo total_excerpt( get_the_content() , 190 );
+							echo esc_html(total_excerpt( get_the_content() , 190 ));
 						}
 						?>
 					</div>
 
 					<div class="ht-blog-read-more">
-						<a href="<?php the_permalink(); ?>"><?php _e('Read More', 'total'); ?></a>
+						<a href="<?php the_permalink(); ?>"><?php esc_html_e('Read More', 'total'); ?></a>
 					</div>
 				</div>
 				<?php
