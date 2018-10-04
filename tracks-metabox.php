@@ -22,13 +22,13 @@ function kgr_tracks_metabox_html( WP_Post $album ) {
 	if ( $tracks === '' )
 		$tracks = [];
 	echo '<div class="kgr-control-container">' . "\n";
-	echo '<div class="kgr-control-items">' . "\n";
+	echo '<ol class="kgr-control-items">' . "\n";
 	foreach ( $tracks as $track )
 		kgr_tracks_metabox_div( $songs, $track );
-	echo '</div>' . "\n";
-	echo '<div class="kgr-control-item0">' . "\n";
+	echo '</ol>' . "\n";
+	echo '<ol class="kgr-control-item0">' . "\n";
 	kgr_tracks_metabox_div( $songs );
-	echo '</div>' . "\n";
+	echo '</ol>' . "\n";
 	echo '<p>' . "\n";
 	$nonce = wp_create_nonce( kgr_tracks_metabox_nonce( $album->ID ) );
 	echo sprintf( '<button type="button" class="button button-primary" data-nonce="%s" data-album="%s">%s</button>', $nonce, $album->ID, __( 'save', 'kgr' ) ) . "\n";
@@ -39,7 +39,7 @@ function kgr_tracks_metabox_html( WP_Post $album ) {
 }
 
 function kgr_tracks_metabox_div( array $songs, int $track = 0 ) {
-	echo '<p class="kgr-control-item">' . "\n";
+	echo '<li class="kgr-control-item">' . "\n";
 	echo '<select>' . "\n";
 	echo sprintf( '<option value="%d">%s</option>', 0, 'none' ) . "\n";
 	foreach ( $songs as $song ) {
@@ -57,7 +57,7 @@ function kgr_tracks_metabox_div( array $songs, int $track = 0 ) {
 	echo sprintf( '<button type="button" class="button kgr-control-up">%s</button>', __( 'up', 'kgr' ) ) . "\n";
 	echo sprintf( '<button type="button" class="button kgr-control-down">%s</button>', __( 'down', 'kgr' ) ) . "\n";
 	echo '</span>' . "\n";
-	echo '</p>' . "\n";
+	echo '</li>' . "\n";
 }
 
 function kgr_tracks_metabox_nonce( int $album ): string {
