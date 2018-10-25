@@ -481,16 +481,19 @@ function kgr_thumbnail( WP_Post $attachment ): string {
 		return '';
 	if ( !array_key_exists( 'sizes', $metadata ) )
 		return '';
-	$sizes = $metadata['sizes'];
-	if ( !array_key_exists( 'thumbnail', $sizes ) )
-		return '';
-	$thumbnail = $sizes['thumbnail'];
 	$url = trailingslashit( dirname( wp_get_attachment_url( $attachment->ID ) ) );
-	return sprintf( '<img src="%s" alt="%s" width="%d" height="%d" style="float: left; margin-right: 15px;" />',
-		esc_url( $url . $thumbnail['file'] ),
-		esc_html( $thumbnail['file'] ),
-		esc_html( $thumbnail['width'] ),
-		esc_html( $thumbnail['height'] )
+	$sizes = $metadata['sizes'];
+	$srcset = [];
+	foreach ( $sizes as $key => $size )
+		$srcset[$key] = sprintf( '%s %dw', $url . $size['file'], $size['width'] );
+	if ( empty( $srcset ) )
+		return '';
+	$full = $sizes['full']['file'];
+	return sprintf( '<img src="%s" alt="%s" srcset="%s" sizes="%dpx" style="float: left; margin-right: 15px;" />',
+		esc_url( $url . $full ),
+		esc_html( $full ),
+		implode( ', ', $srcset ),
+		$sizes['thumbnail']['width']
 	) . "\n";
 }
 
