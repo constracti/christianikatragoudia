@@ -61,7 +61,7 @@ function kgr_filesize( $filename ) {
  * @return        array  the new set of allowed mime types
  */
 add_filter( 'upload_mimes', function( $mimes ) {
-	$mimes['xml'] = 'application/xml';
+	$mimes['xml'] = 'text/xml';
 	return $mimes;
 } );
 
