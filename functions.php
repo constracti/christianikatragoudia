@@ -236,7 +236,7 @@ function kgr_song_attachments( $args = [] ) {
 				echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
 				if ( $attachment->post_mime_type === 'audio/mpeg' )
 					echo do_shortcode( sprintf( '[audio mp3="%s"][/audio]', $url ) );
-				if ( $attachment->post_mime_type === 'application/xml' ) {
+				if ( in_array( $attachment->post_mime_type, [ 'application/xml', 'text/xml' ], TRUE ) ) {
 					echo sprintf( '<div id="kgr-mxml-%d" data-mxml-url="%s">', $attachment->ID, $url ) . "\n";
 					echo '<button onclick="kgrMxmlLoad(this);">' . "\n";
 					echo sprintf( '<span>%s</span>', esc_html__( 'load', 'kgr' ) ) . "\n";
