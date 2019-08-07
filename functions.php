@@ -84,12 +84,11 @@ function kgr_links() {
 	echo sprintf( '<h2>%s</h2>', __( 'Links', 'kgr' ) ) . "\n";
 	foreach ( $links as $link ) {
 		$url = $link['url'];
-		$type = kgr_link_type( $url );
+		$host = parse_url( $url, PHP_URL_HOST );
 		echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
-		echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_link_type_dashicon( $type ) ) ) . "\n";
+		echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_link_dashicon( $host ) ) ) . "\n";
 		echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( $url ), esc_html( $link['caption'] ) ) . "\n";
-		if ( $type !== '' )
-			echo '<span>' . esc_html( '[' . $type . ']' ) . '</span>' . "\n";
+		echo '<span>' . esc_html( '[' . $host . ']' ) . '</span>' . "\n";
 		echo '<br />' . "\n";
 		echo sprintf( '<i>%s</i>', esc_html( $link['description'] ) ) . "\n";
 		echo '</div><!-- .ht-clearfix -->' . "\n";
@@ -97,30 +96,15 @@ function kgr_links() {
 }
 
 /*
- * return the type of a link
- * currently only simple youtube and vimeo links are handled
+ * return the dashicon class for a specific link host
  *
- * @param  $url string       the link
- * @return      string|NULL  the type
+ * @param  $host string  the link host
+ * @return       string  the dashicon class
  */
-function kgr_link_type( $url ) {
-	$link_types = [ 'youtube', 'vimeo' ];
-	foreach ( $link_types as $link_type )
-		if ( mb_strpos( $url, $link_type ) !== FALSE )
-			return $link_type;
-	return NULL;
-}
-
-/*
- * return the dashicon class for a specific link type
- *
- * @param  $link_type string|NULL  the link type
- * @return            string       the dashicon class
- */
-function kgr_link_type_dashicon( $link_type ) {
-	switch ( $link_type ) {
-		case 'youtube':
-		case 'vimeo':
+function kgr_link_dashicon( $host ) {
+	switch ( $host ) {
+		case 'www.youtube.com':
+		case 'www.vimeo.com':
 			return 'dashicons-media-video';
 		default:
 			return 'dashicons-media-default';
