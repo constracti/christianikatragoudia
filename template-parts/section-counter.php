@@ -7,7 +7,7 @@
 // returns number of published songs
 function total_counter_callback_1( $count ) {
 	$posts = get_posts( [
-		'post_type' => 'kgr-song',
+		'category_name' => 'songs',
 		'nopaging' => TRUE,
 		'fields' => 'ids',
 	] );

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-07 18:16+0000\n"
+"POT-Creation-Date: 2019-12-14 21:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,128 +14,124 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: album-post-type.php:8 template-parts/content-single.php:24
-msgid "Albums"
-msgstr ""
-
-#: song-post-type.php:8
-msgid "Songs"
-msgstr ""
-
-#: song-post-type.php:31 template-parts/content-single.php:25
-msgid "Subjects"
-msgstr ""
-
-#: song-post-type.php:40 template-parts/content-single.php:26
-msgid "Signatures"
-msgstr ""
-
-#: tracks-metabox.php:11
+#: tracks.php:11
 msgid "Tracks"
 msgstr ""
 
-#: tracks-metabox.php:34 links-metabox.php:29
+#: tracks.php:34 links.php:26
 msgid "save"
 msgstr ""
 
-#: tracks-metabox.php:36 links-metabox.php:31
+#: tracks.php:36 links.php:28
 msgid "add"
 msgstr ""
 
-#: tracks-metabox.php:56 links-metabox.php:43
+#: tracks.php:56 links.php:40
 msgid "delete"
 msgstr ""
 
-#: tracks-metabox.php:57 links-metabox.php:44 functions.php:261
+#: tracks.php:57 functions.php:207 links.php:41
 msgid "up"
 msgstr ""
 
-#: tracks-metabox.php:58 links-metabox.php:45 functions.php:262
+#: tracks.php:58 functions.php:208 links.php:42
 msgid "down"
 msgstr ""
 
-#: links-metabox.php:12 functions.php:84
+#: functions.php:59 links.php:9
 msgid "Links"
 msgstr ""
 
-#: links-metabox.php:38
-msgid "URL"
-msgstr ""
-
-#: links-metabox.php:40
-msgid "caption"
-msgstr ""
-
-#: links-metabox.php:41
-msgid "description"
-msgstr ""
-
-#: functions.php:242
+#: functions.php:188
 msgid "load"
 msgstr ""
 
-#: functions.php:251
+#: functions.php:197
 msgid "display part names"
 msgstr ""
 
-#: functions.php:257
+#: functions.php:203
 msgid "transpose"
 msgstr ""
 
-#: functions.php:265
+#: functions.php:211
 msgid "1st"
 msgstr ""
 
-#: functions.php:266
+#: functions.php:212
 msgid "2nd"
 msgstr ""
 
-#: functions.php:267
+#: functions.php:213
 msgid "3rd"
 msgstr ""
 
-#: functions.php:268
+#: functions.php:214
 msgid "4th"
 msgstr ""
 
-#: functions.php:269
+#: functions.php:215
 msgid "5th"
 msgstr ""
 
-#: functions.php:270
+#: functions.php:216
 msgid "6th"
 msgstr ""
 
-#: functions.php:271
+#: functions.php:217
 msgid "7th"
 msgstr ""
 
-#: functions.php:278 functions.php:287
+#: functions.php:224 functions.php:233
 msgid "diminished"
 msgstr ""
 
-#: functions.php:279
+#: functions.php:225
 msgid "perfect"
 msgstr ""
 
-#: functions.php:280 functions.php:290
+#: functions.php:226 functions.php:236
 msgid "augmented"
 msgstr ""
 
-#: functions.php:288
+#: functions.php:234
 msgid "minor"
 msgstr ""
 
-#: functions.php:289
+#: functions.php:235
 msgid "major"
 msgstr ""
 
-#: functions.php:300
+#: functions.php:246
 msgid "render"
 msgstr ""
 
-#: functions.php:479
+#: functions.php:422
+msgid "song"
+msgstr ""
+
+#: functions.php:424
 msgid "songs"
+msgstr ""
+
+#: links.php:35
+msgid "URL"
+msgstr ""
+
+#: links.php:37
+msgid "caption"
+msgstr ""
+
+#: links.php:38
+msgid "description"
+msgstr ""
+
+#: template-parts/content-single.php:25
+msgid "Albums"
+msgstr ""
+
+#: template-parts/content-single.php:26
+msgid "Subjects"
 msgstr ""
 
 #: template-parts/content-single.php:31

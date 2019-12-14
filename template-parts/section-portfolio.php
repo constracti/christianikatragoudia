@@ -33,7 +33,7 @@ if(get_theme_mod('total_portfolio_section_disable') != 'on' ){ ?>
 			<?php 
 			$count = 1;
 			$args = [
-				'post_type' => 'kgr-album',
+				'category_name' => 'albums',
 				'nopaging' => TRUE,
 				'orderby' => 'rand',
 			];

@@ -3,29 +3,26 @@
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
-add_action( 'add_meta_boxes_kgr-album', 'kgr_links_metabox_add' );
-add_action( 'add_meta_boxes_kgr-song', 'kgr_links_metabox_add' );
-
-function kgr_links_metabox_add( WP_Post $post ) {
+add_action( 'add_meta_boxes_post', function( WP_Post $post ) {
 	if ( !current_user_can( 'edit_post', $post->ID ) )
 		return;
-	add_meta_box( 'kgr-links', __( 'Links', 'kgr' ), 'kgr_links_metabox_html', $post->post_type, 'normal' );
-}
+	add_meta_box( 'kgr-links', __( 'Links', 'kgr' ), 'kgr_links_html', $post->post_type, 'normal' );
+} );
 
-function kgr_links_metabox_html( WP_Post $post ) {
+function kgr_links_html( WP_Post $post ) {
 	$links = get_post_meta( $post->ID, 'kgr-links', TRUE );
 	if ( $links === '' )
 		$links = [];
 	echo '<div class="kgr-control-container">' . "\n";
 	echo '<div class="kgr-control-items">' . "\n";
 	foreach ( $links as $link )
-		kgr_links_metabox_div( $link );
+		kgr_links_div( $link );
 	echo '</div>' . "\n";
 	echo '<div class="kgr-control-item0">' . "\n";
-	kgr_links_metabox_div();
+	kgr_links_div();
 	echo '</div>' . "\n";
 	echo '<p>' . "\n";
-	$nonce = wp_create_nonce( kgr_links_metabox_nonce( $post->ID ) );
+	$nonce = wp_create_nonce( kgr_links_nonce( $post->ID ) );
 	echo sprintf( '<button type="button" class="button button-primary" data-nonce="%s" data-post="%s">%s</button>', $nonce, $post->ID, __( 'save', 'kgr' ) ) . "\n";
 	echo '<span class="spinner" style="float: none;"></span>' . "\n";
 	echo sprintf( '<button type="button" class="button kgr-control-add" style="float: right;">%s</button>', __( 'add', 'kgr' ) ) . "\n";
@@ -33,7 +30,7 @@ function kgr_links_metabox_html( WP_Post $post ) {
 	echo '</div>' . "\n";
 }
 
-function kgr_links_metabox_div( array $link = [ 'url' => '', 'caption' => '', 'description' => '' ] ) {
+function kgr_links_div( array $link = [ 'url' => '', 'caption' => '', 'description' => '' ] ) {
 	echo '<p class="kgr-control-item">' . "\n";
 	echo sprintf( '<input type="url" class="kgr-link-url" placeholder="%s" autocomplete="off" value="%s" style="width: 100%%;" />', __( 'URL', 'kgr' ), $link['url'] ) . "\n";
 	echo '<br />' . "\n";
@@ -47,11 +44,11 @@ function kgr_links_metabox_div( array $link = [ 'url' => '', 'caption' => '', 'd
 	echo '</p>' . "\n";
 }
 
-function kgr_links_metabox_nonce( int $post ): string {
-	return sprintf( 'kgr-links-metabox-%d', $post );
+function kgr_links_nonce( int $post ): string {
+	return sprintf( 'kgr-links-%d', $post );
 }
 
-add_action( 'wp_ajax_kgr_links_metabox', function() {
+add_action( 'wp_ajax_kgr_links', function() {
 	if ( !array_key_exists( 'post', $_POST ) )
 		exit( 'post' );
 	$post = filter_var( $_POST['post'], FILTER_VALIDATE_INT );
@@ -61,7 +58,7 @@ add_action( 'wp_ajax_kgr_links_metabox', function() {
 		exit( 'role' );
 	if ( !array_key_exists( 'nonce', $_POST ) )
 		exit( 'nonce' );
-	if ( !wp_verify_nonce( $_POST['nonce'], kgr_links_metabox_nonce( $post ) ) )
+	if ( !wp_verify_nonce( $_POST['nonce'], kgr_links_nonce( $post ) ) )
 		exit( 'nonce' );
 	if ( !array_key_exists( 'links', $_POST ) )
 		delete_post_meta( $post, 'kgr-links' );
@@ -77,5 +74,5 @@ add_action( 'admin_enqueue_scripts', function( string $hook ) {
 		return;
 	wp_enqueue_style( 'kgr-control', KGR_URL . 'control.css' );
 	wp_enqueue_script( 'kgr-control', KGR_URL . 'control.js', [ 'jquery' ] );
-	wp_enqueue_script( 'kgr-links-metabox', KGR_URL . 'links-metabox.js', [ 'jquery' ] );
+	wp_enqueue_script( 'kgr-links', KGR_URL . 'links.js', [ 'jquery' ] );
 } );

@@ -11,7 +11,7 @@ save.click( function() {
 	busy = true;
 	spinner.addClass( 'is-active' );
 	data = {
-		action: 'kgr_links_metabox',
+		action: 'kgr_links',
 		post: save.data( 'post' ),
 		nonce: save.data( 'nonce' ),
 		links: [],

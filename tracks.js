@@ -11,7 +11,7 @@ save.click( function() {
 	busy = true;
 	spinner.addClass( 'is-active' );
 	data = {
-		action: 'kgr_tracks_metabox',
+		action: 'kgr_tracks',
 		album: save.data( 'album' ),
 		nonce: save.data( 'nonce' ),
 		tracks: [],

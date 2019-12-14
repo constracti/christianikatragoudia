@@ -27,10 +27,10 @@ if(get_theme_mod('total_blog_section_disable') != 'on' ){ ?>
 		<?php 
 			$total_blog_post_count = get_theme_mod('total_blog_post_count', 3 );
 			$total_blog_cat_exclude = get_theme_mod('total_blog_cat_exclude');
-            $total_blog_cat_exclude = explode(',', $total_blog_cat_exclude);
+			$total_blog_cat_exclude = explode(',', $total_blog_cat_exclude);
 
 			$args = array(
-				'post_type' => 'kgr-song',
+				'category_name' => 'songs',
 				'posts_per_page' => absint($total_blog_post_count),
 				'orderby' => 'rand',
 				);

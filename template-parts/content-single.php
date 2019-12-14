@@ -24,7 +24,6 @@
 
 		<?php kgr_song_albums( __( 'Albums', 'kgr' ) ); ?>
 		<?php kgr_song_subjects( __( 'Subjects', 'kgr' ) ); ?>
-		<?php kgr_song_signatures( __( 'Signatures', 'kgr' ) ); ?>
 
 		<?php kgr_links(); ?>
 
