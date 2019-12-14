@@ -46,11 +46,6 @@ add_action( 'wp_head', function() {
 	echo sprintf( '<meta name="theme-color" content="%s" />', $color ) . "\n";
 } );
 
-/* include dashicons in frontend */
-add_action( 'wp_enqueue_scripts', function() {
-	wp_enqueue_style( 'dashicons' );
-} );
-
 /* print links related to a post of any type */
 function kgr_links() {
 	$links = get_post_meta( get_the_ID(), 'kgr-links', TRUE );
@@ -61,7 +56,7 @@ function kgr_links() {
 		$url = $link['url'];
 		$host = parse_url( $url, PHP_URL_HOST );
 		echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
-		echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_link_dashicon( $host ) ) ) . "\n";
+		echo sprintf( '<span class="%s"></span>', esc_attr( 'fa ' . kgr_link_icon( $host ) ) ) . "\n";
 		echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( $url ), esc_html( $link['caption'] ) ) . "\n";
 		echo '<span>' . esc_html( '[' . $host . ']' ) . '</span>' . "\n";
 		echo '<br />' . "\n";
@@ -71,18 +66,19 @@ function kgr_links() {
 }
 
 /*
- * return the dashicon class for a specific link host
+ * return the icon class for a specific link host
  *
  * @param  $host string  the link host
- * @return       string  the dashicon class
+ * @return       string  the icon class
  */
-function kgr_link_dashicon( $host ) {
+function kgr_link_icon( $host ) {
 	switch ( $host ) {
 		case 'www.youtube.com':
-		case 'www.vimeo.com':
-			return 'dashicons-media-video';
+			return 'fa-youtube';
+		case 'vimeo.com':
+			return 'fa-vimeo';
 		default:
-			return 'dashicons-media-default';
+			return 'fa-external-link';
 	}
 }
 
@@ -100,7 +96,10 @@ function kgr_song_featured_audio() {
 			continue;
 		$url = wp_get_attachment_url( $attachment->ID );
 		echo '<div style="margin: 15px 0;">' . "\n";
-		echo do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url_raw( $url ) ) );
+		echo wp_audio_shortcode( [
+			'src' => esc_url_raw( $url ),
+			'class' => NULL,
+		] );
 		echo '</div>' . "\n";
 	}
 }
@@ -143,7 +142,7 @@ function kgr_song_subjects( $title = '' ) {
 	$terms = wp_get_post_terms( $id, 'post_tag' );
 	if ( $title !== '' )
 		echo sprintf( '<h2>%s</h2>', esc_html( $title ) ) . "\n";
-	echo '<div class="tagcloud">' . "\n";
+	echo '<div class="tagcloud" style="margin-bottom: 15px;">' . "\n";
 	foreach ( $terms as $term )
 		echo sprintf( '<a href="%s">%s</a>', esc_url_raw( get_term_link( $term ) ), esc_html( $term->name ) ) . "\n";
 	echo '</div>' . "\n";
@@ -168,20 +167,23 @@ function kgr_song_attachments( $args = [] ) {
 		switch ( $args['mode'] ) {
 			case 'icons':
 				echo '<span style="white-space: nowrap; margin-right: 1em;">' . "\n";
-				echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
+				echo sprintf( '<span class="%s"></span>', esc_attr( 'fa ' . kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
 				echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
 				echo '</span>' . "\n";
 				break;
 			default:
 				echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
 				echo kgr_thumbnail( $attachment );
-				echo sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
+				echo sprintf( '<span class="%s"></span>', esc_attr( 'fa ' . kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
 				echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
 				echo '<span style="white-space: nowrap;">' . esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) . '</span>' . "\n";
 				echo '<br />' . "\n";
 				echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
 				if ( $attachment->post_mime_type === 'audio/mpeg' )
-					echo do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url_raw( $url ) ) );
+					echo wp_audio_shortcode( [
+						'src' => esc_url_raw( $url ),
+						'class' => NULL,
+					] );
 				if ( in_array( $attachment->post_mime_type, [ 'application/xml', 'text/xml' ], TRUE ) ) {
 					echo sprintf( '<div id="kgr-mxml-%d" data-mxml-url="%s">', $attachment->ID, esc_url_raw( $url ) ) . "\n";
 					echo '<button onclick="kgrMxmlLoad(this);">' . "\n";
@@ -446,19 +448,19 @@ function kgr_thumbnail( WP_Post $attachment ): string {
 	) . "\n";
 }
 
-function kgr_mime_type_dashicon( string $mime_type ): string {
+function kgr_mime_type_icon( string $mime_type ): string {
 	switch ( $mime_type ) {
 		case 'application/pdf':
-			return 'dashicons-media-document';
+			return 'fa-file-pdf-o';
 		case 'audio/midi':
 		case 'audio/mpeg':
-			return 'dashicons-media-audio';
+			return 'fa-file-audio-o';
 		case 'application/xml':
-			return 'dashicons-media-code';
+			return 'fa-file-code-o';
 		case 'text/plain':
-			return 'dashicons-media-text';
+			return 'fa-file-text-o';
 		default:
-			return 'dashicons-media-default';
+			return 'fa-file-o';
 	}
 }
 
@@ -480,13 +482,16 @@ add_shortcode( 'kgr-list', function( array $atts ) {
 			$dir = get_attached_file( $attachment->ID );
 			$ext = pathinfo( $dir, PATHINFO_EXTENSION );
 			$html .= '<br />' . "\n";
-			$html .= sprintf( '<span class="%s"></span>', esc_attr( 'dashicons ' . kgr_mime_type_dashicon( $attachment->post_mime_type ) ) ) . "\n";
+			$html .= sprintf( '<span class="%s"></span>', esc_attr( 'fa ' . kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
 			$html .= sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( $url ), esc_html( $attachment->post_excerpt ) ) . "\n";
 			$html .= '<span style="white-space: nowrap;">' . esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) . '</span>' . "\n";
 			$html .= '<br />' . "\n";
 			$html .= sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
 			if ( $attachment->post_mime_type === 'audio/mpeg' )
-				$html .= do_shortcode( sprintf( '[audio mp3="%s"][/audio]', esc_url_raw( $url ) ) );
+				$html .= wp_audio_shortcode( [
+					'src' => esc_url_raw( $url ),
+					'class' => NULL,
+				] );
 			$html .= '</div><!-- .ht-clearfix -->' . "\n";
 		}
 	}
