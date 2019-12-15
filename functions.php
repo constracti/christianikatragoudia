@@ -456,6 +456,7 @@ function kgr_mime_type_icon( string $mime_type ): string {
 		case 'audio/mpeg':
 			return 'fa-file-audio-o';
 		case 'application/xml':
+		case 'text/xml':
 			return 'fa-file-code-o';
 		case 'text/plain':
 			return 'fa-file-text-o';
