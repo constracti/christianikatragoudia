@@ -29,17 +29,17 @@
 			<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
 		</header><!-- .entry-header -->
 
-		<div class="entry-categories">
-			<?php echo total_entry_category(); // WPCS: XSS OK. ?>
-		</div>
-
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>
 		</div>
 
+		<div class="entry-categories">
+			<?php echo total_entry_category(); // WPCS: XSS OK. ?>
+		</div>
+		<?php kgr_tags(); ?>
+
 		<?php kgr_album_tracks_count(); ?>
 
-		<?php kgr_song_subjects(); ?>
 		<?php kgr_song_attachments( [
 			'mode' => 'icons',
 		] ); ?>

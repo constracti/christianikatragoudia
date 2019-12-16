@@ -102,7 +102,7 @@ add_filter( 'the_content', function( string $content ): string {
 	if ( $tracks === '' )
 		return $content;
 	$ids = [];
-	$content .= '<ol>' . "\n";
+	$content .= '<ol class="kgr-tracks">' . "\n";
 	foreach ( $tracks as $track_id ) {
 		if ( $track_id === 0 ) {
 			$content .= '<li></li>' . "\n";
@@ -118,7 +118,9 @@ add_filter( 'the_content', function( string $content ): string {
 			'order' => 'ASC',
 		] );
 		foreach ( $attachments as $attachment ) {
-			if ( $attachment->post_excerpt !== '' )
+			if ( mb_strpos( $attachment->post_content, 'featured' ) !== 0 )
+				continue;
+			if ( $attachment->post_mime_type !== 'audio/mpeg' )
 				continue;
 			$dir = get_attached_file( $attachment->ID );
 			$ext = pathinfo( $dir, PATHINFO_EXTENSION );
@@ -129,6 +131,6 @@ add_filter( 'the_content', function( string $content ): string {
 	}
 	$content .= '</ol>' . "\n";
 	if ( !empty( $ids ) )
-		$content .= do_shortcode( sprintf( '[playlist artists="false" ids="%s"]', implode( ',', $ids ) ) );
+		$content .= do_shortcode( sprintf( '[playlist artists="false" ids="%s" tracknumbers="false"]', implode( ',', $ids ) ) );
 	return $content;
 } );

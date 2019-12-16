@@ -17,7 +17,7 @@
 	</div>
 
 	<?php kgr_album_tracks_count(); ?>
-	<?php kgr_song_subjects(); ?>
+	<?php kgr_tags(); ?>
 
 	<?php kgr_song_attachments( [
 		'mode' => 'icons',

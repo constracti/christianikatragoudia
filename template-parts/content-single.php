@@ -22,13 +22,17 @@
 
 		<?php kgr_song_featured_audio(); ?>
 
-		<?php kgr_song_albums( __( 'Albums', 'kgr' ) ); ?>
-		<?php kgr_song_subjects( __( 'Subjects', 'kgr' ) ); ?>
+		<div class="entry-categories">
+			<?php echo total_entry_category(); // WPCS: XSS OK. ?>
+		</div>
+		<?php kgr_tags(); ?>
+
+		<?php kgr_albums( __( 'Albums', 'kgr' ) ); ?>
 
 		<?php kgr_links(); ?>
 
 		<?php kgr_song_attachments( [
-			'title' => __( 'Files', 'kgr' ),
+			'title' => __( 'Scores', 'kgr' ),
 		] ); ?>
 
 		<?php
