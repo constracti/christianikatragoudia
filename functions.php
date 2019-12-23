@@ -483,3 +483,11 @@ add_shortcode( 'kgr-list', function( array $atts ) {
 	}
 	return $html;
 } );
+
+add_shortcode( 'kgr-count', function( array $atts ): int {
+	if ( !array_key_exists( 'nopaging', $atts ) )
+		$atts['nopaging'] = TRUE;
+	if ( !array_key_exists( 'fields', $atts ) )
+		$atts['fields'] = 'ids';
+	return count( get_posts( $atts ) );
+} );
