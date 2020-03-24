@@ -15,6 +15,11 @@
 	<div>
 		<div class="entry-meta ht-post-info">
 			<?php total_posted_on(); ?>
+			<?php if(has_post_thumbnail() ): ?>
+			<figure class="entry-figure" style="margin-top: 15px;">
+				<?php the_post_thumbnail( 'medium' ); ?>
+			</figure>
+			<?php endif; ?>
 		</div><!-- .entry-meta -->
 		<div class="entry-content" style="overflow: hidden;">
 			<?php the_content(); ?>

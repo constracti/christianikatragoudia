@@ -166,6 +166,8 @@ function kgr_song_attachments( $args = [] ) {
 	foreach( $attachments as $attachment ) {
 		if ( mb_strpos( $attachment->post_content, 'featured' ) === 0 )
 			continue;
+		if ( $attachment->post_mime_type === 'image/jpeg' )
+			continue;
 		$url = wp_get_attachment_url( $attachment->ID );
 		$dir = get_attached_file( $attachment->ID );
 		$ext = pathinfo( $dir, PATHINFO_EXTENSION );
