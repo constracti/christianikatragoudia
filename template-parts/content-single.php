@@ -4,26 +4,22 @@
  *
  * @package Total
  */
-
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<a class="entry-title" href="<?php the_permalink(); ?>" rel="bookmark" style="display: none;"><?php the_title(); ?></a>
-	<span class="entry-summary" style="display: none;"><?php the_excerpt(); ?></span>
-
 	<div>
-		<div class="entry-meta ht-post-info">
+		<div class="entry-meta single-entry-meta">
 			<?php total_posted_on(); ?>
-			<?php if(has_post_thumbnail() ): ?>
-			<figure class="entry-figure" style="margin-top: 15px;">
-				<?php the_post_thumbnail( 'medium' ); ?>
-			</figure>
-			<?php endif; ?>
 		</div><!-- .entry-meta -->
+		<?php if(has_post_thumbnail() ): ?>
+		<figure class="entry-figure">
+			<?php the_post_thumbnail( 'total-blog-header' ); ?>
+		</figure>
+		<?php endif; ?>
 		<div class="entry-content" style="overflow: hidden;">
 			<?php the_content(); ?>
-		</div>
+		</div><!-- .entry-content -->
 
 		<?php kgr_song_featured_audio(); ?>
 
@@ -46,7 +42,7 @@
 				'after'  => '</div>',
 			) );
 		?>
-	</div><!-- .entry-content -->
+	</div>
 
 </article><!-- #post-## -->
 
