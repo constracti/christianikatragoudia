@@ -21,7 +21,7 @@
 			<?php the_content(); ?>
 		</div><!-- .entry-content -->
 
-		<?php kgr_song_featured_audio(); ?>
+		<?php kgr_song_featured_audio( TRUE ); ?>
 
 		<div class="entry-categories">
 			<?php echo total_entry_category(); // WPCS: XSS OK. ?>

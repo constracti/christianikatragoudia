@@ -92,7 +92,7 @@ function kgr_link_icon( $host ) {
 	}
 }
 
-function kgr_song_featured_audio() {
+function kgr_song_featured_audio( bool $full = FALSE ): void {
 	if ( !has_category( 'songs' ) )
 		return;
 	$attachments = get_children( [
@@ -105,7 +105,20 @@ function kgr_song_featured_audio() {
 		if ( mb_strpos( $attachment->post_content, 'featured' ) !== 0 )
 			continue;
 		$url = wp_get_attachment_url( $attachment->ID );
+		$dir = get_attached_file( $attachment->ID );
+		$ext = pathinfo( $dir, PATHINFO_EXTENSION );
 		echo '<div style="margin: 15px 0;">' . "\n";
+		if ( $full ) {
+			echo sprintf( '<a href="%s" target="_blank">', esc_url_raw( $url ) ) . "\n";
+			echo '<span>' . esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) . '</span>' . "\n";
+			echo '</a>' . "\n";
+			echo '<br />' . "\n";
+			$html = mb_ereg_replace( 'featured\,?\s*', '', $attachment->post_content );
+			if ( $html === FALSE )
+				$html = $attachment->post_content;
+			echo sprintf( '<i>%s</i>', esc_html( $html ) ) . "\n";
+			echo '<br />' . "\n";
+		}
 		echo wp_audio_shortcode( [
 			'src' => esc_url_raw( $url ),
 		] );
