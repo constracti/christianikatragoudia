@@ -206,7 +206,9 @@ function kgr_song_attachments( $args = [] ) {
 					echo wp_audio_shortcode( [
 						'src' => esc_url_raw( $url ),
 					] );
-				if ( in_array( $attachment->post_mime_type, [ 'application/xml', 'text/xml' ], TRUE ) ) {
+				if ( $attachment->post_mime_type === 'text/plain' && mb_ereg_match( '^.*\.chords$', $attachment->post_title ) )
+					kgr_song_attachments_chords( $url );
+				if ( FALSE /* disable mxml */ && in_array( $attachment->post_mime_type, [ 'application/xml', 'text/xml' ], TRUE ) ) {
 					echo sprintf( '<div id="kgr-mxml-%d" data-mxml-url="%s">', $attachment->ID, esc_url_raw( $url ) ) . "\n";
 					echo '<button onclick="kgrMxmlLoad(this);">' . "\n";
 					echo sprintf( '<span>%s</span>', esc_html__( 'load', 'kgr' ) ) . "\n";
@@ -278,14 +280,70 @@ function kgr_song_attachments( $args = [] ) {
 	}
 }
 
-add_action( 'wp_enqueue_scripts', function() {
+function kgr_song_attachments_chords( string $url ): void {
+	echo sprintf( '<form class="kgr-chords" data-kgr-chords="%s" autocomplete="off">', esc_url_raw( $url ) ) . "\n";
+	echo '<div>' . "\n";
+	echo sprintf( '<span>%s:</span>', esc_html__( 'transpose', 'kgr' ) ) . "\n";
+	echo '<select class="kgr-chords-direction">' . "\n";
+	echo sprintf( '<option value="up" selected="selected">%s</option>', esc_html__( 'up', 'kgr' ) ) . "\n";
+	echo sprintf( '<option value="down">%s</option>', esc_html__( 'down', 'kgr' ) ) . "\n";
+	echo '</select>' . "\n";
+	$intervals = [
+		0 => __( '1st', 'kgr' ),
+		1 => __( '2nd', 'kgr' ),
+		2 => __( '3rd', 'kgr' ),
+		3 => __( '4th', 'kgr' ),
+		4 => __( '5th', 'kgr' ),
+		5 => __( '6th', 'kgr' ),
+		6 => __( '7th', 'kgr' ),
+	];
+	echo '<select class="kgr-chords-interval">' . "\n";
+	foreach ( $intervals as $key => $value )
+		echo sprintf( '<option value="%d">%s</option>', $key, esc_html( $value ) ) . "\n";
+	echo '</select>' . "\n";
+	$primary = [
+		-1 => __( 'diminished', 'kgr' ),
+		 0 => __( 'perfect', 'kgr' ),
+		 1 => __( 'augmented', 'kgr' ),
+	];
+	echo '<select class="kgr-chords-primary">' . "\n";
+	foreach ( $primary as $key => $value )
+		echo sprintf( '<option value="%d">%s</option>', $key, esc_html( $value ) ) . "\n";
+	echo '</select>' . "\n";
+	$secondary = [
+		-2 => __( 'diminished', 'kgr' ),
+		-1 => __( 'minor', 'kgr' ),
+		 0 => __( 'major', 'kgr' ),
+		 1 => __( 'augmented', 'kgr' ),
+	];
+	echo '<select class="kgr-chords-secondary">' . "\n";
+	foreach ( $secondary as $key => $value )
+		echo sprintf( '<option value="%d">%s</option>', $key, esc_html( $value ) ) . "\n";
+	echo '</select>' . "\n";
+	echo sprintf( '<button type="submit" class="kgr-chords-show">%s</button>', esc_html__( 'show', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="kgr-chords-hide">%s</button>', esc_html__( 'hide', 'kgr' ) ) . "\n";
+	echo '<button type="button" class="kgr-chords-larger"><span class="fa fa-fw fa-search-plus"></span></button>' . "\n";
+	echo '<button type="button" class="kgr-chords-smaller"><span class="fa fa-fw fa-search-minus"></span></button>' . "\n";
+	echo '</form>' . "\n";
+	echo '<div class="kgr-chords-text" style="white-space: pre;font-family: monospace; overflow-x: hidden;">' . "\n";
+	echo '</div>' . "\n";
+	echo '</div>' . "\n";
+}
+
+add_action( 'wp_enqueue_scripts', function(): void {
+	if ( !is_singular() || !has_category( 'songs' ) )
+		return;
+	wp_enqueue_script( 'kgr-chords', KGR_URL . 'chords.js', ['jquery'], time() );
+} );
+
+FALSE /* disable mxml */ && add_action( 'wp_enqueue_scripts', function() {
 	if ( !has_category( 'songs' ) )
 		return;
 	wp_enqueue_script( 'mxml', site_url( 'mxml.js' ), [], '20180506' );
 	wp_enqueue_script( 'vexflow', 'https://unpkg.com/vexflow/releases/vexflow-min.js' );
 } );
 
-add_action( 'wp_footer', function() {
+FALSE /* disable mxml */ && add_action( 'wp_footer', function() {
 	if ( !has_category( 'songs' ) )
 		return;
 ?>
