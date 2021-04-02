@@ -6,48 +6,39 @@ if ( !defined( 'ABSPATH' ) )
 define( 'KGR_DIR', trailingslashit( get_stylesheet_directory() ) );
 define( 'KGR_URL', trailingslashit( get_stylesheet_directory_uri() ) );
 
-/* enqueue parent theme and child theme stylesheet */
-add_action( 'wp_enqueue_scripts', function() {
+// enqueue parent theme and child theme stylesheet
+add_action( 'wp_enqueue_scripts', function(): void {
 	# normally, the following should work:
 	# wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total-style' ] );
 	wp_enqueue_style( 'total', get_template_directory_uri() . '/style.css' );
 	wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total' ] );
 } );
 
-/* remove smoothscroll script */
-add_action( 'wp_enqueue_scripts', function() {
-	wp_dequeue_script( 'smoothscroll' );
-}, 20 );
-
-/* load translations for child theme */
-add_action( 'after_setup_theme', function() {
+// load translations for child theme
+add_action( 'after_setup_theme', function(): void {
 	load_child_theme_textdomain( 'kgr', KGR_DIR . 'languages' );
 } );
 
 require_once( KGR_DIR . 'tracks.php' );
 require_once( KGR_DIR . 'links.php' );
+require_once( KGR_DIR . 'home.php' );
 
 require_once( KGR_DIR . 'widgets.php' );
 
-/*
- * allow xml file uploading
- *
- * @param  $mimes array  the set of allowed mime types
- * @return        array  the new set of allowed mime types
- */
-add_filter( 'upload_mimes', function( $mimes ) {
+// allow xml file uploading
+add_filter( 'upload_mimes', function( array $mimes ): array {
 	$mimes['xml'] = 'text/xml';
 	return $mimes;
 } );
 
-/* set browser tab color */
-add_action( 'wp_head', function() {
+// set browser tab color
+add_action( 'wp_head', function(): void {
 	$color = get_theme_mod( 'total_template_color', '#FFC107' );
 	echo sprintf( '<meta name="theme-color" content="%s" />', $color ) . "\n";
 } );
 
-/* remove page_for_posts from archive breadcrumbs */
-add_filter( 'breadcrumb_trail_items', function( array $items, array $args ) {
+// remove page_for_posts from archive breadcrumbs
+add_filter( 'breadcrumb_trail_items', function( array $items, array $args ): array {
 	if ( !is_archive() )
 		return $items;
 	if ( !is_category() && !is_tag() && !is_tax() )
@@ -56,8 +47,8 @@ add_filter( 'breadcrumb_trail_items', function( array $items, array $args ) {
 	return $items;
 }, 10, 2 );
 
-/* print links related to a post of any type */
-function kgr_links() {
+// print links related to a post of any type
+function kgr_links(): void {
 	$links = get_post_meta( get_the_ID(), 'kgr-links', TRUE );
 	if ( $links === '' )
 		return;
@@ -66,7 +57,7 @@ function kgr_links() {
 		$url = $link['url'];
 		$host = parse_url( $url, PHP_URL_HOST );
 		echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
-		echo sprintf( '<span class="%s"></span>', esc_attr( 'fa ' . kgr_link_icon( $host ) ) ) . "\n";
+		echo sprintf( '<span class="%s"></span>', esc_attr( kgr_link_icon( $host ) ) ) . "\n";
 		echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( $url ), esc_html( $link['caption'] ) ) . "\n";
 		echo '<span>' . esc_html( '[' . $host . ']' ) . '</span>' . "\n";
 		echo '<br />' . "\n";
@@ -75,23 +66,19 @@ function kgr_links() {
 	}
 }
 
-/*
- * return the icon class for a specific link host
- *
- * @param  $host string  the link host
- * @return       string  the icon class
- */
-function kgr_link_icon( $host ) {
+// return the icon class for a specific link host
+function kgr_link_icon( string $host ): string {
 	switch ( $host ) {
 		case 'www.youtube.com':
-			return 'fa-youtube';
+			return 'fa fa-fw fa-youtube';
 		case 'vimeo.com':
-			return 'fa-vimeo';
+			return 'fa fa-fw fa-vimeo';
 		default:
-			return 'fa-external-link';
+			return 'fa fa-fw fa-external-link';
 	}
 }
 
+// echo featured audio shortcode
 function kgr_song_featured_audio( bool $full = FALSE ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -126,7 +113,8 @@ function kgr_song_featured_audio( bool $full = FALSE ): void {
 	}
 }
 
-function kgr_albums( $title = '' ) {
+// output a list of albums related to the current song
+function kgr_albums( string $title = '' ): void {
 	if ( !has_category( 'songs' ) )
 		return;
 	$song = get_the_ID();
@@ -157,6 +145,7 @@ function kgr_albums( $title = '' ) {
 	echo implode( $self );
 }
 
+// display post tags using the cool tag cloud shortcode
 function kgr_tags(): void {
 	$tags = get_the_tags();
 	if ( empty( $tags ) )
@@ -166,7 +155,8 @@ function kgr_tags(): void {
 	echo do_shortcode( '[cool_tag_cloud smallest="12" largest="12" number="0" include="' . $tags . '"]' );
 }
 
-function kgr_song_attachments( $args = [] ) {
+// echo the attachment section
+function kgr_song_attachments( array $args = [] ): void {
 	if ( !has_category( 'songs' ) )
 		return;
 	if ( array_key_exists( 'title', $args ) )
@@ -187,14 +177,14 @@ function kgr_song_attachments( $args = [] ) {
 		switch ( $args['mode'] ) {
 			case 'icons':
 				echo '<span style="white-space: nowrap; margin-right: 1em;">' . "\n";
-				echo sprintf( '<span class="%s"></span>', esc_attr( 'fa ' . kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
+				echo sprintf( '<span class="%s"></span>', esc_attr( kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
 				echo sprintf( '<a href="%s" target="_blank">[%s]</a>', esc_url_raw( $url ), esc_html( $ext ) ) . "\n";
 				echo '</span>' . "\n";
 				break;
 			default:
 				echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
 				echo kgr_thumbnail( $attachment );
-				echo sprintf( '<span class="%s"></span>', esc_attr( 'fa ' . kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
+				echo sprintf( '<span class="%s"></span>', esc_attr( kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
 				echo sprintf( '<a href="%s" target="_blank">', esc_url_raw( $url ) ) . "\n";
 				if ( !empty( $attachment->post_excerpt ) )
 					echo sprintf( '<span>%s</span>', esc_html( $attachment->post_excerpt ) ) . "\n";
@@ -280,6 +270,7 @@ function kgr_song_attachments( $args = [] ) {
 	}
 }
 
+// echo controls for the chords attachments
 function kgr_song_attachments_chords( string $url ): void {
 	echo sprintf( '<form class="kgr-chords" data-kgr-chords="%s" autocomplete="off">', esc_url_raw( $url ) ) . "\n";
 	echo '<div>' . "\n";
@@ -330,12 +321,14 @@ function kgr_song_attachments_chords( string $url ): void {
 	echo '</div>' . "\n";
 }
 
+// include the chords script for show, hide and transpose functionallity
 add_action( 'wp_enqueue_scripts', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
 		return;
 	wp_enqueue_script( 'kgr-chords', KGR_URL . 'chords.js', ['jquery'], time() );
 } );
 
+// include mxml core scripts
 FALSE /* disable mxml */ && add_action( 'wp_enqueue_scripts', function() {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -343,6 +336,7 @@ FALSE /* disable mxml */ && add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_script( 'vexflow', 'https://unpkg.com/vexflow/releases/vexflow-min.js' );
 } );
 
+// output the mxml custom script
 FALSE /* disable mxml */ && add_action( 'wp_footer', function() {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -490,7 +484,8 @@ function kgrMxmlRender(form) {
 <?php
 } );
 
-function kgr_album_tracks_count() {
+// display the number of tracks for current album
+function kgr_album_tracks_count(): void {
 	if ( !has_category( 'albums' ) )
 		return;
 	$tracks = get_post_meta( get_the_ID(), 'kgr-tracks', TRUE );
@@ -506,6 +501,7 @@ function kgr_album_tracks_count() {
 		echo '<p>' . esc_html( sprintf( '%d %s', $count, __( 'songs', 'kgr' ) ) ) . '</p>' . "\n";
 }
 
+// return the image tag for the attachment thumbnail
 function kgr_thumbnail( WP_Post $attachment ): string {
 	$metadata = wp_get_attachment_metadata( $attachment->ID );
 	if ( !is_array( $metadata ) )
@@ -528,24 +524,26 @@ function kgr_thumbnail( WP_Post $attachment ): string {
 	) . "\n";
 }
 
+// return the icon class for a specific mime type
 function kgr_mime_type_icon( string $mime_type ): string {
 	switch ( $mime_type ) {
 		case 'application/pdf':
-			return 'fa-file-pdf-o';
+			return 'fa fa-fw fa-file-pdf-o';
 		case 'audio/midi':
 		case 'audio/mpeg':
-			return 'fa-file-audio-o';
+			return 'fa fa-fw fa-file-audio-o';
 		case 'application/xml':
 		case 'text/xml':
-			return 'fa-file-code-o';
+			return 'fa fa-fw fa-file-code-o';
 		case 'text/plain':
-			return 'fa-file-text-o';
+			return 'fa fa-fw fa-file-text-o';
 		default:
-			return 'fa-file-o';
+			return 'fa fa-fw fa-file-o';
 	}
 }
 
-add_shortcode( 'kgr-list', function( array $atts ) {
+// display a vertical list according to a post query
+add_shortcode( 'kgr-list', function( array $atts ): string {
 	$html = '';
 	if ( array_key_exists( 'category_name', $atts ) && $atts['category_name'] === 'songs' ) {
 		$posts = get_posts( $atts );
@@ -557,10 +555,9 @@ add_shortcode( 'kgr-list', function( array $atts ) {
 	return $html;
 } );
 
-add_shortcode( 'kgr-count', function( array $atts ): int {
-	if ( !array_key_exists( 'nopaging', $atts ) )
-		$atts['nopaging'] = TRUE;
-	if ( !array_key_exists( 'fields', $atts ) )
-		$atts['fields'] = 'ids';
-	return count( get_posts( $atts ) );
-} );
+// restore open graph title meta
+add_filter( 'open_graph_protocol_meta', function( string $content, string $property ): string {
+	if ( $property !== 'og:title' )
+		return $content;
+	return wp_get_document_title();
+}, 10, 2 );
