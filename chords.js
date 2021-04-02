@@ -31,8 +31,9 @@ let kgr_chords = {
 	alter2int: s => kgr_chords._alters.indexOf(s !== undefined ? s : '')-2,
 	_values: [0, 2, 4, 5, 7, 9, 11],
 	step2val: i => i in kgr_chords._values ? kgr_chords._values[i] : '*',
-	transpose: function(m0, transpose) {
-		[step, alter] = m0;
+	transpose: function(note, transpose) {
+		let step = note[0];
+		let alter = note[1];
 		step = kgr_chords.step2int(step);
 		alter = kgr_chords.alter2int(alter);
 		alter += kgr_chords.step2val(step);
@@ -49,8 +50,8 @@ let kgr_chords = {
 		alter -= kgr_chords.step2val(step);
 		step = kgr_chords.step2str(step);
 		alter = kgr_chords.alter2str(alter);
-		m1 = [step, alter];
-		return m1;
+		note = [step, alter];
+		return note;
 	},
 };
 
