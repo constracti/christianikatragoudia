@@ -198,72 +198,6 @@ function kgr_song_attachments( array $args = [] ): void {
 					] );
 				if ( $attachment->post_mime_type === 'text/plain' && mb_ereg_match( '^.*\.chords$', $attachment->post_title ) )
 					kgr_song_attachments_chords( $url );
-				if ( FALSE /* disable mxml */ && in_array( $attachment->post_mime_type, [ 'application/xml', 'text/xml' ], TRUE ) ) {
-					echo sprintf( '<div id="kgr-mxml-%d" data-mxml-url="%s">', $attachment->ID, esc_url_raw( $url ) ) . "\n";
-					echo '<button onclick="kgrMxmlLoad(this);">' . "\n";
-					echo sprintf( '<span>%s</span>', esc_html__( 'load', 'kgr' ) ) . "\n";
-					echo '<i class="fa fa-spinner fa-pulse" style="display: none;"></i>' . "\n";
-					echo '</button>' . "\n";
-					echo '<form class="kgr-mxml-form" onsubmit="return kgrMxmlRender(this);" style="display: none;">' . "\n";
-					// parts
-					echo '<div class="kgr-mxml-form-parts"></div>' . "\n";
-					// names
-					echo '<label>' . "\n";
-					echo '<input type="checkbox" class="kgr-mxml-form-names" name="names" value="1" checked="checked" />' . "\n";
-					echo sprintf( '<span>%s</span>', esc_html__( 'display part names', 'kgr' ) ) . "\n";
-					echo '</label>' . "\n";
-					// transpose
-					echo '<div>' . "\n";
-					echo '<label>' . "\n";
-					echo '<input type="checkbox" class="kgr-mxml-form-transpose" name="transpose" value="on" />' . "\n";
-					echo sprintf( '<span>%s</span>', esc_html__( 'transpose', 'kgr' ) ) . "\n";
-					echo '</label>' . "\n";
-					echo '<div class="kgr-mxml-form-transpose-on">' . "\n";
-					echo '<select class="kgr-mxml-form-transpose-direction">' . "\n";
-					echo sprintf( '<option value="up" selected="selected">%s</option>', esc_html__( 'up', 'kgr' ) ) . "\n";
-					echo sprintf( '<option value="down">%s</option>', esc_html__( 'down', 'kgr' ) ) . "\n";
-					echo '</select>' . "\n";
-					$intervals = [
-						'0' => __( '1st', 'kgr' ),
-						'1' => __( '2nd', 'kgr' ),
-						'2' => __( '3rd', 'kgr' ),
-						'3' => __( '4th', 'kgr' ),
-						'4' => __( '5th', 'kgr' ),
-						'5' => __( '6th', 'kgr' ),
-						'6' => __( '7th', 'kgr' ),
-					];
-					echo '<select class="kgr-mxml-form-transpose-interval" name="transpose-interval">' . "\n";
-					foreach ( $intervals as $key => $value )
-						echo sprintf( '<option value="%d">%s</option>', esc_attr( $key ), esc_html( $value ) ) . "\n";
-					echo '</select>' . "\n";
-					$primary = [
-						'-1' => __( 'diminished', 'kgr' ),
-						'0' => __( 'perfect', 'kgr' ),
-						'1' => __( 'augmented', 'kgr' ),
-					];
-					echo '<select class="kgr-mxml-form-transpose-primary" name="transpose-primary">' . "\n";
-					foreach ( $primary as $key => $value )
-						echo sprintf( '<option value="%s">%s</option>', esc_attr( $key ), esc_html( $value ) ) . "\n";
-					echo '</select>' . "\n";
-					$secondary = [
-						'-2' => __( 'diminished', 'kgr' ),
-						'-1' => __( 'minor', 'kgr' ),
-						'0' => __( 'major', 'kgr' ),
-						'1' => __( 'augmented', 'kgr' ),
-					];
-					echo '<select class="kgr-mxml-form-transpose-secondary" name="transpose-secondary">' . "\n";
-					foreach ( $secondary as $key => $value )
-						echo sprintf( '<option value="%s">%s</option>', esc_attr( $key ), esc_html( $value ) ) . "\n";
-					echo '</select>' . "\n";
-					echo '</div>' . "\n";
-					echo '</div>' . "\n";
-					// submit
-					echo '<div>' . "\n";
-					echo sprintf( '<button type="submit">%s</button>', esc_html__( 'render', 'kgr' ) ) . "\n";
-					echo '</div>' . "\n";
-					echo '</form>' . "\n";
-					echo '</div>' . "\n";
-				}
 				echo '</div><!-- .ht-clearfix -->' . "\n";
 				break;
 		}
@@ -272,216 +206,27 @@ function kgr_song_attachments( array $args = [] ): void {
 
 // echo controls for the chords attachments
 function kgr_song_attachments_chords( string $url ): void {
-	echo sprintf( '<form class="kgr-chords" data-kgr-chords="%s" autocomplete="off">', esc_url_raw( $url ) ) . "\n";
+	echo sprintf( '<form class="chords" data-chords-url="%s" data-chords-lang="el" autocomplete="off">', esc_url_raw( $url ) ) . "\n";
 	echo '<div>' . "\n";
 	echo sprintf( '<span>%s:</span>', esc_html__( 'transpose', 'kgr' ) ) . "\n";
-	echo '<select class="kgr-chords-direction">' . "\n";
-	echo sprintf( '<option value="up" selected="selected">%s</option>', esc_html__( 'up', 'kgr' ) ) . "\n";
-	echo sprintf( '<option value="down">%s</option>', esc_html__( 'down', 'kgr' ) ) . "\n";
-	echo '</select>' . "\n";
-	$intervals = [
-		0 => __( '1st', 'kgr' ),
-		1 => __( '2nd', 'kgr' ),
-		2 => __( '3rd', 'kgr' ),
-		3 => __( '4th', 'kgr' ),
-		4 => __( '5th', 'kgr' ),
-		5 => __( '6th', 'kgr' ),
-		6 => __( '7th', 'kgr' ),
-	];
-	echo '<select class="kgr-chords-interval">' . "\n";
-	foreach ( $intervals as $key => $value )
-		echo sprintf( '<option value="%d">%s</option>', $key, esc_html( $value ) ) . "\n";
-	echo '</select>' . "\n";
-	$primary = [
-		-1 => __( 'diminished', 'kgr' ),
-		 0 => __( 'perfect', 'kgr' ),
-		 1 => __( 'augmented', 'kgr' ),
-	];
-	echo '<select class="kgr-chords-primary">' . "\n";
-	foreach ( $primary as $key => $value )
-		echo sprintf( '<option value="%d">%s</option>', $key, esc_html( $value ) ) . "\n";
-	echo '</select>' . "\n";
-	$secondary = [
-		-2 => __( 'diminished', 'kgr' ),
-		-1 => __( 'minor', 'kgr' ),
-		 0 => __( 'major', 'kgr' ),
-		 1 => __( 'augmented', 'kgr' ),
-	];
-	echo '<select class="kgr-chords-secondary">' . "\n";
-	foreach ( $secondary as $key => $value )
-		echo sprintf( '<option value="%d">%s</option>', $key, esc_html( $value ) ) . "\n";
-	echo '</select>' . "\n";
-	echo sprintf( '<button type="submit" class="kgr-chords-show">%s</button>', esc_html__( 'show', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="kgr-chords-hide">%s</button>', esc_html__( 'hide', 'kgr' ) ) . "\n";
-	echo '<button type="button" class="kgr-chords-larger"><span class="fa fa-fw fa-search-plus"></span></button>' . "\n";
-	echo '<button type="button" class="kgr-chords-smaller"><span class="fa fa-fw fa-search-minus"></span></button>' . "\n";
+	echo '<select class="chords-dir"></select>' . "\n";
+	echo '<select class="chords-interval"></select>' . "\n";
+	echo '<select class="chords-primary"></select>' . "\n";
+	echo '<select class="chords-secondary"></select>' . "\n";
+	echo sprintf( '<button type="submit">%s</button>', esc_html__( 'show', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="chords-hide">%s</button>', esc_html__( 'hide', 'kgr' ) ) . "\n";
+	echo '<button type="button" class="chords-larger"><span class="fa fa-fw fa-search-plus"></span></button>' . "\n";
+	echo '<button type="button" class="chords-smaller"><span class="fa fa-fw fa-search-minus"></span></button>' . "\n";
 	echo '</form>' . "\n";
-	echo '<div class="kgr-chords-text" style="white-space: pre;font-family: monospace; overflow-x: hidden;">' . "\n";
-	echo '</div>' . "\n";
+	echo '<div class="chords-text" style="overflow-x: hidden;"></div>' . "\n";
 	echo '</div>' . "\n";
 }
 
-// include the chords script for show, hide and transpose functionallity
+// include the chords script for show, hide and transpose functionality
 add_action( 'wp_enqueue_scripts', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
 		return;
-	wp_enqueue_script( 'kgr-chords', KGR_URL . 'chords.js', ['jquery'], time() );
-} );
-
-// include mxml core scripts
-FALSE /* disable mxml */ && add_action( 'wp_enqueue_scripts', function() {
-	if ( !has_category( 'songs' ) )
-		return;
-	wp_enqueue_script( 'mxml', site_url( 'mxml.js' ), [], '20180506' );
-	wp_enqueue_script( 'vexflow', 'https://unpkg.com/vexflow/releases/vexflow-min.js' );
-} );
-
-// output the mxml custom script
-FALSE /* disable mxml */ && add_action( 'wp_footer', function() {
-	if ( !has_category( 'songs' ) )
-		return;
-?>
-<style>
-#kgr-mxml-popup {
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, .5);
-	z-index: 100000;
-	padding: 10px;
-}
-#kgr-mxml-popup-window {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: calc(100vh - 20px);
-	background-color: white;
-}
-#kgr-mxml-popup-close {
-	float: right;
-}
-#kgr-mxml-popup-main {
-	flex-grow: 1;
-	padding: 10px;
-	overflow: auto;
-}
-</style>
-<div id="kgr-mxml-popup">
-	<div id="kgr-mxml-popup-window">
-		<div id="kgr-mxml-popup-header">
-			<button id="kgr-mxml-popup-close">
-				<i class="fa fa-times"></i>
-			</button>
-		</div>
-		<div id="kgr-mxml-popup-main">
-			<div id="kgr-mxml-popup-renderer"></div>
-		</div>
-	</div>
-</div>
-<script>
-function kgrToggle(element, show) {
-	if (show && element.style.display === 'none') {
-		element.style.display = element.dataset.kgrToggle;
-		element.dataset.kgrToggle = null;
-	}
-	if (!show && element.style.display !== 'none') {
-		element.dataset.kgrToggle = element.style.display;
-		element.style.display = 'none';
-	}
-}
-
-document.getElementById('kgr-mxml-popup-close').addEventListener('click', function(e) {
-	document.getElementById('kgr-mxml-popup').style.display = 'none';
-	e.stopPropagation();
-});
-document.getElementById('kgr-mxml-popup-window').addEventListener('click', function(e) {
-	e.stopPropagation();
-});
-document.getElementById('kgr-mxml-popup').addEventListener('click', function(e) {
-	document.getElementById('kgr-mxml-popup').style.display = 'none';
-	e.stopPropagation();
-});
-
-function kgrMxmlLoad(button) {
-	var container = button.parentElement;
-	button.getElementsByClassName('fa-spinner')[0].style.display = 'inline-block';
-	mxmlLoad(container, function(container) {
-		container.getElementsByTagName('button')[0].style.display = 'none';
-		var form = container.getElementsByClassName('kgr-mxml-form')[0];
-		form.style.display = 'block';
-		var form_parts = form.getElementsByClassName('kgr-mxml-form-parts')[0];
-		form_parts.innerHTML = '';
-		var xml = mxmlResponses[container.id];
-		var score_partwise = xml.getElementsByTagName('score-partwise')[0];
-		var part_list = score_partwise.getElementsByTagName('part-list')[0];
-		for (var score_part of part_list.getElementsByTagName('score-part'))
-			form_parts.innerHTML += '<label>' + '\n' +
-				'<input type="checkbox" class="kgr-mxml-form-part" name="parts[]" value="' + score_part.id + '" />' + '\n' +
-				'<span>' + score_part.getElementsByTagName('part-name')[0].innerHTML + '</span>' +
-				'</label>' + '\n';
-	});
-}
-
-for (let checkbox of document.getElementsByClassName('kgr-mxml-form-transpose')) {
-	checkbox.addEventListener('change', function(e) {
-		for (let element of e.target.closest('.kgr-mxml-form').getElementsByClassName('kgr-mxml-form-transpose-on'))
-			kgrToggle(element, e.target.checked);
-	});
-	checkbox.dispatchEvent(new Event('change'));
-}
-for (let select of document.getElementsByClassName('kgr-mxml-form-transpose-interval')) {
-	select.addEventListener('change', function(e) {
-		let is_primary = [0, 3, 4].includes(parseInt(e.target.value));
-		let form = e.target.closest('.kgr-mxml-form');
-		let primary = form.getElementsByClassName('kgr-mxml-form-transpose-primary')[0];
-		kgrToggle(primary, is_primary);
-		primary.value = '0';
-		let secondary = form.getElementsByClassName('kgr-mxml-form-transpose-secondary')[0];
-		kgrToggle(secondary, !is_primary);
-		secondary.value = '0';
-	});
-	select.dispatchEvent(new Event('change'));
-}
-
-function kgrMxmlRender(form) {
-	var container = form.parentElement;
-	var xml = mxmlResponses[container.id];
-	var renderer = document.getElementById('kgr-mxml-popup-renderer');
-	var options = {};
-	options.visibleParts = [];
-	for (let part of form.getElementsByClassName('kgr-mxml-form-part'))
-		if (part.checked)
-			options.visibleParts.push(part.value);
-	options.displayPartNames = form.getElementsByClassName('kgr-mxml-form-names')[0].checked;
-	if (form.getElementsByClassName('kgr-mxml-form-transpose')[0].checked) {
-		options.transpose = {};
-		options.transpose.diatonic = parseInt(form.getElementsByClassName('kgr-mxml-form-transpose-interval')[0].value);
-		options.transpose.chromatic = 2 * options.transpose.diatonic;
-		if (options.transpose.diatonic >= 3)
-			options.transpose.chromatic -= 1;
-		if ([0, 3, 4].includes(options.transpose.diatonic))
-			options.transpose.chromatic += parseInt(form.getElementsByClassName('kgr-mxml-form-transpose-primary')[0].value);
-		else
-			options.transpose.chromatic += parseInt(form.getElementsByClassName('kgr-mxml-form-transpose-secondary')[0].value);
-		if (form.getElementsByClassName('kgr-mxml-form-transpose-direction')[0].value !== 'up') {
-			options.transpose.diatonic = -options.transpose.diatonic;
-			options.transpose.chromatic = -options.transpose.chromatic;
-		}
-	}
-	document.getElementById('kgr-mxml-popup').style.display = 'block';
-	try {
-		mxmlRender(xml, renderer, options);
-	} catch (err) {
-		console.log(err);
-	} finally {
-		return false;
-	}
-}
-</script>
-<?php
+	wp_enqueue_script( 'kgr-chords', KGR_URL . 'chords/chords.js', ['jquery'], time() );
 } );
 
 // display the number of tracks for current album

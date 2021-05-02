@@ -1,0 +1,3 @@
+[submodule "chords"]
+	path = chords
+	url = https://github.com/constracti/chords
