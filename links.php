@@ -72,7 +72,7 @@ add_action( 'admin_enqueue_scripts', function( string $hook ) {
 		return;
 	if ( !in_array( $hook, [ 'post.php', 'post-new.php' ] ) )
 		return;
-	wp_enqueue_style( 'kgr-control', KGR_URL . 'control.css' );
-	wp_enqueue_script( 'kgr-control', KGR_URL . 'control.js', [ 'jquery' ] );
-	wp_enqueue_script( 'kgr-links', KGR_URL . 'links.js', [ 'jquery' ] );
+	wp_enqueue_style( 'kgr-control', KGR_URL . 'control.css', [], kgr_version() );
+	wp_enqueue_script( 'kgr-control', KGR_URL . 'control.js', [ 'jquery' ], kgr_version() );
+	wp_enqueue_script( 'kgr-links', KGR_URL . 'links.js', [ 'jquery' ], kgr_version() );
 } );

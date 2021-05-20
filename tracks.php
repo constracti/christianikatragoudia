@@ -90,9 +90,9 @@ add_action( 'admin_enqueue_scripts', function( string $hook ) {
 		return;
 	if ( !has_category( 'albums' ) )
 		return;
-	wp_enqueue_style( 'kgr-control', KGR_URL . 'control.css' );
-	wp_enqueue_script( 'kgr-control', KGR_URL . 'control.js', [ 'jquery' ] );
-	wp_enqueue_script( 'kgr-tracks', KGR_URL . 'tracks.js', [ 'jquery' ] );
+	wp_enqueue_style( 'kgr-control', KGR_URL . 'control.css', [], kgr_version() );
+	wp_enqueue_script( 'kgr-control', KGR_URL . 'control.js', [ 'jquery' ], kgr_version() );
+	wp_enqueue_script( 'kgr-tracks', KGR_URL . 'tracks.js', [ 'jquery' ], kgr_version() );
 } );
 
 add_filter( 'the_content', function( string $content ): string {

@@ -6,12 +6,20 @@ if ( !defined( 'ABSPATH' ) )
 define( 'KGR_DIR', trailingslashit( get_stylesheet_directory() ) );
 define( 'KGR_URL', trailingslashit( get_stylesheet_directory_uri() ) );
 
+// return currrent theme version
+function kgr_version( bool $parent = FALSE ): string {
+	$theme = wp_get_theme();
+	if ( $parent )
+		$theme = $theme->parent();
+	return $theme->get( 'Version' );
+}
+
 // enqueue parent theme and child theme stylesheet
 add_action( 'wp_enqueue_scripts', function(): void {
 	# normally, the following should work:
 	# wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total-style' ] );
-	wp_enqueue_style( 'total', get_template_directory_uri() . '/style.css' );
-	wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total' ] );
+	wp_enqueue_style( 'total', get_template_directory_uri() . '/style.css', [], kgr_version( TRUE ) );
+	wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total' ], kgr_version() );
 } );
 
 // load translations for child theme
@@ -47,6 +55,23 @@ add_filter( 'breadcrumb_trail_items', function( array $items, array $args ): arr
 	return $items;
 }, 10, 2 );
 
+// return gtag data attribute list
+function kgr_gtag_data( string $category, string $action, string $label ): string {
+	return sprintf( ' data-kgr-gtag-category="%s" data-kgr-gtag-action="%s" data-kgr-gtag-label="%s"', esc_attr( $category ), esc_attr( $action ), esc_attr( $label ) );
+}
+
+// return gtag data attribute list for an attachment
+function kgr_gtag_attachment_data( WP_Post $attachment, string $action, string $suffix = ''): string {
+	$dir = get_attached_file( $attachment->ID );
+	$name = array_pop( explode( '/', $dir ) ); # TODO names only in ascii
+	return kgr_gtag_data( $attachment->post_mime_type . $suffix, $action, $name );
+}
+
+// enqueue gtag event handlers
+add_action( 'wp_enqueue_scripts', function(): void {
+	wp_enqueue_script( 'kgr-gtag', KGR_URL . 'gtag.js', [ 'jquery' ], kgr_version() );
+} );
+
 // print links related to a post of any type
 function kgr_links(): void {
 	$links = get_post_meta( get_the_ID(), 'kgr-links', TRUE );
@@ -58,7 +83,7 @@ function kgr_links(): void {
 		$host = parse_url( $url, PHP_URL_HOST );
 		echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
 		echo sprintf( '<span class="%s"></span>', esc_attr( kgr_link_icon( $host ) ) ) . "\n";
-		echo sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( $url ), esc_html( $link['caption'] ) ) . "\n";
+		echo sprintf( '<a href="%s" target="_blank" class="kgr-gtag"%s>%s</a>', esc_url_raw( $url ), kgr_gtag_data( 'link', 'click', $url ), esc_html( $link['caption'] ) ) . "\n";
 		echo '<span>' . esc_html( '[' . $host . ']' ) . '</span>' . "\n";
 		echo '<br />' . "\n";
 		echo sprintf( '<i>%s</i>', esc_html( $link['description'] ) ) . "\n";
@@ -94,7 +119,7 @@ function kgr_song_featured_audio( bool $full = FALSE ): void {
 		$url = wp_get_attachment_url( $attachment->ID );
 		$dir = get_attached_file( $attachment->ID );
 		$ext = pathinfo( $dir, PATHINFO_EXTENSION );
-		echo '<div style="margin: 15px 0;">' . "\n";
+		echo sprintf( '<div style="margin: 15px 0;" class="kgr-gtag-audio"%s>', kgr_gtag_attachment_data( $attachment, 'play', ' featured' ) ) . "\n";
 		if ( $full ) {
 			echo sprintf( '<a href="%s" target="_blank">', esc_url_raw( $url ) ) . "\n";
 			echo '<span>' . esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) . '</span>' . "\n";
@@ -178,26 +203,29 @@ function kgr_song_attachments( array $args = [] ): void {
 			case 'icons':
 				echo '<span style="white-space: nowrap; margin-right: 1em;">' . "\n";
 				echo sprintf( '<span class="%s"></span>', esc_attr( kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
-				echo sprintf( '<a href="%s" target="_blank">[%s]</a>', esc_url_raw( $url ), esc_html( $ext ) ) . "\n";
+				echo sprintf( '<a href="%s" target="_blank" class="kgr-gtag"%s>[%s]</a>', esc_url_raw( $url ), kgr_gtag_attachment_data( $attachment, 'download' ), esc_html( $ext ) ) . "\n";
 				echo '</span>' . "\n";
 				break;
 			default:
 				echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
 				echo kgr_thumbnail( $attachment );
 				echo sprintf( '<span class="%s"></span>', esc_attr( kgr_mime_type_icon( $attachment->post_mime_type ) ) ) . "\n";
-				echo sprintf( '<a href="%s" target="_blank">', esc_url_raw( $url ) ) . "\n";
+				echo sprintf( '<a href="%s" target="_blank" class="kgr-gtag"%s>', esc_url_raw( $url ), kgr_gtag_attachment_data( $attachment, 'download' ) ) . "\n";
 				if ( !empty( $attachment->post_excerpt ) )
 					echo sprintf( '<span>%s</span>', esc_html( $attachment->post_excerpt ) ) . "\n";
 				echo '<span>' . esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) . '</span>' . "\n";
 				echo '</a>' . "\n";
 				echo '<br />' . "\n";
 				echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
-				if ( $attachment->post_mime_type === 'audio/mpeg' )
+				if ( $attachment->post_mime_type === 'audio/mpeg' ) {
+					echo sprintf( '<div class="kgr-gtag-audio"%s>', kgr_gtag_attachment_data( $attachment, 'play' ) ) . "\n";
 					echo wp_audio_shortcode( [
 						'src' => esc_url_raw( $url ),
 					] );
+					echo '</div>';
+				}
 				if ( $attachment->post_mime_type === 'text/plain' && mb_ereg_match( '^.*\.chords$', $attachment->post_title ) )
-					kgr_song_attachments_chords( $url );
+					kgr_song_attachments_chords( $attachment );
 				echo '</div><!-- .ht-clearfix -->' . "\n";
 				break;
 		}
@@ -205,7 +233,8 @@ function kgr_song_attachments( array $args = [] ): void {
 }
 
 // echo controls for the chords attachments
-function kgr_song_attachments_chords( string $url ): void {
+function kgr_song_attachments_chords( WP_Post $attachment ): void {
+	$url = wp_get_attachment_url( $attachment->ID );
 	echo sprintf( '<form class="chords" data-chords-url="%s" data-chords-lang="el" autocomplete="off">', esc_url_raw( $url ) ) . "\n";
 	echo '<div>' . "\n";
 	echo sprintf( '<span>%s:</span>', esc_html__( 'transpose', 'kgr' ) ) . "\n";
@@ -213,7 +242,7 @@ function kgr_song_attachments_chords( string $url ): void {
 	echo '<select class="chords-interval"></select>' . "\n";
 	echo '<select class="chords-primary"></select>' . "\n";
 	echo '<select class="chords-secondary"></select>' . "\n";
-	echo sprintf( '<button type="submit">%s</button>', esc_html__( 'show', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="submit" class="kgr-gtag"%s>%s</button>', kgr_gtag_attachment_data( $attachment, 'show' ), esc_html__( 'show', 'kgr' ) ) . "\n";
 	echo sprintf( '<button type="button" class="chords-hide">%s</button>', esc_html__( 'hide', 'kgr' ) ) . "\n";
 	echo '<button type="button" class="chords-larger"><span class="fa fa-fw fa-search-plus"></span></button>' . "\n";
 	echo '<button type="button" class="chords-smaller"><span class="fa fa-fw fa-search-minus"></span></button>' . "\n";
@@ -226,7 +255,7 @@ function kgr_song_attachments_chords( string $url ): void {
 add_action( 'wp_enqueue_scripts', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
 		return;
-	wp_enqueue_script( 'kgr-chords', KGR_URL . 'chords/chords.js', ['jquery'], time() );
+	wp_enqueue_script( 'kgr-chords', KGR_URL . 'chords/chords.js', ['jquery'], kgr_version() );
 } );
 
 // display the number of tracks for current album
