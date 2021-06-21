@@ -235,20 +235,32 @@ function kgr_song_attachments( array $args = [] ): void {
 // echo controls for the chords attachments
 function kgr_song_attachments_chords( WP_Post $attachment ): void {
 	$url = wp_get_attachment_url( $attachment->ID );
-	echo sprintf( '<form class="chords" data-chords-url="%s" data-chords-lang="el" autocomplete="off">', esc_url_raw( $url ) ) . "\n";
+	$tonality = mb_split( '\s', $attachment->post_content );
+	$tonality = array_pop( $tonality );
+	if ( !is_null( $tonality ) ) {
+		$tonality = mb_ereg_replace( '♭', 'b', $tonality );
+		$tonality = mb_ereg_replace( '♯', '#', $tonality );
+	}
+	echo sprintf( '<form class="chords" data-chords-url="%s" data-chords-lang="el" data-chords-tonality="%s" autocomplete="off">',
+		esc_url_raw( $url ),
+		esc_attr( $tonality ),
+	) . "\n";
 	echo '<div>' . "\n";
 	echo sprintf( '<span>%s:</span>', esc_html__( 'transpose', 'kgr' ) ) . "\n";
 	echo '<select class="chords-dir"></select>' . "\n";
-	echo '<select class="chords-interval"></select>' . "\n";
+	echo '<select class="chords-diatonic"></select>' . "\n";
 	echo '<select class="chords-primary"></select>' . "\n";
 	echo '<select class="chords-secondary"></select>' . "\n";
+	echo '<select class="chords-dst"></select>' . "\n";
+	echo '</div>' . "\n";
+	echo '<div>' . "\n";
 	echo sprintf( '<button type="submit" class="kgr-gtag"%s>%s</button>', kgr_gtag_attachment_data( $attachment, 'show' ), esc_html__( 'show', 'kgr' ) ) . "\n";
 	echo sprintf( '<button type="button" class="chords-hide">%s</button>', esc_html__( 'hide', 'kgr' ) ) . "\n";
 	echo '<button type="button" class="chords-larger"><span class="fa fa-fw fa-search-plus"></span></button>' . "\n";
 	echo '<button type="button" class="chords-smaller"><span class="fa fa-fw fa-search-minus"></span></button>' . "\n";
-	echo '</form>' . "\n";
-	echo '<div class="chords-text" style="overflow-x: hidden;"></div>' . "\n";
 	echo '</div>' . "\n";
+	echo '<div class="chords-text" style="overflow-x: hidden;"></div>' . "\n";
+	echo '</form>' . "\n";
 }
 
 // include the chords script for show, hide and transpose functionality
