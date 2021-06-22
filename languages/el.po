@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Total Child\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-16 11:28+0000\n"
-"PO-Revision-Date: 2021-03-25 23:22+0000\n"
+"PO-Revision-Date: 2021-06-22 10:25+0000\n"
 "Last-Translator: constracti <constracti@gmail.com>\n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -14,34 +14,6 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.3.1; wp-5.3.1"
 
-#: functions.php:237 functions.php:291
-msgid "1st"
-msgstr "1ης"
-
-#: functions.php:238 functions.php:292
-msgid "2nd"
-msgstr "2ης"
-
-#: functions.php:239 functions.php:293
-msgid "3rd"
-msgstr "3ης"
-
-#: functions.php:240 functions.php:294
-msgid "4th"
-msgstr "4ης"
-
-#: functions.php:241 functions.php:295
-msgid "5th"
-msgstr "5ης"
-
-#: functions.php:242 functions.php:296
-msgid "6th"
-msgstr "6ης"
-
-#: functions.php:243 functions.php:297
-msgid "7th"
-msgstr "7ης"
-
 #: links.php:28 tracks.php:36
 msgid "add"
 msgstr "προσθήκη"
@@ -49,10 +21,6 @@ msgstr "προσθήκη"
 #: template-parts/content-single.php:31
 msgid "Albums"
 msgstr "Συλλογές"
-
-#: functions.php:252 functions.php:262 functions.php:306 functions.php:316
-msgid "augmented"
-msgstr "αυξημένο"
 
 #: links.php:37
 msgid "caption"
@@ -70,45 +38,21 @@ msgstr "διαγραφή"
 msgid "description"
 msgstr "περιγραφή"
 
-#: functions.php:250 functions.php:259 functions.php:304 functions.php:313
-msgid "diminished"
-msgstr "ελαττωμένο"
-
-#: functions.php:223
-msgid "display part names"
-msgstr "εμφάνιση ονομάτων"
-
-#: links.php:42 tracks.php:58 functions.php:234 functions.php:288
+#: links.php:42 tracks.php:58
 msgid "down"
 msgstr "κάτω"
 
-#: functions.php:323
+#: functions.php:264
 msgid "hide"
 msgstr "απόκρυψη"
 
-#: links.php:9 functions.php:64
+#: functions.php:255
+msgid "interval"
+msgstr "διάστημα"
+
+#: links.php:9 functions.php:80
 msgid "Links"
 msgstr "Σύνδεσμοι"
-
-#: functions.php:214
-msgid "load"
-msgstr "φόρτωση"
-
-#: functions.php:261 functions.php:315
-msgid "major"
-msgstr "μεγάλο"
-
-#: functions.php:260 functions.php:314
-msgid "minor"
-msgstr "μικρό"
-
-#: functions.php:251 functions.php:305
-msgid "perfect"
-msgstr "καθαρό"
-
-#: functions.php:272
-msgid "render"
-msgstr "εμφάνιση"
 
 #: links.php:26 tracks.php:34
 msgid "save"
@@ -118,17 +62,21 @@ msgstr "αποθήκευση"
 msgid "Scores"
 msgstr "Παρτιτούρες"
 
-#: functions.php:322
+#: functions.php:263
 msgid "show"
 msgstr "εμφάνιση"
 
-#: functions.php:501
+#: functions.php:291
 msgid "song"
 msgstr "τραγούδι"
 
-#: functions.php:503
+#: functions.php:293
 msgid "songs"
 msgstr "τραγούδια"
+
+#: functions.php:251
+msgid "tonality"
+msgstr "τονικότητα"
 
 #. Name of the theme
 msgid "Total Child"
@@ -142,11 +90,11 @@ msgstr ""
 msgid "Tracks"
 msgstr "Κομμάτια"
 
-#: functions.php:229
+#: functions.php:249
 msgid "transpose"
 msgstr "μετάθεση"
 
-#: links.php:41 tracks.php:57 functions.php:233 functions.php:287
+#: links.php:41 tracks.php:57
 msgid "up"
 msgstr "πάνω"
 

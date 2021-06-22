@@ -241,26 +241,59 @@ function kgr_song_attachments_chords( WP_Post $attachment ): void {
 		$tonality = mb_ereg_replace( '♭', 'b', $tonality );
 		$tonality = mb_ereg_replace( '♯', '#', $tonality );
 	}
-	echo sprintf( '<form class="chords" data-chords-url="%s" data-chords-lang="el" data-chords-tonality="%s" autocomplete="off">',
-		esc_url_raw( $url ),
-		esc_attr( $tonality ),
-	) . "\n";
-	echo '<div>' . "\n";
-	echo sprintf( '<span>%s:</span>', esc_html__( 'transpose', 'kgr' ) ) . "\n";
-	echo '<select class="chords-dir"></select>' . "\n";
-	echo '<select class="chords-diatonic"></select>' . "\n";
-	echo '<select class="chords-primary"></select>' . "\n";
-	echo '<select class="chords-secondary"></select>' . "\n";
-	echo '<select class="chords-dst"></select>' . "\n";
-	echo '</div>' . "\n";
-	echo '<div>' . "\n";
-	echo sprintf( '<button type="submit" class="kgr-gtag"%s>%s</button>', kgr_gtag_attachment_data( $attachment, 'show' ), esc_html__( 'show', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="chords-hide">%s</button>', esc_html__( 'hide', 'kgr' ) ) . "\n";
-	echo '<button type="button" class="chords-larger"><span class="fa fa-fw fa-search-plus"></span></button>' . "\n";
-	echo '<button type="button" class="chords-smaller"><span class="fa fa-fw fa-search-minus"></span></button>' . "\n";
-	echo '</div>' . "\n";
-	echo '<div class="chords-text" style="overflow-x: hidden;"></div>' . "\n";
-	echo '</form>' . "\n";
+?>
+<form class="chords"
+		data-chords-url="<?= esc_url_raw( $url ) ?>"
+		data-chords-lang="el"
+		data-chords-tonality="<?= esc_attr( $tonality ) ?>"
+		autocomplete="off">
+	<table>
+		<thead>
+			<tr>
+				<th colspan="2"><?= esc_html__( 'transpose', 'kgr' ) ?>:</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th><?= esc_html__( 'tonality', 'kgr' ) ?></th>
+				<td>
+					<select class="chords-dst"></select>
+				</td>
+			</tr>
+			<tr>
+				<th><?= esc_html__( 'interval', 'kgr' ) ?></th>
+				<td>
+					<select class="chords-dir"></select>
+					<div class="together">
+						<select class="chords-diatonic"></select>
+						<select class="chords-primary"></select>
+						<select class="chords-secondary"></select>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div>
+		<div class="together">
+			<button type="submit" class="kgr-gtag"<?= kgr_gtag_attachment_data( $attachment, 'show' ) ?>>
+				<?= esc_html__( 'show', 'kgr' ) ?>
+			</button>
+			<button type="button" class="chords-hide">
+				<?= esc_html__( 'hide', 'kgr' ) ?>
+			</button>
+		</div>
+		<div class="together">
+			<button type="button" class="chords-larger">
+				<span class="fa fa-fw fa-search-plus"></span>
+			</button>
+			<button type="button" class="chords-smaller">
+				<span class="fa fa-fw fa-search-minus"></span>
+			</button>
+		</div>
+	</div>
+	<div class="chords-text"></div>
+</form>
+<?php
 }
 
 // include the chords script for show, hide and transpose functionality

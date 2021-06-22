@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-25 23:22+0000\n"
+"POT-Creation-Date: 2021-06-22 10:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,44 +14,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: functions.php:237 functions.php:291
-msgid "1st"
-msgstr ""
-
-#: functions.php:238 functions.php:292
-msgid "2nd"
-msgstr ""
-
-#: functions.php:239 functions.php:293
-msgid "3rd"
-msgstr ""
-
-#: functions.php:240 functions.php:294
-msgid "4th"
-msgstr ""
-
-#: functions.php:241 functions.php:295
-msgid "5th"
-msgstr ""
-
-#: functions.php:242 functions.php:296
-msgid "6th"
-msgstr ""
-
-#: functions.php:243 functions.php:297
-msgid "7th"
-msgstr ""
-
 #: links.php:28 tracks.php:36
 msgid "add"
 msgstr ""
 
 #: template-parts/content-single.php:31
 msgid "Albums"
-msgstr ""
-
-#: functions.php:252 functions.php:262 functions.php:306 functions.php:316
-msgid "augmented"
 msgstr ""
 
 #: links.php:37
@@ -70,44 +38,20 @@ msgstr ""
 msgid "description"
 msgstr ""
 
-#: functions.php:250 functions.php:259 functions.php:304 functions.php:313
-msgid "diminished"
-msgstr ""
-
-#: functions.php:223
-msgid "display part names"
-msgstr ""
-
-#: links.php:42 tracks.php:58 functions.php:234 functions.php:288
+#: links.php:42 tracks.php:58
 msgid "down"
 msgstr ""
 
-#: functions.php:323
+#: functions.php:264
 msgid "hide"
 msgstr ""
 
-#: links.php:9 functions.php:64
+#: functions.php:255
+msgid "interval"
+msgstr ""
+
+#: links.php:9 functions.php:80
 msgid "Links"
-msgstr ""
-
-#: functions.php:214
-msgid "load"
-msgstr ""
-
-#: functions.php:261 functions.php:315
-msgid "major"
-msgstr ""
-
-#: functions.php:260 functions.php:314
-msgid "minor"
-msgstr ""
-
-#: functions.php:251 functions.php:305
-msgid "perfect"
-msgstr ""
-
-#: functions.php:272
-msgid "render"
 msgstr ""
 
 #: links.php:26 tracks.php:34
@@ -118,16 +62,20 @@ msgstr ""
 msgid "Scores"
 msgstr ""
 
-#: functions.php:322
+#: functions.php:263
 msgid "show"
 msgstr ""
 
-#: functions.php:501
+#: functions.php:291
 msgid "song"
 msgstr ""
 
-#: functions.php:503
+#: functions.php:293
 msgid "songs"
+msgstr ""
+
+#: functions.php:251
+msgid "tonality"
 msgstr ""
 
 #. Name of the theme
@@ -142,11 +90,11 @@ msgstr ""
 msgid "Tracks"
 msgstr ""
 
-#: functions.php:229
+#: functions.php:249
 msgid "transpose"
 msgstr ""
 
-#: links.php:41 tracks.php:57 functions.php:233 functions.php:287
+#: links.php:41 tracks.php:57
 msgid "up"
 msgstr ""
 
