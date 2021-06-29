@@ -13,33 +13,33 @@ function kgr_links_html( WP_Post $post ) {
 	$links = get_post_meta( $post->ID, 'kgr-links', TRUE );
 	if ( $links === '' )
 		$links = [];
-	echo '<div class="kgr-control-container">' . "\n";
-	echo '<div class="kgr-control-items">' . "\n";
+	echo '<div class="multi-control-home">' . "\n";
+	echo '<div class="multi-control-list">' . "\n";
 	foreach ( $links as $link )
 		kgr_links_div( $link );
 	echo '</div>' . "\n";
-	echo '<div class="kgr-control-item0">' . "\n";
+	echo '<div class="multi-control-new">' . "\n";
 	kgr_links_div();
 	echo '</div>' . "\n";
 	echo '<p>' . "\n";
 	$nonce = wp_create_nonce( kgr_links_nonce( $post->ID ) );
 	echo sprintf( '<button type="button" class="button button-primary" data-nonce="%s" data-post="%s">%s</button>', $nonce, $post->ID, __( 'save', 'kgr' ) ) . "\n";
 	echo '<span class="spinner" style="float: none;"></span>' . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-add" style="float: right;">%s</button>', __( 'add', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-add" style="float: right;">%s</button>', __( 'add', 'kgr' ) ) . "\n";
 	echo '</p>' . "\n";
 	echo '</div>' . "\n";
 }
 
 function kgr_links_div( array $link = [ 'url' => '', 'caption' => '', 'description' => '' ] ) {
-	echo '<p class="kgr-control-item">' . "\n";
+	echo '<p class="multi-control-item">' . "\n";
 	echo sprintf( '<input type="url" class="kgr-link-url" placeholder="%s" autocomplete="off" value="%s" style="width: 100%%;" />', __( 'URL', 'kgr' ), $link['url'] ) . "\n";
 	echo '<br />' . "\n";
 	echo sprintf( '<input type="text" class="kgr-link-caption" placeholder="%s" autocomplete="off" value="%s" />', __( 'caption', 'kgr' ), $link['caption'] ) . "\n";
 	echo sprintf( '<input type="text" class="kgr-link-description" placeholder="%s" autocomplete="off" value="%s" />', __( 'description', 'kgr' ), $link['description'] ) . "\n";
 	echo '<span style="float: right;">' . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-delete">%s</button>', __( 'delete', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-up">%s</button>', __( 'up', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-down">%s</button>', __( 'down', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-delete">%s</button>', __( 'delete', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-up">%s</button>', __( 'up', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-down">%s</button>', __( 'down', 'kgr' ) ) . "\n";
 	echo '</span>' . "\n";
 	echo '</p>' . "\n";
 }
@@ -72,7 +72,6 @@ add_action( 'admin_enqueue_scripts', function( string $hook ) {
 		return;
 	if ( !in_array( $hook, [ 'post.php', 'post-new.php' ] ) )
 		return;
-	wp_enqueue_style( 'kgr-control', KGR_URL . 'control.css', [], kgr_version() );
-	wp_enqueue_script( 'kgr-control', KGR_URL . 'control.js', [ 'jquery' ], kgr_version() );
+	wp_enqueue_script( 'kgr-control', KGR_URL . 'multi-control/script.js', [ 'jquery' ], kgr_version() );
 	wp_enqueue_script( 'kgr-links', KGR_URL . 'links.js', [ 'jquery' ], kgr_version() );
 } );

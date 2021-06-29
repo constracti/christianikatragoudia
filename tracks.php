@@ -21,25 +21,25 @@ function kgr_tracks_html( WP_Post $album ) {
 	$tracks = get_post_meta( $album->ID, 'kgr-tracks', TRUE );
 	if ( $tracks === '' )
 		$tracks = [];
-	echo '<div class="kgr-control-container">' . "\n";
-	echo '<ol class="kgr-control-items">' . "\n";
+	echo '<div class="multi-control-home">' . "\n";
+	echo '<ol class="multi-control-list">' . "\n";
 	foreach ( $tracks as $track )
 		kgr_tracks_div( $songs, $track );
 	echo '</ol>' . "\n";
-	echo '<ol class="kgr-control-item0">' . "\n";
+	echo '<ol class="multi-control-new">' . "\n";
 	kgr_tracks_div( $songs );
 	echo '</ol>' . "\n";
 	echo '<p>' . "\n";
 	$nonce = wp_create_nonce( kgr_tracks_nonce( $album->ID ) );
 	echo sprintf( '<button type="button" class="button button-primary" data-nonce="%s" data-album="%s">%s</button>', $nonce, $album->ID, __( 'save', 'kgr' ) ) . "\n";
 	echo '<span class="spinner" style="float: none;"></span>' . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-add" style="float: right;">%s</button>', __( 'add', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-add" style="float: right;">%s</button>', __( 'add', 'kgr' ) ) . "\n";
 	echo '</p>' . "\n";
 	echo '</div>' . "\n";
 }
 
 function kgr_tracks_div( array $songs, int $track = 0 ) {
-	echo '<li class="kgr-control-item">' . "\n";
+	echo '<li class="multi-control-item">' . "\n";
 	echo '<select>' . "\n";
 	echo sprintf( '<option value="%d">%s</option>', 0, 'none' ) . "\n";
 	foreach ( $songs as $song ) {
@@ -53,9 +53,9 @@ function kgr_tracks_div( array $songs, int $track = 0 ) {
 	}
 	echo '</select>' . "\n";
 	echo '<span style="float: right;">' . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-delete">%s</button>', __( 'delete', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-up">%s</button>', __( 'up', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="button kgr-control-down">%s</button>', __( 'down', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-delete">%s</button>', __( 'delete', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-up">%s</button>', __( 'up', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button multi-control-down">%s</button>', __( 'down', 'kgr' ) ) . "\n";
 	echo '</span>' . "\n";
 	echo '</li>' . "\n";
 }
@@ -90,8 +90,7 @@ add_action( 'admin_enqueue_scripts', function( string $hook ) {
 		return;
 	if ( !has_category( 'albums' ) )
 		return;
-	wp_enqueue_style( 'kgr-control', KGR_URL . 'control.css', [], kgr_version() );
-	wp_enqueue_script( 'kgr-control', KGR_URL . 'control.js', [ 'jquery' ], kgr_version() );
+	wp_enqueue_script( 'kgr-control', KGR_URL . 'multi-control/script.js', [ 'jquery' ], kgr_version() );
 	wp_enqueue_script( 'kgr-tracks', KGR_URL . 'tracks.js', [ 'jquery' ], kgr_version() );
 } );
 
