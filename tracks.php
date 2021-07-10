@@ -3,7 +3,7 @@
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
-add_action( 'add_meta_boxes_post', function( WP_Post $post ) {
+add_action( 'add_meta_boxes_post', function( WP_Post $post ): void {
 	if ( !current_user_can( 'edit_post', $post->ID ) )
 		return;
 	if ( !has_category( 'albums', $post ) )
@@ -11,7 +11,7 @@ add_action( 'add_meta_boxes_post', function( WP_Post $post ) {
 	add_meta_box( 'kgr-tracks', __( 'Tracks', 'kgr' ), 'kgr_tracks_html', $post->post_type, 'normal' );
 } );
 
-function kgr_tracks_html( WP_Post $album ) {
+function kgr_tracks_html( WP_Post $album ): void {
 	$songs = get_posts( [
 		'category_name' => 'songs',
 		'nopaging' => TRUE,
@@ -22,6 +22,9 @@ function kgr_tracks_html( WP_Post $album ) {
 	if ( $tracks === '' )
 		$tracks = [];
 	echo '<div class="multi-control-home">' . "\n";
+	echo sprintf( '<input type="hidden" class="multi-control-action" value="%s">', 'kgr_tracks' ) . "\n";
+	echo sprintf( '<input type="hidden" class="multi-control-id" value="%s">', $album->ID ) . "\n";
+	echo sprintf( '<input type="hidden" class="multi-control-nonce" value="%s">', wp_create_nonce( kgr_tracks_nonce( $album->ID ) ) ) . "\n";
 	echo '<ol class="multi-control-list">' . "\n";
 	foreach ( $tracks as $track )
 		kgr_tracks_div( $songs, $track );
@@ -30,18 +33,17 @@ function kgr_tracks_html( WP_Post $album ) {
 	kgr_tracks_div( $songs );
 	echo '</ol>' . "\n";
 	echo '<p>' . "\n";
-	$nonce = wp_create_nonce( kgr_tracks_nonce( $album->ID ) );
-	echo sprintf( '<button type="button" class="button button-primary" data-nonce="%s" data-album="%s">%s</button>', $nonce, $album->ID, __( 'save', 'kgr' ) ) . "\n";
+	echo sprintf( '<button type="button" class="button button-primary">%s</button>', __( 'save', 'kgr' ) ) . "\n";
 	echo '<span class="spinner" style="float: none;"></span>' . "\n";
 	echo sprintf( '<button type="button" class="button multi-control-add" style="float: right;">%s</button>', __( 'add', 'kgr' ) ) . "\n";
 	echo '</p>' . "\n";
 	echo '</div>' . "\n";
 }
 
-function kgr_tracks_div( array $songs, int $track = 0 ) {
+function kgr_tracks_div( array $songs, int $track = 0 ): void {
 	echo '<li class="multi-control-item">' . "\n";
-	echo '<select>' . "\n";
-	echo sprintf( '<option value="%d">%s</option>', 0, 'none' ) . "\n";
+	echo '<select data-multi-control-name="id">' . "\n";
+	echo sprintf( '<option value="%d"></option>', 0 ) . "\n";
 	foreach ( $songs as $song ) {
 		$selected = selected( $song->ID, $track, FALSE );
 		$title = $song->post_title;
@@ -64,10 +66,10 @@ function kgr_tracks_nonce( int $album ): string {
 	return sprintf( 'kgr-tracks-%d', $album );
 }
 
-add_action( 'wp_ajax_kgr_tracks', function() {
-	if ( !array_key_exists( 'album', $_POST ) )
+add_action( 'wp_ajax_kgr_tracks', function(): void {
+	if ( !array_key_exists( 'id', $_POST ) )
 		exit( 'album' );
-	$album = filter_var( $_POST['album'], FILTER_VALIDATE_INT );
+	$album = filter_var( $_POST['id'], FILTER_VALIDATE_INT );
 	if ( $album === FALSE )
 		exit( 'album' );
 	if ( !current_user_can( 'edit_post', $album ) )
@@ -76,22 +78,22 @@ add_action( 'wp_ajax_kgr_tracks', function() {
 		exit( 'nonce' );
 	if ( !wp_verify_nonce( $_POST['nonce'], kgr_tracks_nonce( $album ) ) )
 		exit( 'nonce' );
-	if ( !array_key_exists( 'tracks', $_POST ) )
+	if ( !array_key_exists( 'values', $_POST ) )
 		delete_post_meta( $album, 'kgr-tracks' );
 	else
-		update_post_meta( $album, 'kgr-tracks', array_map( 'intval', $_POST['tracks'] ) );
+		update_post_meta( $album, 'kgr-tracks', array_map( 'intval', array_column( $_POST['values'], 'id' ) ) );
 	exit;
 } );
 
-add_action( 'admin_enqueue_scripts', function( string $hook ) {
+add_action( 'admin_enqueue_scripts', function( string $hook ): void {
 	if ( !current_user_can( 'edit_posts' ) )
 		return;
-	if ( !in_array( $hook, [ 'post.php', 'post-new.php' ] ) )
+	if ( $hook !== 'post.php' )
 		return;
 	if ( !has_category( 'albums' ) )
 		return;
 	wp_enqueue_script( 'kgr-control', KGR_URL . 'multi-control/script.js', [ 'jquery' ], kgr_version() );
-	wp_enqueue_script( 'kgr-tracks', KGR_URL . 'tracks.js', [ 'jquery' ], kgr_version() );
+	wp_enqueue_script( 'kgr-control-save', KGR_URL . 'control-save.js', [ 'jquery' ], kgr_version() );
 } );
 
 add_filter( 'the_content', function( string $content ): string {
