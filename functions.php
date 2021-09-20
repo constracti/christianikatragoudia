@@ -95,11 +95,11 @@ function kgr_links(): void {
 function kgr_link_icon( string $host ): string {
 	switch ( $host ) {
 		case 'www.youtube.com':
-			return 'fa fa-fw fa-youtube';
+			return 'fab fa-fw fa-youtube';
 		case 'vimeo.com':
-			return 'fa fa-fw fa-vimeo';
+			return 'fab fa-fw fa-vimeo';
 		default:
-			return 'fa fa-fw fa-external-link';
+			return 'fas fa-fw fa-external-link-alt';
 	}
 }
 
@@ -284,10 +284,10 @@ function kgr_song_attachments_chords( WP_Post $attachment ): void {
 		</div>
 		<div class="together">
 			<button type="button" class="chords-larger">
-				<span class="fa fa-fw fa-search-plus"></span>
+				<span class="fas fa-fw fa-search-plus"></span>
 			</button>
 			<button type="button" class="chords-smaller">
-				<span class="fa fa-fw fa-search-minus"></span>
+				<span class="fas fa-fw fa-search-minus"></span>
 			</button>
 		</div>
 	</div>
@@ -347,17 +347,17 @@ function kgr_thumbnail( WP_Post $attachment ): string {
 function kgr_mime_type_icon( string $mime_type ): string {
 	switch ( $mime_type ) {
 		case 'application/pdf':
-			return 'fa fa-fw fa-file-pdf-o';
+			return 'fas fa-fw fa-file-pdf';
 		case 'audio/midi':
 		case 'audio/mpeg':
-			return 'fa fa-fw fa-file-audio-o';
+			return 'fas fa-fw fa-file-audio';
 		case 'application/xml':
 		case 'text/xml':
-			return 'fa fa-fw fa-file-code-o';
+			return 'fas fa-fw fa-file-code';
 		case 'text/plain':
-			return 'fa fa-fw fa-file-text-o';
+			return 'fas fa-fw fa-file-alt';
 		default:
-			return 'fa fa-fw fa-file-o';
+			return 'fas fa-fw fa-file';
 	}
 }
 
