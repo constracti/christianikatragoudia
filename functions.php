@@ -3,10 +3,24 @@
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
+/**
+ * define theme constants
+ */
 define( 'KGR_DIR', trailingslashit( get_stylesheet_directory() ) );
 define( 'KGR_URL', trailingslashit( get_stylesheet_directory_uri() ) );
 
-// return currrent theme version
+/**
+ * require php files
+ */
+$files = glob( KGR_DIR . '*.php' );
+foreach ( $files as $file ) {
+	if ( $file !== __FILE__ )
+		require_once( $file );
+}
+
+/**
+ * return currrent theme version
+ */
 function kgr_version( bool $parent = FALSE ): string {
 	$theme = wp_get_theme();
 	if ( $parent )
@@ -14,7 +28,9 @@ function kgr_version( bool $parent = FALSE ): string {
 	return $theme->get( 'Version' );
 }
 
-// enqueue parent theme and child theme stylesheet
+/**
+ * enqueue parent theme and child theme stylesheet
+ */
 add_action( 'wp_enqueue_scripts', function(): void {
 	# normally, the following should work:
 	# wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total-style' ] );
@@ -22,30 +38,34 @@ add_action( 'wp_enqueue_scripts', function(): void {
 	wp_enqueue_style( 'total-child', KGR_URL . 'style.css', [ 'total' ], kgr_version() );
 } );
 
-// load translations for child theme
+/**
+ * load translations for child theme
+ */
 add_action( 'after_setup_theme', function(): void {
 	load_child_theme_textdomain( 'kgr', KGR_DIR . 'languages' );
 } );
 
-require_once( KGR_DIR . 'tracks.php' );
-require_once( KGR_DIR . 'links.php' );
-require_once( KGR_DIR . 'home.php' );
-
-require_once( KGR_DIR . 'widgets.php' );
-
-// allow xml file uploading
+/**
+ * allow xml file uploading
+ */
 add_filter( 'upload_mimes', function( array $mimes ): array {
 	$mimes['xml'] = 'text/xml';
 	return $mimes;
 } );
 
-// set browser tab color
+/**
+ * set browser tab color
+ */
 add_action( 'wp_head', function(): void {
-	$color = get_theme_mod( 'total_template_color', '#FFC107' );
+	$color = get_theme_mod( 'total_template_color' );
+	if ( $color === FALSE )
+		return;
 	echo sprintf( '<meta name="theme-color" content="%s" />', $color ) . "\n";
 } );
 
-// remove page_for_posts from archive breadcrumbs
+/**
+ * remove page_for_posts from archive breadcrumbs
+ */
 add_filter( 'breadcrumb_trail_items', function( array $items, array $args ): array {
 	if ( !is_archive() )
 		return $items;
@@ -55,24 +75,9 @@ add_filter( 'breadcrumb_trail_items', function( array $items, array $args ): arr
 	return $items;
 }, 10, 2 );
 
-// return gtag data attribute list
-function kgr_gtag_data( string $category, string $action, string $label ): string {
-	return sprintf( ' data-kgr-gtag-category="%s" data-kgr-gtag-action="%s" data-kgr-gtag-label="%s"', esc_attr( $category ), esc_attr( $action ), esc_attr( $label ) );
-}
-
-// return gtag data attribute list for an attachment
-function kgr_gtag_attachment_data( WP_Post $attachment, string $action, string $suffix = ''): string {
-	$dir = get_attached_file( $attachment->ID );
-	$name = array_pop( explode( '/', $dir ) ); # TODO names only in ascii
-	return kgr_gtag_data( $attachment->post_mime_type . $suffix, $action, $name );
-}
-
-// enqueue gtag event handlers
-add_action( 'wp_enqueue_scripts', function(): void {
-	wp_enqueue_script( 'kgr-gtag', KGR_URL . 'gtag.js', [ 'jquery' ], kgr_version() );
-} );
-
-// print links related to a post of any type
+/**
+ * print links related to a post of any type
+ */
 function kgr_links(): void {
 	$links = get_post_meta( get_the_ID(), 'kgr-links', TRUE );
 	if ( $links === '' )
@@ -83,7 +88,11 @@ function kgr_links(): void {
 		$host = parse_url( $url, PHP_URL_HOST );
 		echo '<div class="ht-clearfix" style="margin-bottom: 15px;">' . "\n";
 		echo sprintf( '<span class="%s"></span>', esc_attr( kgr_link_icon( $host ) ) ) . "\n";
-		echo sprintf( '<a href="%s" target="_blank" class="kgr-gtag"%s>%s</a>', esc_url_raw( $url ), kgr_gtag_data( 'link', 'click', $url ), esc_html( $link['caption'] ) ) . "\n";
+		echo sprintf( '<a href="%s" target="_blank" class="kgr-gtag"%s>%s</a>',
+			esc_url_raw( $url ),
+			kgr_gtag_data( 'link', 'click', $url ),
+			esc_html( $link['caption'] ),
+		) . "\n";
 		echo '<span>' . esc_html( '[' . $host . ']' ) . '</span>' . "\n";
 		echo '<br />' . "\n";
 		echo sprintf( '<i>%s</i>', esc_html( $link['description'] ) ) . "\n";
@@ -91,7 +100,9 @@ function kgr_links(): void {
 	}
 }
 
-// return the icon class for a specific link host
+/**
+ * return the icon class for a specific link host
+ */
 function kgr_link_icon( string $host ): string {
 	switch ( $host ) {
 		case 'www.youtube.com':
@@ -103,7 +114,9 @@ function kgr_link_icon( string $host ): string {
 	}
 }
 
-// echo featured audio shortcode
+/**
+ * echo featured audio shortcode
+ */
 function kgr_song_featured_audio( bool $full = FALSE ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -138,7 +151,9 @@ function kgr_song_featured_audio( bool $full = FALSE ): void {
 	}
 }
 
-// output a list of albums related to the current song
+/**
+ * output a list of albums related to the current song
+ */
 function kgr_albums( string $title = '' ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -170,7 +185,9 @@ function kgr_albums( string $title = '' ): void {
 	echo implode( $self );
 }
 
-// display post tags using the cool tag cloud shortcode
+/**
+ * display post tags using the cool tag cloud shortcode
+ */
 function kgr_tags(): void {
 	$tags = get_the_tags();
 	if ( empty( $tags ) )
@@ -180,7 +197,9 @@ function kgr_tags(): void {
 	echo do_shortcode( '[cool_tag_cloud smallest="12" largest="12" number="0" include="' . $tags . '"]' );
 }
 
-// echo the attachment section
+/**
+ * echo the attachment section
+ */
 function kgr_song_attachments( array $args = [] ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -232,7 +251,9 @@ function kgr_song_attachments( array $args = [] ): void {
 	}
 }
 
-// echo controls for the chords attachments
+/**
+ * echo controls for the chords attachments
+ */
 function kgr_song_attachments_chords( WP_Post $attachment ): void {
 	$url = wp_get_attachment_url( $attachment->ID );
 	$tonality = mb_split( '\s', $attachment->post_content );
@@ -296,14 +317,18 @@ function kgr_song_attachments_chords( WP_Post $attachment ): void {
 <?php
 }
 
-// include the chords script for show, hide and transpose functionality
+/**
+ * include the chords script for show, hide and transpose functionality
+ */
 add_action( 'wp_enqueue_scripts', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
 		return;
 	wp_enqueue_script( 'kgr-chords', KGR_URL . 'chords/chords.js', ['jquery'], kgr_version() );
 } );
 
-// display the number of tracks for current album
+/**
+ * display the number of tracks for current album
+ */
 function kgr_album_tracks_count(): void {
 	if ( !has_category( 'albums' ) )
 		return;
@@ -320,7 +345,9 @@ function kgr_album_tracks_count(): void {
 		echo '<p>' . esc_html( sprintf( '%d %s', $count, __( 'songs', 'kgr' ) ) ) . '</p>' . "\n";
 }
 
-// return the image tag for the attachment thumbnail
+/**
+ * return the image tag for the attachment thumbnail
+ */
 function kgr_thumbnail( WP_Post $attachment ): string {
 	$metadata = wp_get_attachment_metadata( $attachment->ID );
 	if ( !is_array( $metadata ) )
@@ -343,7 +370,9 @@ function kgr_thumbnail( WP_Post $attachment ): string {
 	) . "\n";
 }
 
-// return the icon class for a specific mime type
+/**
+ * return the icon class for a specific mime type
+ */
 function kgr_mime_type_icon( string $mime_type ): string {
 	switch ( $mime_type ) {
 		case 'application/pdf':
@@ -361,7 +390,9 @@ function kgr_mime_type_icon( string $mime_type ): string {
 	}
 }
 
-// display a vertical list according to a post query
+/**
+ * display a vertical list according to a post query
+ */
 add_shortcode( 'kgr-list', function( array $atts ): string {
 	$html = '';
 	if ( array_key_exists( 'category_name', $atts ) && $atts['category_name'] === 'songs' ) {
@@ -374,7 +405,9 @@ add_shortcode( 'kgr-list', function( array $atts ): string {
 	return $html;
 } );
 
-// restore open graph title meta
+/**
+ * restore open graph title meta
+ */
 add_filter( 'open_graph_protocol_meta', function( string $content, string $property ): string {
 	if ( $property !== 'og:title' )
 		return $content;
