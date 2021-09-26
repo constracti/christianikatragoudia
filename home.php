@@ -22,7 +22,7 @@ add_action( 'pre_get_posts', function( WP_Query $query ): void {
 		return;
 	if ( $query->get( 'post_type' ) !== 'post' )
 		return;
-	if ( $query->get( 'orderby' ) !== 'rand' )
+	if ( $query->get( 'orderby' ) !== 'title' )
 		return;
 	if ( $query->get( 'order' ) !== 'ASC' )
 		return;
