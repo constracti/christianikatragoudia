@@ -3,19 +3,6 @@
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
-// TODO delete
-add_shortcode( 'kgr-count', function( array $atts ): int {
-	# [kgr-count category_name="songs"]
-	# [kgr-count meta_key="kgr-links"]
-	# [kgr-count post_type="attachment" post_mime_type="application/pdf"]
-	# [kgr-count post_type="attachment" post_mime_type="audio/mpeg" s="featured"]
-	if ( !array_key_exists( 'nopaging', $atts ) )
-		$atts['nopaging'] = TRUE;
-	if ( !array_key_exists( 'fields', $atts ) )
-		$atts['fields'] = 'ids';
-	return count( get_posts( $atts ) );
-} );
-
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	global $wp_the_query;
 	if ( !$wp_the_query->is_page( 3260 ) )
@@ -60,7 +47,7 @@ add_action( 'the_content', function( string $content ): string {
 		'nopaging' => TRUE,
 		'fields' => 'ids',
 	] ) );
-	foreach ( [ 1, 2, 3, 4 ] as $case ) {
+	foreach ( [ 1, 2, 3, 4, ] as $case ) {
 		$count = NULL;
 		$args = NULL;
 		switch ( $case ) {

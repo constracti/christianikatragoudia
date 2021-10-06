@@ -1,3 +1,3 @@
-# Total Child Theme
+# Christianika Tragoudia
 
-This is a backup repository for the child theme of a WordPress site containing albums and songs.
+This is a backup repository for the main plugin of [Christianika Tragoudia](https://christianikatragoudia.gr/).

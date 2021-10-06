@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Christianika Tragoudia\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-30 23:02+0000\n"
+"PO-Revision-Date: 2021-10-06 15:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: Greek\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.4; wp-5.8.1\n"
+"X-Domain: xt"
+
+#: links.php:36 tracks.php:44
+msgid "add"
+msgstr "προσθήκη"
+
+#: templates.php:241
+msgid "Albums"
+msgstr "Συλλογές"
+
+#: links.php:49
+msgid "caption"
+msgstr "λεζάντα"
+
+#. Name of the plugin
+#: index.php:52 index.php:53 index.php:60
+msgid "Christianika Tragoudia"
+msgstr "Χριστιανικά Τραγούδια"
+
+#. Author of the plugin
+msgid "constracti"
+msgstr "constracti"
+
+#. Description of the plugin
+msgid "Customization plugin of Christianika Tragoudia website."
+msgstr "Πρόσθετο προσαρμογής της ιστοσελίδας Χριστιανικά Τραγούδια."
+
+#: links.php:52 tracks.php:70
+msgid "delete"
+msgstr "διαγραφή"
+
+#: links.php:50
+msgid "description"
+msgstr "περιγραφή"
+
+#: links.php:54 tracks.php:72
+msgid "down"
+msgstr "κάτω"
+
+#: templates.php:444
+msgid "hide"
+msgstr "απόκρυψη"
+
+#. URI of the plugin
+msgid "https://github.com/constracti/christianikatragoudia"
+msgstr "https://github.com/constracti/christianikatragoudia"
+
+#: templates.php:426
+msgid "interval"
+msgstr "διάστημα"
+
+#: links.php:9 templates.php:81
+msgid "Links"
+msgstr "Σύνδεσμοι"
+
+#: links.php:34 tracks.php:42
+msgid "save"
+msgstr "αποθήκευση"
+
+#: templates.php:291
+msgid "Scores"
+msgstr "Παρτιτούρες"
+
+#: index.php:91 settings.php:7
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: templates.php:441
+msgid "show"
+msgstr "εμφάνιση"
+
+#: templates.php:162
+msgid "song"
+msgid_plural "songs"
+msgstr[0] "τραγούδι"
+msgstr[1] "τραγούδια"
+
+#: templates.php:112
+msgid "Songs"
+msgstr "Τραγούδια"
+
+#: statistics.php:101
+msgid "Statistics"
+msgstr "Στατιστικά"
+
+#: templates.php:420
+msgid "tonality"
+msgstr "τονικότητα"
+
+#: tracks.php:11
+msgid "Tracks"
+msgstr "Κομμάτια"
+
+#: templates.php:415
+msgid "transpose"
+msgstr "μετάθεση"
+
+#: links.php:53 tracks.php:71
+msgid "up"
+msgstr "πάνω"
+
+#: links.php:47
+msgid "URL"
+msgstr "URL"

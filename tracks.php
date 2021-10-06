@@ -8,10 +8,10 @@ add_action( 'add_meta_boxes_post', function( WP_Post $post ): void {
 		return;
 	if ( !has_category( 'albums', $post ) )
 		return;
-	add_meta_box( 'kgr-tracks', __( 'Tracks', 'kgr' ), 'kgr_tracks_html', $post->post_type, 'normal' );
+	add_meta_box( 'xt-tracks', __( 'Tracks', 'xt' ), 'xt_tracks_html', $post->post_type, 'normal' );
 } );
 
-function kgr_tracks_html( WP_Post $album ): void {
+function xt_tracks_html( WP_Post $album ): void {
 	$songs = get_posts( [
 		'category_name' => 'songs',
 		'nopaging' => TRUE,
@@ -21,29 +21,38 @@ function kgr_tracks_html( WP_Post $album ): void {
 	$tracks = get_post_meta( $album->ID, 'kgr-tracks', TRUE );
 	if ( $tracks === '' )
 		$tracks = [];
-	echo '<div class="multi-control-home">' . "\n";
-	echo sprintf( '<input type="hidden" class="multi-control-action" value="%s">', 'kgr_tracks' ) . "\n";
-	echo sprintf( '<input type="hidden" class="multi-control-id" value="%s">', $album->ID ) . "\n";
-	echo sprintf( '<input type="hidden" class="multi-control-nonce" value="%s">', wp_create_nonce( kgr_tracks_nonce( $album->ID ) ) ) . "\n";
-	echo '<ol class="multi-control-list">' . "\n";
+	$nonce = wp_create_nonce( xt_tracks_nonce( $album->ID ) );
+?>
+<div class="multi-control-home">
+	<input type="hidden" class="multi-control-action" value="xt_tracks">
+	<input type="hidden" class="multi-control-id" value="<?= $album->ID ?>">
+	<input type="hidden" class="multi-control-nonce" value="<?= $nonce ?>">
+	<ol class="multi-control-list">
+<?php
 	foreach ( $tracks as $track )
-		kgr_tracks_div( $songs, $track );
-	echo '</ol>' . "\n";
-	echo '<ol class="multi-control-new">' . "\n";
-	kgr_tracks_div( $songs );
-	echo '</ol>' . "\n";
-	echo '<p>' . "\n";
-	echo sprintf( '<button type="button" class="button button-primary">%s</button>', __( 'save', 'kgr' ) ) . "\n";
-	echo '<span class="spinner" style="float: none;"></span>' . "\n";
-	echo sprintf( '<button type="button" class="button multi-control-add" style="float: right;">%s</button>', __( 'add', 'kgr' ) ) . "\n";
-	echo '</p>' . "\n";
-	echo '</div>' . "\n";
+		xt_tracks_div( $songs, $track );
+?>
+	</ol>
+	<ol class="multi-control-new">
+<?php
+	xt_tracks_div( $songs );
+?>
+	</ol>
+	<p>
+		<button type="button" class="button button-primary"><?= esc_html__( 'save', 'xt' ) ?></button>
+		<span class="spinner" style="float: none;"></span>
+		<button type="button" class="button multi-control-add" style="float: right;"><?= esc_html__( 'add', 'xt' ) ?></button>
+	</p>
+</div>
+<?php
 }
 
-function kgr_tracks_div( array $songs, int $track = 0 ): void {
-	echo '<li class="multi-control-item">' . "\n";
-	echo '<select data-multi-control-name="id">' . "\n";
-	echo sprintf( '<option value="%d"></option>', 0 ) . "\n";
+function xt_tracks_div( array $songs, int $track = 0 ): void {
+?>
+		<li class="multi-control-item">
+			<select data-multi-control-name="id">
+				<option value="0"></option>
+<?php
 	foreach ( $songs as $song ) {
 		$selected = selected( $song->ID, $track, FALSE );
 		$title = $song->post_title;
@@ -51,22 +60,26 @@ function kgr_tracks_div( array $songs, int $track = 0 ): void {
 		$limit = 100;
 		if ( mb_strlen( $excerpt ) > $limit )
 			$excerpt = mb_substr( $excerpt, 0, $limit ) . '&hellip;';
-		echo sprintf( '<option value="%d"%s>%s (%s)</option>', $song->ID, $selected, $title, $excerpt ) . "\n";
+?>
+				<option value="<?= $song->ID ?>"<?= $selected ?>><?= esc_html( sprintf( '%s ( %s )', $title, $excerpt ) ) ?></option>
+<?php
 	}
-	echo '</select>' . "\n";
-	echo '<span style="float: right;">' . "\n";
-	echo sprintf( '<button type="button" class="button multi-control-delete">%s</button>', __( 'delete', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="button multi-control-up">%s</button>', __( 'up', 'kgr' ) ) . "\n";
-	echo sprintf( '<button type="button" class="button multi-control-down">%s</button>', __( 'down', 'kgr' ) ) . "\n";
-	echo '</span>' . "\n";
-	echo '</li>' . "\n";
+?>
+			</select>
+			<span style="float: right;">
+				<button type="button" class="button multi-control-delete"><?= esc_html__( 'delete', 'xt' ) ?></button>
+				<button type="button" class="button multi-control-up"><?= esc_html__( 'up', 'xt' ) ?></button>
+				<button type="button" class="button multi-control-down"><?= esc_html__( 'down', 'xt' ) ?></button>
+			</span>
+		</li>
+<?php
 }
 
-function kgr_tracks_nonce( int $album ): string {
-	return sprintf( 'kgr-tracks-%d', $album );
+function xt_tracks_nonce( int $album ): string {
+	return sprintf( 'xt-tracks-%d', $album );
 }
 
-add_action( 'wp_ajax_kgr_tracks', function(): void {
+add_action( 'wp_ajax_xt_tracks', function(): void {
 	if ( !array_key_exists( 'id', $_POST ) )
 		exit( 'album' );
 	$album = filter_var( $_POST['id'], FILTER_VALIDATE_INT );
@@ -76,7 +89,7 @@ add_action( 'wp_ajax_kgr_tracks', function(): void {
 		exit( 'role' );
 	if ( !array_key_exists( 'nonce', $_POST ) )
 		exit( 'nonce' );
-	if ( !wp_verify_nonce( $_POST['nonce'], kgr_tracks_nonce( $album ) ) )
+	if ( !wp_verify_nonce( $_POST['nonce'], xt_tracks_nonce( $album ) ) )
 		exit( 'nonce' );
 	if ( !array_key_exists( 'values', $_POST ) )
 		delete_post_meta( $album, 'kgr-tracks' );
@@ -92,46 +105,6 @@ add_action( 'admin_enqueue_scripts', function( string $hook ): void {
 		return;
 	if ( !has_category( 'albums' ) )
 		return;
-	wp_enqueue_script( 'kgr-control', KGR_URL . 'multi-control/script.js', [ 'jquery' ], kgr_version() );
-	wp_enqueue_script( 'kgr-control-save', KGR_URL . 'control-save.js', [ 'jquery' ], kgr_version() );
-} );
-
-add_filter( 'the_content', function( string $content ): string {
-	if ( !has_category( 'albums' ) )
-		return $content;
-	$tracks = get_post_meta( get_the_ID(), 'kgr-tracks', TRUE );
-	if ( $tracks === '' )
-		return $content;
-	$ids = [];
-	$content .= '<ol class="kgr-tracks">' . "\n";
-	foreach ( $tracks as $track_id ) {
-		if ( $track_id === 0 ) {
-			$content .= '<li></li>' . "\n";
-			continue;
-		}
-		$track = get_post( $track_id );
-		$url = get_permalink( $track->ID );
-		$title = $track->post_title;
-		$content .= sprintf( '<li><a href="%s">%s</a></li>', $url, $title ) . "\n";
-		$attachments = get_children( [
-			'post_parent' => $track->ID,
-			'post_type' => 'attachment',
-			'order' => 'ASC',
-		] );
-		foreach ( $attachments as $attachment ) {
-			if ( mb_strpos( $attachment->post_content, 'featured' ) !== 0 )
-				continue;
-			if ( $attachment->post_mime_type !== 'audio/mpeg' )
-				continue;
-			$dir = get_attached_file( $attachment->ID );
-			$ext = pathinfo( $dir, PATHINFO_EXTENSION );
-			if ( $ext !== 'mp3' )
-				continue;
-			$ids[] = $attachment->ID;
-		}
-	}
-	$content .= '</ol>' . "\n";
-	if ( !empty( $ids ) )
-		$content .= do_shortcode( sprintf( '[playlist artists="false" ids="%s" tracknumbers="false"]', implode( ',', $ids ) ) );
-	return $content;
+	wp_enqueue_script( 'xt-control', XT_URL . 'multi-control/script.js', [ 'jquery', ], xt_version() );
+	wp_enqueue_script( 'xt-control-save', XT_URL . 'control-save.js', [ 'jquery', ], xt_version() );
 } );
