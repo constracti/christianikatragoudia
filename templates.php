@@ -214,7 +214,7 @@ function xt_album_list( string $title = '' ): void {
 <p>
 	<span class="fas fa-fw fa-compact-disc"></span>
 	<a href="<?= get_permalink( $album ) ?>"><?= esc_html( get_the_title( $album ) ) ?></a>
-	<span><?= esc_html( '( ' . ( $key + 1 ) . ' )' ) ?></span>
+	<span><?= esc_html( '(' . ( $key + 1 ) . ')' ) ?></span>
 </p>
 <?php
 		if ( !is_null( $prev ) ) {
