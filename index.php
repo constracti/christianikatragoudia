@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
  * Author: constracti
- * Version: 1.0
+ * Version: 1.0.1
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: xt
@@ -47,12 +47,12 @@ add_action( 'init', function(): void {
 /**
  * add options page
  */
-add_action( 'admin_menu', function() {
+add_action( 'admin_menu', function(): void {
 	$page_title = esc_html__( 'Christianika Tragoudia', 'xt' );
 	$menu_title = esc_html__( 'Christianika Tragoudia', 'xt' );
 	$capability = 'manage_options';
 	$menu_slug = 'xt';
-	add_options_page( $page_title, $menu_title, $capability, $menu_slug, function() {
+	add_options_page( $page_title, $menu_title, $capability, $menu_slug, function(): void {
 		$tab_curr = array_key_exists( 'tab', $_GET ) ? $_GET['tab'] : 'settings';
 ?>
 <div class="wrap">
