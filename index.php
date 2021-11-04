@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
  * Author: constracti
- * Version: 0.1
+ * Version: 1.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: xt
@@ -33,7 +33,6 @@ foreach ( $files as $file ) {
  * return plugin version
  */
 function xt_version(): string {
-	return strval( time() ); // TODO delete line
 	$plugin_data = get_plugin_data( __FILE__ );
 	return $plugin_data['Version'];
 }
