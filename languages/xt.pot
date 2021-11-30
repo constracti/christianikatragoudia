@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-06 15:48+0000\n"
+"POT-Creation-Date: 2021-11-30 16:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -29,7 +29,7 @@ msgid "caption"
 msgstr ""
 
 #. Name of the plugin
-#: index.php:52 index.php:53 index.php:60
+#: index.php:51 index.php:52 index.php:59
 msgid "Christianika Tragoudia"
 msgstr ""
 
@@ -53,7 +53,11 @@ msgstr ""
 msgid "down"
 msgstr ""
 
-#: templates.php:444
+#: templates.php:362
+msgid "download"
+msgstr ""
+
+#: templates.php:446
 msgid "hide"
 msgstr ""
 
@@ -61,7 +65,7 @@ msgstr ""
 msgid "https://github.com/constracti/christianikatragoudia"
 msgstr ""
 
-#: templates.php:426
+#: templates.php:428
 msgid "interval"
 msgstr ""
 
@@ -77,11 +81,11 @@ msgstr ""
 msgid "Scores"
 msgstr ""
 
-#: index.php:91 settings.php:7
+#: index.php:90 settings.php:7
 msgid "Settings"
 msgstr ""
 
-#: templates.php:441
+#: templates.php:443
 msgid "show"
 msgstr ""
 
@@ -99,7 +103,7 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#: templates.php:420
+#: templates.php:422
 msgid "tonality"
 msgstr ""
 
@@ -107,7 +111,7 @@ msgstr ""
 msgid "Tracks"
 msgstr ""
 
-#: templates.php:415
+#: templates.php:417
 msgid "transpose"
 msgstr ""
 
@@ -117,4 +121,8 @@ msgstr ""
 
 #: links.php:47
 msgid "URL"
+msgstr ""
+
+#: templates.php:369
+msgid "view"
 msgstr ""

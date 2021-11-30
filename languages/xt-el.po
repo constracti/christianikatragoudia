@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-30 23:02+0000\n"
-"PO-Revision-Date: 2021-10-06 15:49+0000\n"
+"PO-Revision-Date: 2021-11-30 16:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -28,7 +28,7 @@ msgid "caption"
 msgstr "λεζάντα"
 
 #. Name of the plugin
-#: index.php:52 index.php:53 index.php:60
+#: index.php:51 index.php:52 index.php:59
 msgid "Christianika Tragoudia"
 msgstr "Χριστιανικά Τραγούδια"
 
@@ -52,7 +52,11 @@ msgstr "περιγραφή"
 msgid "down"
 msgstr "κάτω"
 
-#: templates.php:444
+#: templates.php:362
+msgid "download"
+msgstr "λήψη"
+
+#: templates.php:446
 msgid "hide"
 msgstr "απόκρυψη"
 
@@ -60,7 +64,7 @@ msgstr "απόκρυψη"
 msgid "https://github.com/constracti/christianikatragoudia"
 msgstr "https://github.com/constracti/christianikatragoudia"
 
-#: templates.php:426
+#: templates.php:428
 msgid "interval"
 msgstr "διάστημα"
 
@@ -76,11 +80,11 @@ msgstr "αποθήκευση"
 msgid "Scores"
 msgstr "Παρτιτούρες"
 
-#: index.php:91 settings.php:7
+#: index.php:90 settings.php:7
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: templates.php:441
+#: templates.php:443
 msgid "show"
 msgstr "εμφάνιση"
 
@@ -98,7 +102,7 @@ msgstr "Τραγούδια"
 msgid "Statistics"
 msgstr "Στατιστικά"
 
-#: templates.php:420
+#: templates.php:422
 msgid "tonality"
 msgstr "τονικότητα"
 
@@ -106,7 +110,7 @@ msgstr "τονικότητα"
 msgid "Tracks"
 msgstr "Κομμάτια"
 
-#: templates.php:415
+#: templates.php:417
 msgid "transpose"
 msgstr "μετάθεση"
 
@@ -117,3 +121,7 @@ msgstr "πάνω"
 #: links.php:47
 msgid "URL"
 msgstr "URL"
+
+#: templates.php:369
+msgid "view"
+msgstr "προβολή"

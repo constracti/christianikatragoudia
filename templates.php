@@ -358,16 +358,18 @@ function xt_attachment_download( WP_Post $attachment ): void {
 ?>
 <div>
 	<span class="<?= esc_attr( $icon ) ?>"></span>
-	<a href="<?= $url ?>" target="_blank" class="xt-gtag"<?= $gtag ?>>
+	<span><?= esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) ?></span>
+	<a href="<?= $url ?>" target="_blank" class="xt-gtag"<?= $gtag ?>><?= esc_html__( 'download', 'xt' ) ?></a>
 <?php
-	if ( !empty( $attachment->post_excerpt ) ) {
+	if ( $mime_type === 'application/pdf' ) {
+		$url = add_query_arg( 'url', urlencode( $url ), 'https://docs.google.com/gview' );
+		$gtag = xt_gtag_attachment_data( $attachment, 'view' );
 ?>
-		<span><?= esc_html( $attachment->post_excerpt ) ?></span>
+	<span>|</span>
+	<a href="<?= $url ?>" target="_blank" class="xt-gtag"<?= $gtag ?>><?= esc_html__( 'view', 'xt' ) ?></a>
 <?php
 	}
 ?>
-		<span><?= esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) ?></span>
-	</a>
 </div>
 <?php
 }
