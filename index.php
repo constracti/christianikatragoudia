@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
  * Author: constracti
- * Version: 1.1
+ * Version: 1.2
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: xt
@@ -107,6 +107,20 @@ add_action( 'wp_enqueue_scripts', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
 		return;
 	wp_enqueue_script( 'xt-chords', XT_URL . 'chords/chords.js', [ 'jquery', ], xt_version() );
+} );
+add_action( 'wp_head', function(): void {
+	if ( !is_singular() || !has_category( 'songs' ) )
+		return;
+?>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+.chords-text {
+	font-family: 'Fira Mono', monospace;
+}
+</style>
+<?php
 } );
 
 /**
