@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
  * Author: constracti
- * Version: 1.2
+ * Version: 1.3
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: xt
@@ -116,8 +116,50 @@ add_action( 'wp_head', function(): void {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-.chords-text {
+.chords table th,
+.chords table td {
+	text-align: left;
+	padding: 4px 4px 4px 0px;
+}
+
+.chords button {
+	margin-bottom: 4px;
+}
+
+.chords .together {
+	display: inline-block;
+}
+
+.chords .chords-copy {
+	position: relative;
+	display: inline-block;
+}
+.chords .chords-copied {
+	width: 120px;
+	background-color: rgba(0,0,0,0.75);
+	color: White;
+	text-align: center;
+	border-radius: 5px;
+	padding: 5px;
+	position: absolute;
+	bottom: calc(100% + 10px);
+	left: 50%;
+	margin-left: -60px;
+}
+.chords .chords-copied::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: rgba(0,0,0,0.75) transparent transparent transparent;
+}
+
+.chords .chords-text {
 	font-family: 'Fira Mono', monospace;
+	overflow-x: hidden;
 }
 </style>
 <?php

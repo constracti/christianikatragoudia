@@ -454,6 +454,11 @@ function xt_attachment_chords( WP_Post $attachment ): void {
 				<span class="fas fa-fw fa-search-minus"></span>
 			</button>
 		</div>
+		<button type="button" class="chords-copy">
+			<span class="fas fa-fw fa-copy"></span>
+			<span><?= esc_html__( 'copy', 'xt' ) ?></span>
+			<span class="chords-copied"><?= esc_html__( 'copied!', 'xt' ) ?></span>
+		</button>
 	</div>
 	<div class="chords-text"></div>
 </form>

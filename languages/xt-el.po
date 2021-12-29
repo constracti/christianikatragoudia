@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-30 23:02+0000\n"
-"PO-Revision-Date: 2021-11-30 16:42+0000\n"
+"PO-Revision-Date: 2021-12-29 13:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -35,6 +35,14 @@ msgstr "Χριστιανικά Τραγούδια"
 #. Author of the plugin
 msgid "constracti"
 msgstr "constracti"
+
+#: templates.php:489
+msgid "copied!"
+msgstr "αντιγράφηκε!"
+
+#: templates.php:488
+msgid "copy"
+msgstr "αντιγραφή"
 
 #. Description of the plugin
 msgid "Customization plugin of Christianika Tragoudia website."
