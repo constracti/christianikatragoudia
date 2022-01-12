@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-30 23:02+0000\n"
-"PO-Revision-Date: 2021-12-29 13:13+0000\n"
+"PO-Revision-Date: 2022-01-12 12:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -27,6 +27,10 @@ msgstr "Συλλογές"
 msgid "caption"
 msgstr "λεζάντα"
 
+#: templates.php:326
+msgid "Chords"
+msgstr "Συγχορδίες"
+
 #. Name of the plugin
 #: index.php:51 index.php:52 index.php:59
 msgid "Christianika Tragoudia"
@@ -36,11 +40,11 @@ msgstr "Χριστιανικά Τραγούδια"
 msgid "constracti"
 msgstr "constracti"
 
-#: templates.php:489
+#: templates.php:488
 msgid "copied!"
 msgstr "αντιγράφηκε!"
 
-#: templates.php:488
+#: templates.php:487
 msgid "copy"
 msgstr "αντιγραφή"
 
@@ -60,11 +64,11 @@ msgstr "περιγραφή"
 msgid "down"
 msgstr "κάτω"
 
-#: templates.php:362
+#: templates.php:390
 msgid "download"
 msgstr "λήψη"
 
-#: templates.php:446
+#: templates.php:474
 msgid "hide"
 msgstr "απόκρυψη"
 
@@ -72,7 +76,7 @@ msgstr "απόκρυψη"
 msgid "https://github.com/constracti/christianikatragoudia"
 msgstr "https://github.com/constracti/christianikatragoudia"
 
-#: templates.php:428
+#: templates.php:456
 msgid "interval"
 msgstr "διάστημα"
 
@@ -84,7 +88,7 @@ msgstr "Σύνδεσμοι"
 msgid "save"
 msgstr "αποθήκευση"
 
-#: templates.php:291
+#: templates.php:328
 msgid "Scores"
 msgstr "Παρτιτούρες"
 
@@ -92,7 +96,7 @@ msgstr "Παρτιτούρες"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: templates.php:443
+#: templates.php:471
 msgid "show"
 msgstr "εμφάνιση"
 
@@ -110,7 +114,7 @@ msgstr "Τραγούδια"
 msgid "Statistics"
 msgstr "Στατιστικά"
 
-#: templates.php:422
+#: templates.php:450
 msgid "tonality"
 msgstr "τονικότητα"
 
@@ -118,7 +122,7 @@ msgstr "τονικότητα"
 msgid "Tracks"
 msgstr "Κομμάτια"
 
-#: templates.php:417
+#: templates.php:445
 msgid "transpose"
 msgstr "μετάθεση"
 
@@ -130,6 +134,6 @@ msgstr "πάνω"
 msgid "URL"
 msgstr "URL"
 
-#: templates.php:369
+#: templates.php:397
 msgid "view"
 msgstr "προβολή"

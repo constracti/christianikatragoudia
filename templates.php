@@ -256,7 +256,7 @@ function xt_song_featured_audio( bool $full = FALSE ): void {
 		'post_mime_type' => 'audio/mpeg',
 	] );
 	foreach( $attachments as $attachment ) {
-		if ( mb_strpos( $attachment->post_content, 'featured' ) !== 0 )
+		if ( mb_strpos( $attachment->post_content, 'featured,' ) !== 0 ) # TODO featured in title
 			continue;
 		$url = wp_get_attachment_url( $attachment->ID );
 ?>
@@ -264,7 +264,7 @@ function xt_song_featured_audio( bool $full = FALSE ): void {
 <?php
 		if ( $full ) {
 			xt_attachment_download( $attachment );
-			$html = mb_ereg_replace( 'featured\,?\s*', '', $attachment->post_content );
+			$html = mb_ereg_replace( 'featured\,\s*', '', $attachment->post_content );
 			if ( $html === FALSE )
 				$html = $attachment->post_content;
 ?>
@@ -287,28 +287,56 @@ function xt_song_featured_audio( bool $full = FALSE ): void {
 function xt_song_attachment_list(): void {
 	if ( !has_category( 'songs' ) )
 		return;
-?>
-<h2><?= esc_html__( 'Scores', 'xt' ) ?></h2>
-<?php
+	$gs = [
+		'txt' => [],
+		'pdf' => [],
+		'full' => [],
+		'mp3' => [],
+		'*' => []
+	];
 	$attachments = get_children( [
 		'post_parent' => get_the_ID(),
 		'post_type' => 'attachment',
 		'order' => 'ASC',
 	] );
-	foreach( $attachments as $attachment ) {
+	foreach ( $attachments as $attachment ) {
 		if ( $attachment->post_mime_type === 'audio/mpeg' && mb_strpos( $attachment->post_content, 'featured' ) === 0 )
 			continue;
 		if ( $attachment->post_mime_type === 'image/jpeg' )
 			continue;
-		$url = wp_get_attachment_url( $attachment->ID );
-		echo '<div class="clearfix" style="margin-bottom: 15px;">' . "\n";
-		xt_thumbnail( $attachment );
-		xt_attachment_download( $attachment );
-		echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
-		xt_player( $attachment );
-		if ( $attachment->post_mime_type === 'text/plain' && mb_ereg_match( '^.*\.chords$', $attachment->post_title ) )
-			xt_attachment_chords( $attachment );
-		echo '</div>' . "\n";
+		if ( $attachment->post_mime_type === 'text/plain' && mb_ereg_match( '^.*\.chords$', $attachment->post_title ) ) {
+			$gn = 'txt';
+		} elseif ( $attachment->post_mime_type === 'application/pdf' ) {
+			$gn = mb_ereg_match( '^.*\.full$', $attachment->post_title ) ? 'full' : 'pdf';
+		} elseif ( $attachment->post_mime_type === 'audio/mpeg' ) {
+			$gn = 'mp3';
+		} else {
+			$gn = '*';
+		}
+		$gs[$gn][] = $attachment;
+	}
+	$gs = [
+		'txt' => $gs['txt'],
+		'*' => array_merge( $gs['pdf'], $gs['full'], $gs['mp3'], $gs['*'] ),
+	];
+	foreach ( $gs as $gn => $g ) {
+		if ( empty( $g ) )
+			continue;
+		if ( $gn === 'txt' )
+			echo sprintf( '<h2>%s</h2>', esc_html__( 'Chords', 'xt' ) ) . "\n";
+		else
+			echo sprintf( '<h2>%s</h2>', esc_html__( 'Scores', 'xt' ) ) . "\n";
+		foreach ( $g as $attachment ) {
+			$url = wp_get_attachment_url( $attachment->ID );
+			echo '<div class="clearfix" style="margin-bottom: 15px;">' . "\n";
+			xt_thumbnail( $attachment );
+			xt_attachment_download( $attachment );
+			echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
+			xt_player( $attachment );
+			if ( $attachment->post_mime_type === 'text/plain' )
+				xt_attachment_chords( $attachment );
+			echo '</div>' . "\n";
+		}
 	}
 }
 
