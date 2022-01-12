@@ -256,7 +256,7 @@ function xt_song_featured_audio( bool $full = FALSE ): void {
 		'post_mime_type' => 'audio/mpeg',
 	] );
 	foreach( $attachments as $attachment ) {
-		if ( mb_strpos( $attachment->post_content, 'featured,' ) !== 0 ) # TODO featured in title
+		if ( !mb_ereg_match( '^.*\.featured$', $attachment->post_title ) )
 			continue;
 		$url = wp_get_attachment_url( $attachment->ID );
 ?>
@@ -264,11 +264,8 @@ function xt_song_featured_audio( bool $full = FALSE ): void {
 <?php
 		if ( $full ) {
 			xt_attachment_download( $attachment );
-			$html = mb_ereg_replace( 'featured\,\s*', '', $attachment->post_content );
-			if ( $html === FALSE )
-				$html = $attachment->post_content;
 ?>
-	<i><?= esc_html( $html ) ?></i>
+	<i><?= esc_html( $attachment->post_content ) ?></i>
 	<br>
 <?php
 		}
@@ -300,7 +297,7 @@ function xt_song_attachment_list(): void {
 		'order' => 'ASC',
 	] );
 	foreach ( $attachments as $attachment ) {
-		if ( $attachment->post_mime_type === 'audio/mpeg' && mb_strpos( $attachment->post_content, 'featured' ) === 0 )
+		if ( $attachment->post_mime_type === 'audio/mpeg' && mb_ereg_match( '^.*\.featured$', $attachment->post_title ) )
 			continue;
 		if ( $attachment->post_mime_type === 'image/jpeg' )
 			continue;
