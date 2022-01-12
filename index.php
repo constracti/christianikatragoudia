@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
  * Author: constracti
- * Version: 1.4.1
+ * Version: 1.4.2
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: xt

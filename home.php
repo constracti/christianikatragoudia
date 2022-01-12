@@ -58,7 +58,9 @@ add_action( 'the_content', function( string $content ): string {
 				break;
 			case 2:
 				$args = [
-					'meta_key' => 'kgr-links',
+					'post_type' => 'attachment',
+					'post_mime_type' => 'text/plain',
+					's' => '.chords',
 				];
 				break;
 			case 3:
