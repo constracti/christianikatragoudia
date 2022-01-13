@@ -4,49 +4,88 @@
  * Plugin Name: Christianika Tragoudia
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
+ * Version: 1.5
+ * Requires PHP: 8.0
  * Author: constracti
- * Version: 1.4.2
- * License: GPL2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Author URI: https://github.com/constracti
+ * License: GPLv3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: xt
  */
 
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
-/**
- * define plugin constants
- */
-define( 'XT_DIR', plugin_dir_path( __FILE__ ) );
-define( 'XT_URL', plugin_dir_url( __FILE__ ) );
+final class XT {
 
-/**
- * require php files
- */
-$files = glob( XT_DIR . '*.php' );
+	// constants
+
+	public static function dir( string $dir ): string {
+		return plugin_dir_path( __FILE__ ) . $dir;
+	}
+
+	public static function url( string $url ): string {
+		return plugin_dir_url( __FILE__ ) . $url;
+	}
+
+	// plugin version
+
+	public static function version(): string {
+		$plugin_data = get_plugin_data( __FILE__ );
+		return $plugin_data['Version'];
+	}
+
+	// return json string
+
+	public static function success( string $html ): void {
+		header( 'content-type: application/json' );
+		exit( json_encode( [
+			'html' => $html,
+		] ) );
+	}
+
+	// build attribute list
+
+	public static function atts( array $atts ): string {
+		$return = '';
+		foreach ( $atts as $prop => $val ) {
+			$return .= sprintf( ' %s="%s"', $prop, $val );
+		}
+		return $return;
+	}
+
+	// nonce
+
+	private static function nonce_action( string $action, string ...$args ): string {
+		foreach ( $args as $arg )
+			$action .= '_' . $arg;
+		return $action;
+	}
+
+	public static function nonce_create( string $action, string ...$args ): string {
+		return wp_create_nonce( self::nonce_action( $action, ...$args ) );
+	}
+
+	public static function nonce_verify( string $action, string ...$args ): void {
+		$nonce = XT_Request::get_str( 'nonce' );
+		if ( !wp_verify_nonce( $nonce, self::nonce_action( $action, ...$args ) ) )
+			exit( 'nonce' );
+	}
+}
+
+// require php files
+$files = glob( XT::dir( '*.php' ) );
 foreach ( $files as $file ) {
 	if ( $file !== __FILE__ )
 		require_once( $file );
 }
 
-/**
- * return plugin version
- */
-function xt_version(): string {
-	$plugin_data = get_plugin_data( __FILE__ );
-	return $plugin_data['Version'];
-}
-
-/**
- * load plugin translations
- */
+// load plugin translations
 add_action( 'init', function(): void {
 	load_plugin_textdomain( 'xt', FALSE, basename( __DIR__ ) . DIRECTORY_SEPARATOR . 'languages' );
 } );
 
-/**
- * add options page
- */
+// add options page
 add_action( 'admin_menu', function(): void {
 	$page_title = esc_html__( 'Christianika Tragoudia', 'xt' );
 	$menu_title = esc_html__( 'Christianika Tragoudia', 'xt' );
@@ -80,9 +119,7 @@ add_action( 'admin_menu', function(): void {
 	} );
 } );
 
-/**
- * display a link to plugin settings
- */
+// display a link to plugin settings
 add_filter( 'plugin_action_links', function( array $actions, string $plugin_file ): array {
 	if ( $plugin_file !== basename( __DIR__ ) . DIRECTORY_SEPARATOR . basename( __FILE__ ) )
 		return $actions;
@@ -92,9 +129,7 @@ add_filter( 'plugin_action_links', function( array $actions, string $plugin_file
 	return $actions;
 }, 10, 2 );
 
-/**
- * allow xml file uploading
- */
+// allow xml file uploading
 add_filter( 'upload_mimes', function( array $mimes ): array {
 	$mimes['xml'] = 'text/xml';
 	return $mimes;
@@ -106,7 +141,7 @@ add_filter( 'upload_mimes', function( array $mimes ): array {
 add_action( 'wp_enqueue_scripts', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
 		return;
-	wp_enqueue_script( 'xt-chords', XT_URL . 'chords/chords.js', [ 'jquery', ], xt_version() );
+	wp_enqueue_script( 'xt-chords', XT::url( 'chords/chords.js' ), [ 'jquery' ], XT::version() );
 } );
 add_action( 'wp_head', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
@@ -165,18 +200,14 @@ add_action( 'wp_head', function(): void {
 <?php
 } );
 
-/**
- * restore open graph title meta
- */
+// restore open graph title meta
 add_filter( 'open_graph_protocol_meta', function( string $content, string $property ): string {
 	if ( $property !== 'og:title' )
 		return $content;
 	return wp_get_document_title();
 }, 10, 2 );
 
-/**
- * set nopaging in selected queries
- */
+// set nopaging in selected queries
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( is_admin() )
 		return;

@@ -3,9 +3,7 @@
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
-/**
- * display post tags using the cool tag cloud shortcode
- */
+// display post tags using the cool tag cloud shortcode
 function xt_tag_cloud(): void {
 	$tags = get_the_tags();
 	if ( empty( $tags ) )
@@ -15,9 +13,7 @@ function xt_tag_cloud(): void {
 	echo do_shortcode( '[cool_tag_cloud smallest="12" largest="12" number="0" include="' . $tags . '"]' );
 }
 
-/**
- * return the icon class for a specific link host
- */
+// return the icon class for a specific link host
 function xt_link_icon( string $host ): string {
 	switch ( $host ) {
 		case 'www.youtube.com':
@@ -70,12 +66,10 @@ function xt_link_thumbnail( string $href ): void {
 	}
 }
 
-/**
- * print links related to a post of any type
- */
+// print links related to a post of any type
 function xt_link_list(): void {
-	$links = get_post_meta( get_the_ID(), 'kgr-links', TRUE );
-	if ( $links === '' || !is_array( $links ) || empty( $links ) )
+	$links = XT_Links::load( get_post() );
+	if ( empty( $links ) )
 		return;
 ?>
 <h2><?= esc_html__( 'Links', 'xt' ) ?></h2>
@@ -90,7 +84,7 @@ function xt_link_list(): void {
 	xt_link_thumbnail( $href );
 ?>
 	<span class="<?= esc_attr( xt_link_icon( $host ) ) ?>"></span>
-	<a href="<?= esc_url_raw( $href ) ?>" target="_blank" class="xt-gtag"<?= $gtag ?>><?= esc_html( $link['caption'] ) ?></a>
+	<a href="<?= esc_url_raw( $href ) ?>" target="_blank" class="xt-gtag"<?= $gtag ?>><?= esc_html__( 'open', 'xt' ) ?></a>
 	<span><?= esc_html( '[' . $host . ']' ) ?></span>
 	<br>
 	<i><?= esc_html( $link['description'] ) ?></i>
@@ -99,14 +93,12 @@ function xt_link_list(): void {
 	}
 }
 
-/**
- * display a numbered list of the tracks for the current album
- */
+// display a numbered list of the tracks for the current album
 function xt_track_list(): void {
 	if ( !has_category( 'albums' ) )
 		return;
-	$tracks = get_post_meta( get_the_ID(), 'kgr-tracks', TRUE );
-	if ( $tracks === '' || !is_array( $tracks ) || empty( $tracks ) )
+	$tracks = XT_Tracks::load( get_post() );
+	if ( empty( $tracks ) )
 		return;
 ?>
 <h2><?= esc_html__( 'Songs', 'xt' ) ?></h2>
@@ -142,14 +134,12 @@ function xt_track_list(): void {
 	}
 }
 
-/**
- * display the number of tracks for the current album
- */
+// display the number of tracks for the current album
 function xt_track_count(): void {
 	if ( !has_category( 'albums' ) )
 		return;
-	$tracks = get_post_meta( get_the_ID(), 'kgr-tracks', TRUE );
-	if ( $tracks === '' )
+	$tracks = XT_Tracks::load( get_post() );
+	if ( empty( $tracks ) )
 		return;
 	$count = 0;
 	foreach ( $tracks as $track_id ) {
@@ -164,9 +154,7 @@ function xt_track_count(): void {
 <?php
 }
 
-/**
- * output a list of albums related to the current song
- */
+// output a list of albums related to the current song
 function xt_album_list( string $title = '' ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -179,8 +167,8 @@ function xt_album_list( string $title = '' ): void {
 	] );
 	$self = [];
 	foreach ( $albums as $album ) {
-		$tracks = get_post_meta( $album->ID, 'kgr-tracks', TRUE );
-		if ( $tracks === '' )
+		$tracks = XT_Tracks::load( $album );
+		if ( empty( $tracks ) )
 			continue;
 		$key = array_search( $song, $tracks, TRUE );
 		if ( $key === FALSE )
@@ -243,9 +231,7 @@ function xt_album_list( string $title = '' ): void {
 	echo implode( $self );
 }
 
-/**
- * echo featured audio shortcode
- */
+// echo featured audio shortcode
 function xt_song_featured_audio( bool $full = FALSE ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -278,9 +264,7 @@ function xt_song_featured_audio( bool $full = FALSE ): void {
 	}
 }
 
-/**
- * echo the attachment section
- */
+// echo the attachment section
 function xt_song_attachment_list(): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -337,9 +321,7 @@ function xt_song_attachment_list(): void {
 	}
 }
 
-/**
- * echo the thumbnail image tag for the attachment
- */
+// echo the thumbnail image tag for the attachment
 function xt_thumbnail( WP_Post $attachment ): void {
 	$img = wp_get_attachment_image( $attachment->ID );
 	if ( empty( $img ) )
@@ -349,9 +331,7 @@ function xt_thumbnail( WP_Post $attachment ): void {
 <?php
 }
 
-/**
- * echo the audio shortcode for the attachment
- */
+// echo the audio shortcode for the attachment
 function xt_player( WP_Post $attachment, string $suffix = '' ): void {
 	if ( $attachment->post_mime_type !== 'audio/mpeg' )
 		return;
@@ -370,9 +350,7 @@ function xt_player( WP_Post $attachment, string $suffix = '' ): void {
 <?php
 }
 
-/**
- * echo the download section for the attachment
- */
+// echo the download section for the attachment
 function xt_attachment_download( WP_Post $attachment ): void {
 	$url = wp_get_attachment_url( $attachment->ID );
 	$dir = get_attached_file( $attachment->ID );
@@ -383,7 +361,6 @@ function xt_attachment_download( WP_Post $attachment ): void {
 ?>
 <div>
 	<span class="<?= esc_attr( $icon ) ?>"></span>
-	<span><?= esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) ?></span>
 	<a href="<?= $url ?>" target="_blank" class="xt-gtag"<?= $gtag ?>><?= esc_html__( 'download', 'xt' ) ?></a>
 <?php
 	if ( $mime_type === 'application/pdf' ) {
@@ -395,13 +372,12 @@ function xt_attachment_download( WP_Post $attachment ): void {
 <?php
 	}
 ?>
+	<span><?= esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) ?></span>
 </div>
 <?php
 }
 
-/**
- * return the icon class for a specific mime type
- */
+// return the icon class for a specific mime type
 function xt_mime_type_icon( string $mime_type ): string {
 	switch ( $mime_type ) {
 		case 'application/pdf':
@@ -419,9 +395,7 @@ function xt_mime_type_icon( string $mime_type ): string {
 	}
 }
 
-/**
- * echo controls for the chords attachments
- */
+// echo controls for the chords attachments
 function xt_attachment_chords( WP_Post $attachment ): void {
 	$url = wp_get_attachment_url( $attachment->ID );
 	$tonality = mb_split( '\s', $attachment->post_content );

@@ -1,6 +1,3 @@
 [submodule "chords"]
 	path = chords
 	url = git@github.com:constracti/chords.git
-[submodule "multi-control"]
-	path = multi-control
-	url = https://github.com/constracti/multi-control

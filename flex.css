@@ -1,0 +1,26 @@
+.xt-flex-row {
+	display: flex;
+}
+.xt-flex-col {
+	display: flex;
+	flex-direction: column;
+}
+.xt-flex-justify-between {
+	justify-content: space-between;
+}
+.xt-flex-align-center {
+	align-items: center;
+}
+.xt-flex-grow {
+	flex-grow: 1;
+}
+
+.xt-root {
+	padding: 8px;
+}
+.xt-root .xt-leaf {
+	margin: 8px;
+}
+.xt-root-border {
+	border: thin solid #c3c4c7;
+}
