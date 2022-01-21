@@ -3,15 +3,13 @@
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
-add_action( 'add_meta_boxes', function( string $post_type, WP_Post $post ): void {
-	if ( $post_type !== 'post' )
-		return;
+add_action( 'add_meta_boxes_post', function( WP_Post $post ): void {
 	if ( !current_user_can( 'edit_post', $post->ID ) )
 		return;
 	if ( !has_category( 'albums', $post ) )
 		return;
 	add_meta_box( 'xt_tracks', __( 'Tracks', 'xt' ), [ 'XT_Tracks', 'home_echo' ], NULL, 'normal' );
-}, 10, 2 );
+} );
 
 add_action( 'admin_enqueue_scripts', function( string $hook_suffix ): void {
 	if ( !current_user_can( 'edit_posts' ) )
