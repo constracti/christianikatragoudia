@@ -8,34 +8,6 @@ function xt_statistics_guest(): void {
 		'category_name' => 'songs',
 		'nopaging' => TRUE,
 	] );
-	$songs_without_image = 0;
-?>
-<h3>Songs without Image</h3>
-<table>
-	<tbody>
-<?php
-	foreach ( $songs as $song ) {
-		if ( has_post_thumbnail( $song ) )
-			continue;
-		$songs_without_image++;
-		$href = add_query_arg( 'p', $song->ID, site_url() );
-?>
-		<tr>
-			<td><a href="<?= $href ?>"><?= esc_html( $song->post_title ) ?></a></td>
-			<td><?= esc_html( $song->post_excerpt ) ?></td>
-		</tr>
-<?php
-	}
-?>
-	</tbody>
-</table>
-<p><?= $songs_without_image ?> / <?= count( $songs ) ?></p>
-<hr>
-<?php
-	$songs = get_posts( [
-		'category_name' => 'songs',
-		'nopaging' => TRUE,
-	] );
 	$songs_with_image = 0;
 	$songs_without_chords = 0;
 ?>
@@ -100,6 +72,37 @@ td {
 add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	$tab_list['statistics'] = __( 'Statistics', 'xt' );
 	return $tab_list;
+} );
+
+add_action( 'xt_tab_html_statistics', function(): void {
+	$songs = get_posts( [
+		'category_name' => 'songs',
+		'nopaging' => TRUE,
+	] );
+	$songs_without_image = 0;
+?>
+<h3>Songs without Image</h3>
+<table>
+	<tbody>
+<?php
+	foreach ( $songs as $song ) {
+		if ( has_post_thumbnail( $song ) )
+			continue;
+		$songs_without_image++;
+		$href = add_query_arg( 'p', $song->ID, site_url() );
+?>
+		<tr>
+			<td><a href="<?= $href ?>"><?= esc_html( $song->post_title ) ?></a></td>
+			<td><?= esc_html( $song->post_excerpt ) ?></td>
+		</tr>
+<?php
+	}
+?>
+	</tbody>
+</table>
+<p><?= $songs_without_image ?> / <?= count( $songs ) ?></p>
+<hr>
+<?php
 } );
 
 add_action( 'xt_tab_html_statistics', 'xt_statistics_guest' );
