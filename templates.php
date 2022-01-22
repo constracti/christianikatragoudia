@@ -83,11 +83,13 @@ function xt_link_list(): void {
 <?php
 	xt_link_thumbnail( $href );
 ?>
-	<span class="<?= esc_attr( xt_link_icon( $host ) ) ?>"></span>
-	<a href="<?= esc_url_raw( $href ) ?>" target="_blank" class="xt-gtag"<?= $gtag ?>><?= esc_html__( 'open', 'xt' ) ?></a>
-	<span><?= esc_html( '[' . $host . ']' ) ?></span>
-	<br>
-	<i><?= esc_html( $link['description'] ) ?></i>
+	<div>
+		<span class="<?= esc_attr( xt_link_icon( $host ) ) ?>"></span>
+		<a href="<?= esc_url_raw( $href ) ?>" target="_blank" class="xt-gtag"<?= $gtag ?>><?= esc_html__( 'open', 'xt' ) ?></a>
+		<span><?= esc_html( '[' . $host . ']' ) ?></span>
+		<br>
+		<i><?= esc_html( $link['description'] ) ?></i>
+	</div>
 </div>
 <?php
 	}
@@ -198,6 +200,10 @@ function xt_album_list( string $title = '' ): void {
 				break;
 			}
 		};
+		echo '<div class="clearfix" style="margin-bottom: 15px;">' . "\n";
+		if ( has_post_thumbnail( $album ) )
+			xt_thumbnail( get_post_thumbnail_id( $album ) );
+		echo '<div>' . "\n";
 ?>
 <p>
 	<span class="fas fa-fw fa-compact-disc"></span>
@@ -207,7 +213,8 @@ function xt_album_list( string $title = '' ): void {
 <?php
 		if ( !is_null( $prev ) ) {
 ?>
-<p style="margin-left: 20px;">
+<p>
+	<div style="width: 1.25em;display: inline-block;"></div>
 	<span class="fas fa-fw fa-backward"></span>
 	<a href="<?= get_permalink( $prev ) ?>"><?= esc_html( get_the_title( $prev ) ) ?></a>
 </p>
@@ -215,12 +222,15 @@ function xt_album_list( string $title = '' ): void {
 		}
 		if ( !is_null( $next ) ) {
 ?>
-<p style="margin-left: 20px;">
+<p>
+	<div style="width: 1.25em;display: inline-block;"></div>
 	<span class="fas fa-fw fa-forward"></span>
 	<a href="<?= get_permalink( $next ) ?>"><?= esc_html( get_the_title( $next ) ) ?></a>
 </p>
 <?php
 		}
+		echo '</div>' . "\n";
+		echo '</div>' . "\n";
 		$self[] = ob_get_clean();
 	}
 	if ( empty( $self ) )
@@ -311,19 +321,23 @@ function xt_song_attachment_list(): void {
 			$url = wp_get_attachment_url( $attachment->ID );
 			echo '<div class="clearfix" style="margin-bottom: 15px;">' . "\n";
 			xt_thumbnail( $attachment );
+			echo '<div>' . "\n";
 			xt_attachment_download( $attachment );
 			echo sprintf( '<i>%s</i>', esc_html( $attachment->post_content ) ) . "\n";
 			xt_player( $attachment );
 			if ( $attachment->post_mime_type === 'text/plain' )
 				xt_attachment_chords( $attachment );
 			echo '</div>' . "\n";
+			echo '</div>' . "\n";
 		}
 	}
 }
 
 // echo the thumbnail image tag for the attachment
-function xt_thumbnail( WP_Post $attachment ): void {
-	$img = wp_get_attachment_image( $attachment->ID );
+function xt_thumbnail( WP_Post|int $attachment ): void {
+	if ( is_a( $attachment, 'WP_Post' ) )
+		$attachment = $attachment->ID;
+	$img = wp_get_attachment_image( $attachment );
 	if ( empty( $img ) )
 		return;
 ?>
