@@ -4,7 +4,7 @@
  * Plugin Name: Christianika Tragoudia
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
- * Version: 1.6.1
+ * Version: 1.6.2
  * Requires PHP: 8.0
  * Author: constracti
  * Author URI: https://github.com/constracti
@@ -207,26 +207,20 @@ add_filter( 'open_graph_protocol_meta', function( string $content, string $prope
 	return wp_get_document_title();
 }, 10, 2 );
 
-// customize selected queries
+// set nopaging in selected queries
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( is_admin() )
 		return;
 	if ( $query->get( 'posts_per_page' ) !== 17 )
-		return;
-	if ( !array_key_exists( 'category__in', $query->query ) )
-		return;
-	$id = get_category_by_slug( 'albums' )->term_id;
-	if ( $query->query['category__in'] !== [ $id ] )
 		return;
 	$query->set( 'nopaging', TRUE );
 } );
+
+// choose some posts at random in selected queries
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( is_admin() )
 		return;
-	if ( $query->get( 'posts_per_page' ) !== 17 )
-		return;
-	$id = get_category_by_slug( 'songs' )->term_id;
-	if ( $query->query['category__in'] !== [ $id ] )
+	if ( $query->get( 'posts_per_page' ) !== 13 )
 		return;
 	$query->set( 'posts_per_page', 3 );
 	$query->set( 'orderby', 'rand' );
