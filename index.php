@@ -4,7 +4,7 @@
  * Plugin Name: Christianika Tragoudia
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
- * Version: 1.6.2
+ * Version: 1.6.3
  * Requires PHP: 8.0
  * Author: constracti
  * Author URI: https://github.com/constracti
@@ -92,13 +92,19 @@ add_action( 'admin_menu', function(): void {
 	$capability = 'manage_options';
 	$menu_slug = 'xt';
 	add_options_page( $page_title, $menu_title, $capability, $menu_slug, function(): void {
-		$tab_curr = array_key_exists( 'tab', $_GET ) ? $_GET['tab'] : 'settings';
+		$tab_list = apply_filters( 'xt_tab_list', [] );
+		if ( array_key_exists( 'tab', $_GET ) && array_key_exists( $_GET['tab'], $tab_list ) )
+			$tab_curr = $_GET['tab'];
+		elseif ( !empty( $tab_list ) )
+			$tab_curr = array_key_first( $tab_list );
+		else
+			$tab_curr = NULL;
 ?>
 <div class="wrap">
 	<h1><?= esc_html_e( 'Christianika Tragoudia', 'xt' ) ?></h1>
 	<h2 class="nav-tab-wrapper">
 <?php
-		foreach ( apply_filters( 'xt_tab_list', [] ) as $tab_slug => $tab_name ) {
+		foreach ( $tab_list as $tab_slug => $tab_name ) {
 			$class = [];
 			$class[] = 'nav-tab';
 			if ( $tab_slug === $tab_curr )
