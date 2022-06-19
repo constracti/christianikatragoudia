@@ -105,11 +105,13 @@ final class XT_Tracks {
 		return $html;
 	}
 
-	private static function table_body_row( WP_Post $post, int $i, int $track ): string {
-		if ( $track > 0 )
-			$track = get_post( $track );
-		else
-			$track = NULL;
+	private static function table_body_row( WP_Post $post, int $i, int|string|null $track ): string {
+		$song = NULL;
+		$text = NULL;
+		if ( is_int( $track ) && $track > 0 )
+			$song = get_post( $track );
+		if ( is_string( $track ) )
+			$text = $track;
 		$actions = [];
 		$actions[] = sprintf( '<span><a%s>%s</a></span>', XT::atts( [
 			'href' => add_query_arg( [
@@ -120,7 +122,8 @@ final class XT_Tracks {
 			], admin_url( 'admin-ajax.php' ) ),
 			'class' => 'xt-table-insert',
 			'data-xt-table-form' => '.xt-table-form-track',
-			'data-xt-table-field-song' => esc_attr( $track?->ID ),
+			'data-xt-table-field-song' => esc_attr( $song?->ID ),
+			'data-xt-table-field-text' => esc_attr( $text ),
 		] ), esc_html__( 'Replace', 'xt' ) );
 		$actions[] = sprintf( '<span class="delete"><a%s>%s</a></span>', XT::atts( [
 			'href' => add_query_arg( [
@@ -152,13 +155,14 @@ final class XT_Tracks {
 		] ), esc_html__( 'Down', 'xt' ) );
 		$html = '<tr>' . "\n";
 		$html .= '<td class="column-primary has-row-actions">' . "\n";
-		$title = sprintf( '<strong>%s</strong>', esc_html( $track?->post_title ?? '&mdash;' ) );
-		if ( !is_null( $track ) )
-			$title = sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( get_permalink( $track ) ), $title );
+		$title = !is_null( $song ) ? esc_html( $song->post_title ) : ( !is_null( $text ) ? esc_html( $text ) : '&mdash;' );
+		$title = sprintf( '<strong>%s</strong>',  $title );
+		if ( !is_null( $song ) )
+			$title = sprintf( '<a href="%s" target="_blank">%s</a>', esc_url_raw( get_permalink( $song ) ), $title );
 		$html .= $title . "\n";
 		$html .= sprintf( '<div class="row-actions">%s</div>', implode( ' | ', $actions ) ) . "\n";
 		$html .= '</td>' . "\n";
-		$html .= sprintf( '<td>%s</td>', $track?->post_excerpt ?? '&mdash;' ) . "\n";
+		$html .= sprintf( '<td>%s</td>', !is_null( $song ) ? esc_html( $song->post_excerpt ) : '&mdash;' ) . "\n";
 		$html .= sprintf( '<td>%d</td>', $i + 1 ) . "\n";
 		$html .= '</tr>' . "\n";
 		return $html;
@@ -173,12 +177,16 @@ final class XT_Tracks {
 		] );
 		$html = '<div class="xt-table-form xt-table-form-track xt-leaf xt-root xt-root-border xt-flex-col" style="display: none;">' . "\n";
 		$html .= '<label class="xt-flex-row xt-flex-justify-between xt-flex-align-center">' . "\n";
-		$html .= sprintf( '<span class="xt-leaf" style="width: 6em;">%s</span>', esc_html__( 'Track', 'xt' ) ) . "\n";
+		$html .= sprintf( '<span class="xt-leaf" style="width: 6em;">%s</span>', esc_html__( 'Song', 'xt' ) ) . "\n";
 		$html .= '<select class="xt-table-field xt-leaf xt-flex-grow" data-xt-table-name="song" />' . "\n";
 		$html .= '<option value="">&mdash;</option>' . "\n";
 		foreach ( $songs as $song )
 			$html .= sprintf( '<option value="%d">%s</option>', $song->ID, esc_html( sprintf( '%s (%s)', $song->post_title, $song->post_excerpt ) ) ) . "\n";
 		$html .= '</select>' . "\n";
+		$html .= '</label>' . "\n";
+		$html .= '<label class="xt-flex-row xt-flex-justify-between xt-flex-align-center">' . "\n";
+		$html .= sprintf( '<span class="xt-leaf" style="width: 6em;">%s</span>', esc_html__( 'Text', 'xt' ) ) . "\n";
+		$html .= '<input type="text" class="xt-table-field xt-leaf xt-flex-grow" data-xt-table-name="text" />' . "\n";
 		$html .= '</label>' . "\n";
 		$html .= '<div class="xt-flex-row xt-flex-justify-between xt-flex-align-center">' . "\n";
 		$html .= sprintf( '<a href="" class="xt-table-link xt-table-submit xt-leaf button button-primary">%s</a>', esc_html__( 'Submit', 'xt' ) ) . "\n";
@@ -210,11 +218,15 @@ add_action( 'wp_ajax_' . 'xt_tracks_insert', function(): void {
 	if ( !current_user_can( 'edit_post', $post->ID ) )
 		exit( 'role' );
 	XT::nonce_verify( 'xt_tracks_insert', $post->ID );
-	$track = XT_Request::post_post( 'song', TRUE );
-	if ( !is_null( $track ) && !has_category( 'songs', $track ) )
+	$song = XT_Request::post_post( 'song', TRUE );
+	if ( !is_null( $song ) && !has_category( 'songs', $song ) )
 		exit( 'song' );
+	$text = XT_Request::post_text( 'text', TRUE );
+	if ( !is_null( $song ) && !is_null( $text ) )
+		exit( 'text' );
+	$track = $song?->ID ?? $text;
 	$tracks = XT_Tracks::load( $post );
-	$tracks[] = $track?->ID ?? 0;
+	$tracks[] = $track;
 	XT_Tracks::save( $post, $tracks );
 	XT::success( XT_Tracks::home( $post ) );
 } );
@@ -232,10 +244,14 @@ add_action( 'wp_ajax_' . 'xt_tracks_update', function(): void {
 	if ( !array_key_exists( $i, $tracks ) )
 		exit( 'track' );
 	XT::nonce_verify( 'xt_tracks_update', $post->ID, $i );
-	$track = XT_Request::post_post( 'song', TRUE );
-	if ( !is_null( $track ) && !has_category( 'songs', $track ) )
+	$song = XT_Request::post_post( 'song', TRUE );
+	if ( !is_null( $song ) && !has_category( 'songs', $song ) )
 		exit( 'song' );
-	$tracks[$i] = $track?->ID ?? 0;
+	$text = XT_Request::post_text( 'text', TRUE );
+	if ( !is_null( $song ) && !is_null( $text ) )
+		exit( 'text' );
+	$track = $song?->ID ?? $text;
+	$tracks[$i] = $track;
 	XT_Tracks::save( $post, $tracks );
 	XT::success( XT_Tracks::home( $post ) );
 } );

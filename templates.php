@@ -106,36 +106,28 @@ function xt_track_list(): void {
 		return;
 ?>
 <h2><?= esc_html__( 'Songs', 'xt' ) ?></h2>
-<?php
-	$ids = [];
-	$oldest = NULL;
-?>
 <ol>
 <?php
-	foreach ( $tracks as $track_id ) {
-		if ( $track_id === 0 ) {
+	foreach ( $tracks as $track ) {
+		$song = NULL;
+		$text = NULL;
+		if ( is_int( $track ) && $track > 0 )
+			$song = get_post( $track );
+		if ( is_string( $track ) )
+			$text = $track;
+		if ( !is_null( $song ) ) {
 ?>
-	<li></li>
+	<li><a href="<?= get_the_permalink( $song ) ?>"><?= esc_html( get_the_title( $song ) ) ?></a></li>
 <?php
-			continue;
+		} else {
+?>
+	<li><?= esc_html( $text ) ?></li>
+<?php
 		}
-		$track = get_post( $track_id );
-		$href = get_permalink( $track->ID );
-		$title = $track->post_title;
-?>
-	<li><a href="<?= $href ?>"><?= esc_html( $track->post_title ) ?></a></li>
-<?php
-		if ( is_null( $oldest ) || $oldest > $track->post_date )
-			$oldest = $track->post_date;
 	}
 ?>
 </ol>
 <?php
-	if ( current_user_can( 'administrator' ) ) {
-?>
-<p><?= esc_html( $oldest ) ?></p>
-<?php
-	}
 }
 
 // display the number of tracks for the current album
