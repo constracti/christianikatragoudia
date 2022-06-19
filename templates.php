@@ -138,8 +138,8 @@ function xt_track_count(): void {
 	if ( empty( $tracks ) )
 		return;
 	$count = 0;
-	foreach ( $tracks as $track_id ) {
-		if ( $track_id !== 0 )
+	foreach ( $tracks as $track ) {
+		if ( is_int( $track ) && $track > 0 )
 			$count++;
 	}
 ?>
@@ -177,10 +177,14 @@ function xt_album_list( string $title = '' ): void {
 				$prev = NULL;
 				break;
 			}
-			if ( $tracks[$prev] !== 0 ) {
-				$prev = get_post( $tracks[$prev] );
-				break;
-			}
+			$track = $tracks[$prev];
+			if ( !( is_int( $track ) && $track > 0 ) )
+				continue;
+			$track = get_post( $track );
+			if ( is_null( $track ) )
+				continue;
+			$prev = $track;
+			break;
 		};
 		$next = $key;
 		while ( TRUE ) {
@@ -189,10 +193,14 @@ function xt_album_list( string $title = '' ): void {
 				$next = NULL;
 				break;
 			}
-			if ( $tracks[$next] !== 0 ) {
-				$next = get_post( $tracks[$next] );
-				break;
-			}
+			$track = $tracks[$next];
+			if ( !( is_int( $track ) && $track > 0 ) )
+				continue;
+			$track = get_post( $track );
+			if ( is_null( $track ) )
+				continue;
+			$next = get_post( $track );
+			break;
 		};
 		echo '<div class="clearfix" style="margin-bottom: 15px;">' . "\n";
 		if ( has_post_thumbnail( $album ) )
