@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-13 15:58+0000\n"
+"POT-Creation-Date: 2022-07-04 13:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,24 +16,24 @@ msgstr ""
 "X-Loco-Version: 2.5.4; wp-5.8.1\n"
 "X-Domain: xt"
 
-#: links.php:80
+#: links.php:78
 msgid "Add"
 msgstr ""
 
-#: templates.php:229
+#: templates.php:241
 msgid "Albums"
 msgstr ""
 
-#: links.php:172 tracks.php:187
+#: links.php:170 tracks.php:193
 msgid "Cancel"
 msgstr ""
 
-#: templates.php:307
+#: templates.php:320
 msgid "Chords"
 msgstr ""
 
 #. Name of the plugin
-#: index.php:90 index.php:91 index.php:98
+#: index.php:90 index.php:91 index.php:104
 msgid "Christianika Tragoudia"
 msgstr ""
 
@@ -41,11 +41,11 @@ msgstr ""
 msgid "constracti"
 msgstr ""
 
-#: templates.php:459
+#: templates.php:482
 msgid "copied!"
 msgstr ""
 
-#: templates.php:458
+#: templates.php:481
 msgid "copy"
 msgstr ""
 
@@ -53,36 +53,40 @@ msgstr ""
 msgid "Customization plugin of Christianika Tragoudia website."
 msgstr ""
 
-#: links.php:131
+#: links.php:129
 msgid "Delete"
 msgstr ""
 
-#: links.php:130
+#: links.php:128
 #, php-format
 msgid "Delete link %s?"
 msgstr ""
 
-#: links.php:102 links.php:167
+#: links.php:100 links.php:165
 msgid "Description"
 msgstr ""
 
-#: links.php:149 tracks.php:154
+#: links.php:147 tracks.php:155
 msgid "Down"
 msgstr ""
 
-#: templates.php:364
+#: templates.php:387
 msgid "download"
 msgstr ""
 
-#: links.php:121
+#: links.php:119
 msgid "Edit"
 msgstr ""
 
-#: tracks.php:104
+#: tracks.php:102
 msgid "Excerpt"
 msgstr ""
 
-#: templates.php:445
+#: templates.php:323
+msgid "help"
+msgstr ""
+
+#: templates.php:468
 msgid "hide"
 msgstr ""
 
@@ -94,101 +98,109 @@ msgstr ""
 msgid "https://github.com/constracti/christianikatragoudia"
 msgstr ""
 
-#: tracks.php:82
+#: tracks.php:80
 msgid "Insert"
 msgstr ""
 
-#: templates.php:427
+#: templates.php:450
 msgid "interval"
 msgstr ""
 
-#: links.php:11 links.php:47 templates.php:75
+#: links.php:9 links.php:45 templates.php:77
 msgid "Links"
 msgstr ""
 
-#: links.php:109
+#: links.php:107
 msgid "Open"
 msgstr ""
 
-#: templates.php:87
+#: templates.php:90
 msgid "open"
 msgstr ""
 
-#: links.php:68 tracks.php:70
+#: links.php:66 tracks.php:68
 msgid "Refresh"
 msgstr ""
 
-#: tracks.php:136
+#: tracks.php:137
 msgid "Remove"
 msgstr ""
 
-#: tracks.php:135
+#: tracks.php:136
 #, php-format
 msgid "Remove track %d?"
 msgstr ""
 
-#: tracks.php:126
+#: tracks.php:127
 msgid "Replace"
 msgstr ""
 
-#: templates.php:309
+#: templates.php:327
 msgid "Scores"
 msgstr ""
 
-#: index.php:127 settings.php:7
+#: index.php:133
 msgid "Settings"
 msgstr ""
 
-#: templates.php:442
+#: templates.php:465
 msgid "show"
 msgstr ""
 
-#: templates.php:152
+#: tracks.php:180
+msgid "Song"
+msgstr ""
+
+#: templates.php:148
 msgid "song"
 msgid_plural "songs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates.php:104
+#: templates.php:108
 msgid "Songs"
 msgstr ""
 
-#: statistics.php:101
+#: statistics.php:73
 msgid "Statistics"
 msgstr ""
 
-#: links.php:171 tracks.php:186
+#: links.php:169 tracks.php:192
 msgid "Submit"
 msgstr ""
 
-#: tracks.php:103
+#: tracks.php:188
+msgid "Text"
+msgstr ""
+
+#: tracks.php:101
 msgid "Title"
 msgstr ""
 
-#: templates.php:421
+#: templates.php:444
 msgid "tonality"
 msgstr ""
 
-#: tracks.php:105 tracks.php:178
+#: tracks.php:103
 msgid "Track"
 msgstr ""
 
-#: tracks.php:13 tracks.php:49
+#: tracks.php:11 tracks.php:47
 msgid "Tracks"
 msgstr ""
 
-#: templates.php:416
+#: templates.php:439
 msgid "transpose"
 msgstr ""
 
-#: links.php:140 tracks.php:145
+#: links.php:138 tracks.php:146
 msgid "Up"
 msgstr ""
 
-#: links.php:101 links.php:163
+#: links.php:99 links.php:161
 msgid "URL"
 msgstr ""
 
-#: templates.php:371
+#: templates.php:394
 msgid "view"
 msgstr ""

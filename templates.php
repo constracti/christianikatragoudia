@@ -315,10 +315,17 @@ function xt_song_attachment_list(): void {
 	foreach ( $gs as $gn => $g ) {
 		if ( empty( $g ) )
 			continue;
-		if ( $gn === 'txt' )
-			echo sprintf( '<h2>%s</h2>', esc_html__( 'Chords', 'xt' ) ) . "\n";
-		else
+		if ( $gn === 'txt' ) {
+			echo '<div style="display: flex;">' . "\n";
+			echo sprintf( '<h2 style="margin-right: 10px;">%s</h2>', esc_html__( 'Chords', 'xt' ) ) . "\n";
+			echo '<span class="tooltip">' . "\n";
+			echo '<span class="fas fa-fw fa-question-circle"></span>' . "\n";
+			echo sprintf( '<a href="%s" target="_blank"><span class="tooltiptext">%s</span></a>', site_url( 'chords/' ), esc_html__( 'help', 'xt' ) ) . "\n";
+			echo '</span>' . "\n";
+			echo '</div>' . "\n";
+		} else {
 			echo sprintf( '<h2>%s</h2>', esc_html__( 'Scores', 'xt' ) ) . "\n";
+		}
 		foreach ( $g as $attachment ) {
 			$url = wp_get_attachment_url( $attachment->ID );
 			echo '<div class="clearfix" style="margin-bottom: 15px;">' . "\n";

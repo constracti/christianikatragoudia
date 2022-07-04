@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-30 23:02+0000\n"
-"PO-Revision-Date: 2022-01-13 15:59+0000\n"
+"PO-Revision-Date: 2022-07-04 13:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -15,25 +15,25 @@ msgstr ""
 "X-Loco-Version: 2.5.4; wp-5.8.1\n"
 "X-Domain: xt"
 
-#: links.php:80
+#: links.php:78
 #| msgid "add"
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: templates.php:229
+#: templates.php:241
 msgid "Albums"
 msgstr "Συλλογές"
 
-#: links.php:172 tracks.php:187
+#: links.php:170 tracks.php:193
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: templates.php:307
+#: templates.php:320
 msgid "Chords"
 msgstr "Συγχορδίες"
 
 #. Name of the plugin
-#: index.php:90 index.php:91 index.php:98
+#: index.php:90 index.php:91 index.php:104
 msgid "Christianika Tragoudia"
 msgstr "Χριστιανικά Τραγούδια"
 
@@ -41,11 +41,11 @@ msgstr "Χριστιανικά Τραγούδια"
 msgid "constracti"
 msgstr "constracti"
 
-#: templates.php:459
+#: templates.php:482
 msgid "copied!"
 msgstr "αντιγράφηκε!"
 
-#: templates.php:458
+#: templates.php:481
 msgid "copy"
 msgstr "αντιγραφή"
 
@@ -53,37 +53,41 @@ msgstr "αντιγραφή"
 msgid "Customization plugin of Christianika Tragoudia website."
 msgstr "Πρόσθετο προσαρμογής της ιστοσελίδας Χριστιανικά Τραγούδια."
 
-#: links.php:131
+#: links.php:129
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: links.php:130
+#: links.php:128
 #, php-format
 msgid "Delete link %s?"
 msgstr "Διαγραφή συνδέσμου %s;"
 
-#: links.php:102 links.php:167
+#: links.php:100 links.php:165
 #| msgid "description"
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: links.php:149 tracks.php:154
+#: links.php:147 tracks.php:155
 msgid "Down"
 msgstr "Κάτω"
 
-#: templates.php:364
+#: templates.php:387
 msgid "download"
 msgstr "λήψη"
 
-#: links.php:121
+#: links.php:119
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: tracks.php:104
+#: tracks.php:102
 msgid "Excerpt"
 msgstr "Απόσπασμα"
 
-#: templates.php:445
+#: templates.php:323
+msgid "help"
+msgstr "βοήθεια"
+
+#: templates.php:468
 msgid "hide"
 msgstr "απόκρυψη"
 
@@ -95,101 +99,109 @@ msgstr "https://github.com/constracti"
 msgid "https://github.com/constracti/christianikatragoudia"
 msgstr "https://github.com/constracti/christianikatragoudia"
 
-#: tracks.php:82
+#: tracks.php:80
 msgid "Insert"
 msgstr "Εισαγωγή"
 
-#: templates.php:427
+#: templates.php:450
 msgid "interval"
 msgstr "διάστημα"
 
-#: links.php:11 links.php:47 templates.php:75
+#: links.php:9 links.php:45 templates.php:77
 msgid "Links"
 msgstr "Σύνδεσμοι"
 
-#: links.php:109
+#: links.php:107
 msgid "Open"
 msgstr "Άνοιγμα"
 
-#: templates.php:87
+#: templates.php:90
 msgid "open"
 msgstr "άνοιγμα"
 
-#: links.php:68 tracks.php:70
+#: links.php:66 tracks.php:68
 msgid "Refresh"
 msgstr "Ανανέωση"
 
-#: tracks.php:136
+#: tracks.php:137
 msgid "Remove"
 msgstr "Αφαίρεση"
 
-#: tracks.php:135
+#: tracks.php:136
 #, php-format
 msgid "Remove track %d?"
 msgstr "Αφαίρεση κομματιού %d;"
 
-#: tracks.php:126
+#: tracks.php:127
 msgid "Replace"
 msgstr "Αντικατάσταση"
 
-#: templates.php:309
+#: templates.php:327
 msgid "Scores"
 msgstr "Παρτιτούρες"
 
-#: index.php:127 settings.php:7
+#: index.php:133
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: templates.php:442
+#: templates.php:465
 msgid "show"
 msgstr "εμφάνιση"
 
-#: templates.php:152
+#: tracks.php:180
+msgid "Song"
+msgstr "Τραγούδι"
+
+#: templates.php:148
 msgid "song"
 msgid_plural "songs"
 msgstr[0] "τραγούδι"
 msgstr[1] "τραγούδια"
 
-#: templates.php:104
+#: templates.php:108
 msgid "Songs"
 msgstr "Τραγούδια"
 
-#: statistics.php:101
+#: statistics.php:73
 msgid "Statistics"
 msgstr "Στατιστικά"
 
-#: links.php:171 tracks.php:186
+#: links.php:169 tracks.php:192
 msgid "Submit"
 msgstr "Υποβολή"
 
-#: tracks.php:103
+#: tracks.php:188
+msgid "Text"
+msgstr "Κείμενο"
+
+#: tracks.php:101
 msgid "Title"
 msgstr "Τίτλος"
 
-#: templates.php:421
+#: templates.php:444
 msgid "tonality"
 msgstr "τονικότητα"
 
-#: tracks.php:105 tracks.php:178
+#: tracks.php:103
 msgid "Track"
 msgstr "Κομμάτι"
 
-#: tracks.php:13 tracks.php:49
+#: tracks.php:11 tracks.php:47
 msgid "Tracks"
 msgstr "Κομμάτια"
 
-#: templates.php:416
+#: templates.php:439
 msgid "transpose"
 msgstr "μετάθεση"
 
-#: links.php:140 tracks.php:145
+#: links.php:138 tracks.php:146
 msgid "Up"
 msgstr "Πάνω"
 
-#: links.php:101 links.php:163
+#: links.php:99 links.php:161
 msgid "URL"
 msgstr "URL"
 
-#: templates.php:371
+#: templates.php:394
 msgid "view"
 msgstr "προβολή"
