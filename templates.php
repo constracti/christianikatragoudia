@@ -108,7 +108,7 @@ function xt_track_list(): void {
 <h2><?= esc_html__( 'Songs', 'xt' ) ?></h2>
 <ol>
 <?php
-	foreach ( $tracks as $track ) {
+	foreach ( $tracks as $t => $track ) {
 		$song = NULL;
 		$text = NULL;
 		if ( is_int( $track ) && $track > 0 )
@@ -116,13 +116,21 @@ function xt_track_list(): void {
 		if ( is_string( $track ) )
 			$text = $track;
 		if ( !is_null( $song ) ) {
-?>
-	<li><a href="<?= get_the_permalink( $song ) ?>"><?= esc_html( get_the_title( $song ) ) ?></a></li>
-<?php
-		} else {
-?>
-	<li><?= esc_html( $text ) ?></li>
-<?php
+			echo '<div style="margin-bottom: 15px;">' . "\n";
+			echo '<div class="clearfix">' . "\n";
+			if ( has_post_thumbnail( $song ) )
+				xt_thumbnail( get_post_thumbnail_id( $song ) );
+			echo sprintf( '<span>%d.</span>', $t + 1 ) . "\n";
+			echo sprintf( '<a href="%s">%s</a>', esc_url_raw( get_the_permalink( $song ) ), esc_html( get_the_title( $song ) ) ) . "\n";
+			echo '<br />' . "\n";
+			echo sprintf( '<i>%s</i>', esc_html( get_the_excerpt( $song ) ) ) . "\n";
+			echo '</div>' . "\n";
+			echo '</div>' . "\n";
+		} elseif ( !is_null( $text ) ) {
+			echo '<div style="margin-bottom: 15px;">' . "\n";
+			echo sprintf( '<span>%d.</span>', $t + 1 ) . "\n";
+			echo sprintf( '<span>%s</span>', esc_html( $text ) ) . "\n";
+			echo '</div>' . "\n";
 		}
 	}
 ?>
