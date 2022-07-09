@@ -116,15 +116,13 @@ function xt_track_list(): void {
 		if ( is_string( $track ) )
 			$text = $track;
 		if ( !is_null( $song ) ) {
-			echo '<div style="margin-bottom: 15px;">' . "\n";
-			echo '<div class="clearfix">' . "\n";
+			echo '<div class="clearfix" style="margin-bottom: 15px;">' . "\n";
 			if ( has_post_thumbnail( $song ) )
 				xt_thumbnail( get_post_thumbnail_id( $song ) );
 			echo sprintf( '<span>%d.</span>', $t + 1 ) . "\n";
 			echo sprintf( '<a href="%s">%s</a>', esc_url_raw( get_the_permalink( $song ) ), esc_html( get_the_title( $song ) ) ) . "\n";
 			echo '<br />' . "\n";
 			echo sprintf( '<i>%s</i>', esc_html( get_the_excerpt( $song ) ) ) . "\n";
-			echo '</div>' . "\n";
 			echo '</div>' . "\n";
 		} elseif ( !is_null( $text ) ) {
 			echo '<div style="margin-bottom: 15px;">' . "\n";
