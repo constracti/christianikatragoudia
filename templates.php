@@ -20,8 +20,6 @@ function xt_link_icon( string $host ): string {
 			return 'fab fa-fw fa-youtube';
 		case 'vimeo.com':
 			return 'fab fa-fw fa-vimeo';
-		case 'www.cpdl.org':
-			return 'fas fa-fw fa-book-open';
 		default:
 			return 'fas fa-fw fa-external-link-alt';
 	}
