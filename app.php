@@ -14,11 +14,11 @@ add_action( 'wp_ajax_nopriv_xt_app_songs_1', function(): void {
 	$posts = array_map( function( WP_Post $post ): array {
 		return [
 			'id' => $post->ID,
-			'date' => $post->post_date,
+			'date' => $post->post_date_gmt,
 			'content' => $post->post_content,
 			'title' => $post->post_title,
 			'excerpt' => $post->post_excerpt,
-			'modified' => $post->post_modified,
+			'modified' => $post->post_modified_gmt,
 			'permalink' => get_permalink( $post ),
 		];
 	}, $posts );
@@ -51,8 +51,8 @@ add_action( 'wp_ajax_nopriv_xt_app_chords_1', function(): void {
 		$tonality = $m[1] . $m[2];
 		return [
 			'id' => $post->ID,
-			'date' => $post->post_date,
-			'modified' => $post->post_modified,
+			'date' => $post->post_date_gmt,
+			'modified' => $post->post_modified_gmt,
 			'parent' => $post->post_parent,
 			'content' => $text,
 			'tonality' => $tonality,
