@@ -427,10 +427,6 @@ function xt_attachment_chords( WP_Post $attachment ): void {
 	$url = wp_get_attachment_url( $attachment->ID );
 	$tonality = mb_split( '\s', $attachment->post_content );
 	$tonality = array_pop( $tonality );
-	if ( !is_null( $tonality ) ) {
-		$tonality = mb_ereg_replace( '♭', 'b', $tonality );
-		$tonality = mb_ereg_replace( '♯', '#', $tonality );
-	}
 ?>
 <form class="chords"
 		data-chords-url="<?= $url ?>"

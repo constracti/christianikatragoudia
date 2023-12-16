@@ -189,8 +189,6 @@ add_action( 'xt_tab_html_statistics', function(): void {
 		$tonality = array_pop( $tonality );
 		if ( is_null( $tonality ) )
 			continue;
-		$tonality = mb_ereg_replace( '♭', 'b', $tonality );
-		$tonality = mb_ereg_replace( '♯', '#', $tonality );
 		if ( !mb_ereg( '^([A-G])(bb?|#|x)', $tonality, $m ) )
 			continue;
 ?>

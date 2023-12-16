@@ -44,8 +44,6 @@ add_action( 'wp_ajax_nopriv_xt_app_chords_1', function(): void {
 		$tonality = array_pop( $tonality );
 		if ( is_null( $tonality ) )
 			return [];
-		$tonality = mb_ereg_replace( '♭', 'b', $tonality );
-		$tonality = mb_ereg_replace( '♯', '#', $tonality );
 		if ( !mb_ereg( '^([A-G])(bb?|#|x)?', $tonality, $m ) )
 			return [];
 		$tonality = $m[1] . $m[2];
