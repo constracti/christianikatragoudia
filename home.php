@@ -31,12 +31,6 @@ add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( $query->get( 'posts_per_page' ) !== 4 )
 		return;
 	$query->set( 'posts_per_page', 12 );
-	$query->set( 'meta_query', [
-		[
-			'key' => '_thumbnail_id',
-			'compare' => 'EXISTS',
-		],
-	] );
 } );
 
 add_action( 'the_content', function( string $content ): string {

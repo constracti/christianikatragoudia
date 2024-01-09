@@ -8,17 +8,13 @@ function xt_statistics_guest(): void {
 		'category_name' => 'songs',
 		'nopaging' => TRUE,
 	] );
-	$songs_with_image = 0;
 	$songs_without_chords = 0;
 ?>
-<h3>Songs with Image but without Chords</h3>
+<h3>Songs without Chords</h3>
 <table>
 	<tbody>
 <?php
 	foreach ( $songs as $song ) {
-		if ( !has_post_thumbnail( $song ) )
-			continue;
-		$songs_with_image++;
 		$atts = get_posts( [
 			'post_parent' => $song->ID,
 			's' => 'chords',
@@ -29,7 +25,7 @@ function xt_statistics_guest(): void {
 		if ( !empty( $atts ) )
 			continue;
 		$songs_without_chords++;
-		$href = add_query_arg( 'p', $song->ID, site_url() );
+		$href = get_permalink( $song );
 ?>
 		<tr>
 			<td><a href="<?= $href ?>"><?= esc_html( $song->post_title ) ?></a></td>
@@ -40,7 +36,7 @@ function xt_statistics_guest(): void {
 ?>
 	</tbody>
 </table>
-<p><?= $songs_without_chords ?> / <?= $songs_with_image ?></p>
+<p><?= $songs_without_chords ?> / <?= count( $songs ) ?></p>
 <hr>
 <?php
 }
@@ -74,37 +70,6 @@ add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	return $tab_list;
 } );
 
-add_action( 'xt_tab_html_statistics', function(): void {
-	$songs = get_posts( [
-		'category_name' => 'songs',
-		'nopaging' => TRUE,
-	] );
-	$songs_without_image = 0;
-?>
-<h3>Songs without Image</h3>
-<table>
-	<tbody>
-<?php
-	foreach ( $songs as $song ) {
-		if ( has_post_thumbnail( $song ) )
-			continue;
-		$songs_without_image++;
-		$href = add_query_arg( 'p', $song->ID, site_url() );
-?>
-		<tr>
-			<td><a href="<?= $href ?>"><?= esc_html( $song->post_title ) ?></a></td>
-			<td><?= esc_html( $song->post_excerpt ) ?></td>
-		</tr>
-<?php
-	}
-?>
-	</tbody>
-</table>
-<p><?= $songs_without_image ?> / <?= count( $songs ) ?></p>
-<hr>
-<?php
-} );
-
 add_action( 'xt_tab_html_statistics', 'xt_statistics_guest' );
 
 add_action( 'xt_tab_html_statistics', function(): void {
@@ -136,33 +101,6 @@ add_action( 'xt_tab_html_statistics', function(): void {
 	</tbody>
 </table>
 <p><?= $mp3s_with_meta ?> / <?= count( $mp3s ) ?></p>
-<hr>
-<?php
-} );
-
-add_action( 'xt_tab_html_statistics', function(): void {
-	$midis = get_posts( [
-		'post_type' => 'attachment',
-		'post_mime_type' => 'audio/midi',
-		'nopaging' => TRUE,
-	] );
-?>
-<h3>Midi Files</h3>
-<table>
-	<tbody>
-<?php
-	foreach ( $midis as $midi ) {
-		$href = add_query_arg( 'item', $midi->ID, admin_url( 'upload.php' ) );
-?>
-		<tr>
-			<td><a href="<?= $href ?>"><?= esc_html( $midi->post_title ) ?></a></td>
-		</tr>
-<?php
-	}
-?>
-	</tbody>
-</table>
-<p><?= count( $midis ) ?></p>
 <hr>
 <?php
 } );
