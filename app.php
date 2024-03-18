@@ -161,53 +161,51 @@ add_filter( 'xt_tab_list', function( array $tab_list ): array {
 }, 20 );
 
 add_action( 'xt_tab_html_app_notification', function(): void {
-	$ts = get_option( 'xt_app_notification_timestamp' );
-	if ( $ts !== FALSE )
-		$ts = wp_date( 'Y-m-d H:i:s', $ts );
+	$dt = get_option( 'xt_app_notification_timestamp' );
+	if ( $dt !== FALSE )
+		$dt = ( new DateTime( timezone: wp_timezone() ) )->setTimestamp( $dt )->format( 'Y-m-d\\TH:i' );
 	else
-		$ts = NULL;
-	$href_update = add_query_arg( [
-		'action' => 'xt_app_notification_update',
-		'nonce' => wp_create_nonce( 'xt_app_notification_update' ),
-	], admin_url( 'admin-post.php' ) );
-	$href_clear = add_query_arg( [
-		'action' => 'xt_app_notification_clear',
-		'nonce' => wp_create_nonce( 'xt_app_notification_clear' ),
-	], admin_url( 'admin-post.php' ) );
+		$dt = NULL;
+	$href = add_query_arg( 'action', 'xt_app_notification', admin_url( 'admin-post.php' ) );
 ?>
 <h2><?= esc_html__( 'Timestamp', 'xt' ) ?></h2>
-<p><?= sprintf( esc_html__( 'Active notification timestamp is %s.', 'xt' ), sprintf( '<code>%s</code>', esc_html( $ts ?? '-' ) ) ) ?></p>
-<h2><?= esc_html__( 'Update', 'xt' ) ?></h2>
-<p><?= esc_html__( 'Notify devices that new content is available.', 'xt' ) ?></p>
-<p>
-	<a href="<?= $href_update ?>" class="button button-primary"><?= esc_html( 'Update', 'xt' ) ?></a>
-</p>
-<h2><?= esc_html__( 'Clear', 'xt' ) ?></h2>
-<p><?= esc_html__( 'Clear the notification timestamp.', 'xt' ) ?></p>
-<p>
-	<a href="<?= $href_clear ?>" class="button button-secondary"><?= esc_html( 'Clear', 'xt' ) ?></a>
-</p>
+<form method="post" action="<?= $href ?>">
+	<table class="form-table" role="presentation">
+		<tbody>
+			<tr>
+				<th scope="row">
+					<label for="xt_app_notification_timestamp"><?= esc_html( 'Active timestamp', 'xt' ) ?></label>
+				</th>
+				<td>
+					<input type="datetime-local" name="timestamp" id="xt_app_notification_timestamp" value="<?= $dt ?? '' ?>" class="regular-text">
+					<p class="description"><?= esc_html( 'Devices that haven\'t checked for updates after this date will receive a notification.', 'xt' ) ?></p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+<?php
+	wp_nonce_field( action: 'xt_app_notification', name: 'nonce', referer: FALSE );
+	submit_button( text: esc_html( 'Save', 'xt' ) );
+?>
+</form>
 <?php
 } );
 
-add_action( 'admin_post_xt_app_notification_update', function(): void {
+add_action( 'admin_post_xt_app_notification', function(): void {
 	if ( !current_user_can( 'manage_options' ) )
 		wp_die( 'role', 402 );
-	if ( !isset( $_GET['nonce'] ) || !wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) )
+	if ( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], $_GET['action'] ) )
 		wp_die( 'nonce', 402 );
-	update_option( 'xt_app_notification_timestamp', time() );
-	wp_redirect( add_query_arg( [
-		'page' => 'xt',
-		'tab' => 'app_notification',
-	], admin_url( 'options-general.php' ) ) );
-} );
-
-add_action( 'admin_post_xt_app_notification_clear', function(): void {
-	if ( !current_user_can( 'manage_options' ) )
-		wp_die( 'role', 402 );
-	if ( !isset( $_GET['nonce'] ) || !wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) )
-		wp_die( 'nonce', 402 );
-	delete_option( 'xt_app_notification_timestamp' );
+	if ( !isset( $_POST['timestamp'] ) || !is_string( $_POST['timestamp'] ) )
+		wp_die( 'timestamp', 402 );
+	if ( $_POST['timestamp'] !== '' ) {
+		$dt = DateTime::createFromFormat( 'Y-m-d\\TH:i', $_POST['timestamp'], wp_timezone() );
+		if ( $dt === FALSE )
+			wp_die( 'timestamp', 402 );
+		update_option( 'xt_app_notification_timestamp', $dt->getTimestamp() );
+	} else {
+		delete_option( 'xt_app_notification_timestamp' );
+	}
 	wp_redirect( add_query_arg( [
 		'page' => 'xt',
 		'tab' => 'app_notification',
