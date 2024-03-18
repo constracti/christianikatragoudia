@@ -15,7 +15,7 @@ function xt_gtag_data( string $category, string $action, string $label ): string
 // return gtag data attribute list for an attachment
 function xt_gtag_attachment_data( WP_Post $attachment, string $action, string $suffix = '' ): string {
 	$dir = get_attached_file( $attachment->ID );
-	$name = array_pop( explode( '/', $dir ) ); # TODO names only in ascii
+	$name = array_pop( explode( '/', $dir ) );
 	return xt_gtag_data( $attachment->post_mime_type . $suffix, $action, $name );
 }
 

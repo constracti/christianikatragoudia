@@ -61,7 +61,7 @@ add_action( 'the_content', function( string $content ): string {
 				$args = [
 					'post_type' => 'attachment',
 					'post_mime_type' => 'application/pdf',
-					's' => '-full -ορχήστρα', # TODO remove greek term
+					's' => '-full',
 				];
 				break;
 			case 4:
