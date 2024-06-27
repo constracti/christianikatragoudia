@@ -68,7 +68,7 @@ td {
 add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	$tab_list['statistics'] = __( 'Statistics', 'xt' );
 	return $tab_list;
-} );
+}, 5 );
 
 add_action( 'xt_tab_html_statistics', 'xt_statistics_guest' );
 

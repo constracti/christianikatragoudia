@@ -6,7 +6,7 @@ if ( !defined( 'ABSPATH' ) )
 add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	$tab_list['characters'] = __( 'Characters', 'xt' );
 	return $tab_list;
-}, 20 );
+} );
 
 function xt_character_row( string $pattern, string $text, string $title, string $href ): void {
 	mb_ereg_search_init( $text, $pattern );

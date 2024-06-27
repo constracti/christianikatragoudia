@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-30 23:02+0000\n"
-"PO-Revision-Date: 2022-07-04 13:13+0000\n"
+"PO-Revision-Date: 2024-06-21 14:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -20,15 +20,23 @@ msgstr ""
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: templates.php:241
+#: templates.php:245
 msgid "Albums"
 msgstr "Συλλογές"
+
+#: app.php:159
+msgid "App Notification"
+msgstr "Ειδοποίηση Εφαρμογής"
 
 #: links.php:170 tracks.php:193
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: templates.php:320
+#: tab-characters.php:7
+msgid "Characters"
+msgstr "Χαρακτήρες"
+
+#: templates.php:324
 msgid "Chords"
 msgstr "Συγχορδίες"
 
@@ -41,11 +49,11 @@ msgstr "Χριστιανικά Τραγούδια"
 msgid "constracti"
 msgstr "constracti"
 
-#: templates.php:482
+#: templates.php:469
 msgid "copied!"
 msgstr "αντιγράφηκε!"
 
-#: templates.php:481
+#: templates.php:468
 msgid "copy"
 msgstr "αντιγραφή"
 
@@ -67,11 +75,19 @@ msgstr "Διαγραφή συνδέσμου %s;"
 msgid "Description"
 msgstr "Περιγραφή"
 
+#: app.php:181
+msgid ""
+"Devices that haven't applied updates after this date will receive a "
+"notification."
+msgstr ""
+"Συσκευές που δεν έχουν εφαρμόσει ενημερώσεις μετά από αυτή την ημερομηνία θα "
+"λάβουν μία ειδοποίηση."
+
 #: links.php:147 tracks.php:155
 msgid "Down"
 msgstr "Κάτω"
 
-#: templates.php:387
+#: templates.php:391
 msgid "download"
 msgstr "λήψη"
 
@@ -83,11 +99,11 @@ msgstr "Επεξεργασία"
 msgid "Excerpt"
 msgstr "Απόσπασμα"
 
-#: templates.php:323
+#: templates.php:327
 msgid "help"
 msgstr "βοήθεια"
 
-#: templates.php:468
+#: templates.php:455
 msgid "hide"
 msgstr "απόκρυψη"
 
@@ -103,11 +119,11 @@ msgstr "https://github.com/constracti/christianikatragoudia"
 msgid "Insert"
 msgstr "Εισαγωγή"
 
-#: templates.php:450
+#: templates.php:438
 msgid "interval"
 msgstr "διάστημα"
 
-#: links.php:9 links.php:45 templates.php:77
+#: links.php:9 links.php:45 templates.php:75
 msgid "Links"
 msgstr "Σύνδεσμοι"
 
@@ -115,7 +131,7 @@ msgstr "Σύνδεσμοι"
 msgid "Open"
 msgstr "Άνοιγμα"
 
-#: templates.php:90
+#: templates.php:88
 msgid "open"
 msgstr "άνοιγμα"
 
@@ -128,7 +144,6 @@ msgid "Remove"
 msgstr "Αφαίρεση"
 
 #: tracks.php:136
-#, php-format
 msgid "Remove track %d?"
 msgstr "Αφαίρεση κομματιού %d;"
 
@@ -136,7 +151,7 @@ msgstr "Αφαίρεση κομματιού %d;"
 msgid "Replace"
 msgstr "Αντικατάσταση"
 
-#: templates.php:327
+#: templates.php:331
 msgid "Scores"
 msgstr "Παρτιτούρες"
 
@@ -144,7 +159,7 @@ msgstr "Παρτιτούρες"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: templates.php:465
+#: templates.php:452
 msgid "show"
 msgstr "εμφάνιση"
 
@@ -152,17 +167,17 @@ msgstr "εμφάνιση"
 msgid "Song"
 msgstr "Τραγούδι"
 
-#: templates.php:148
+#: templates.php:152
 msgid "song"
 msgid_plural "songs"
 msgstr[0] "τραγούδι"
 msgstr[1] "τραγούδια"
 
-#: templates.php:108
+#: templates.php:106
 msgid "Songs"
 msgstr "Τραγούδια"
 
-#: statistics.php:73
+#: statistics.php:69
 msgid "Statistics"
 msgstr "Στατιστικά"
 
@@ -174,11 +189,19 @@ msgstr "Υποβολή"
 msgid "Text"
 msgstr "Κείμενο"
 
+#: app.php:171
+msgid "Timestamp"
+msgstr "Χρονοσήμανση"
+
 #: tracks.php:101
 msgid "Title"
 msgstr "Τίτλος"
 
-#: templates.php:444
+#: tab-tonalities.php:7
+msgid "Tonalities"
+msgstr "Τονικότητες"
+
+#: templates.php:447
 msgid "tonality"
 msgstr "τονικότητα"
 
@@ -190,7 +213,7 @@ msgstr "Κομμάτι"
 msgid "Tracks"
 msgstr "Κομμάτια"
 
-#: templates.php:439
+#: templates.php:436
 msgid "transpose"
 msgstr "μετάθεση"
 
@@ -202,6 +225,6 @@ msgstr "Πάνω"
 msgid "URL"
 msgstr "URL"
 
-#: templates.php:394
+#: templates.php:398
 msgid "view"
 msgstr "προβολή"

@@ -111,19 +111,19 @@ add_action( 'wp_ajax_nopriv_xt_app_patch_2', function(): void {
 		'post_mime_type' => 'text/plain',
 		'date_query' => $date_query,
 	] );
-	$chord_list = array_map( function( WP_Post $post ) use ( $full ): array {
+	$chord_list = array_map( function( WP_Post $post ) use ( $full ): array|null {
 		$path = get_attached_file( $post->ID );
 		if ( $path === FALSE )
-			return [];
+			return NULL;
 		$text = file_get_contents( $path );
 		if ( $text === FALSE )
-			return [];
+			return NULL;
 		$tonality = mb_split( '\s', $post->post_content );
 		$tonality = array_pop( $tonality );
 		if ( is_null( $tonality ) )
-			return [];
+			return NULL;
 		if ( !mb_ereg( '^([A-G])(bb?|#|x)?', $tonality, $m ) )
-			return [];
+			return NULL;
 		$tonality = $m[1] . $m[2];
 		return [
 			'id' => $post->ID,
@@ -134,6 +134,7 @@ add_action( 'wp_ajax_nopriv_xt_app_patch_2', function(): void {
 			'tonality' => $tonality,
 		];
 	}, $chord_list );
+	$chord_list = array_filter( $chord_list, 'is_array' );
 	header( 'content-type: application/json' );
 	exit( json_encode( [
 		'timestamp' => $now,
@@ -158,7 +159,7 @@ add_action( 'wp_ajax_nopriv_xt_app_notification_1', function(): void {
 add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	$tab_list['app_notification'] = __( 'App Notification', 'xt' );
 	return $tab_list;
-}, 20 );
+} );
 
 add_action( 'xt_tab_html_app_notification', function(): void {
 	$dt = get_option( 'xt_app_notification_timestamp' );
@@ -178,7 +179,7 @@ add_action( 'xt_tab_html_app_notification', function(): void {
 				</th>
 				<td>
 					<input type="datetime-local" name="timestamp" id="xt_app_notification_timestamp" value="<?= $dt ?? '' ?>" class="regular-text">
-					<p class="description"><?= esc_html( 'Devices that haven\'t checked for updates after this date will receive a notification.', 'xt' ) ?></p>
+					<p class="description"><?= esc_html__( 'Devices that haven\'t applied updates after this date will receive a notification.', 'xt' ) ?></p>
 				</td>
 			</tr>
 		</tbody>

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-04 13:12+0000\n"
+"POT-Creation-Date: 2024-06-21 14:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -20,15 +20,23 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: templates.php:241
+#: templates.php:245
 msgid "Albums"
+msgstr ""
+
+#: app.php:159
+msgid "App Notification"
 msgstr ""
 
 #: links.php:170 tracks.php:193
 msgid "Cancel"
 msgstr ""
 
-#: templates.php:320
+#: tab-characters.php:7
+msgid "Characters"
+msgstr ""
+
+#: templates.php:324
 msgid "Chords"
 msgstr ""
 
@@ -41,11 +49,11 @@ msgstr ""
 msgid "constracti"
 msgstr ""
 
-#: templates.php:482
+#: templates.php:469
 msgid "copied!"
 msgstr ""
 
-#: templates.php:481
+#: templates.php:468
 msgid "copy"
 msgstr ""
 
@@ -66,11 +74,17 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
+#: app.php:181
+msgid ""
+"Devices that haven't applied updates after this date will receive a "
+"notification."
+msgstr ""
+
 #: links.php:147 tracks.php:155
 msgid "Down"
 msgstr ""
 
-#: templates.php:387
+#: templates.php:391
 msgid "download"
 msgstr ""
 
@@ -82,11 +96,11 @@ msgstr ""
 msgid "Excerpt"
 msgstr ""
 
-#: templates.php:323
+#: templates.php:327
 msgid "help"
 msgstr ""
 
-#: templates.php:468
+#: templates.php:455
 msgid "hide"
 msgstr ""
 
@@ -102,11 +116,11 @@ msgstr ""
 msgid "Insert"
 msgstr ""
 
-#: templates.php:450
+#: templates.php:438
 msgid "interval"
 msgstr ""
 
-#: links.php:9 links.php:45 templates.php:77
+#: links.php:9 links.php:45 templates.php:75
 msgid "Links"
 msgstr ""
 
@@ -114,7 +128,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: templates.php:90
+#: templates.php:88
 msgid "open"
 msgstr ""
 
@@ -127,7 +141,6 @@ msgid "Remove"
 msgstr ""
 
 #: tracks.php:136
-#, php-format
 msgid "Remove track %d?"
 msgstr ""
 
@@ -135,7 +148,7 @@ msgstr ""
 msgid "Replace"
 msgstr ""
 
-#: templates.php:327
+#: templates.php:331
 msgid "Scores"
 msgstr ""
 
@@ -143,7 +156,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: templates.php:465
+#: templates.php:452
 msgid "show"
 msgstr ""
 
@@ -151,17 +164,17 @@ msgstr ""
 msgid "Song"
 msgstr ""
 
-#: templates.php:148
+#: templates.php:152
 msgid "song"
 msgid_plural "songs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates.php:108
+#: templates.php:106
 msgid "Songs"
 msgstr ""
 
-#: statistics.php:73
+#: statistics.php:69
 msgid "Statistics"
 msgstr ""
 
@@ -173,11 +186,19 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
+#: app.php:171
+msgid "Timestamp"
+msgstr ""
+
 #: tracks.php:101
 msgid "Title"
 msgstr ""
 
-#: templates.php:444
+#: tab-tonalities.php:7
+msgid "Tonalities"
+msgstr ""
+
+#: templates.php:447
 msgid "tonality"
 msgstr ""
 
@@ -189,7 +210,7 @@ msgstr ""
 msgid "Tracks"
 msgstr ""
 
-#: templates.php:439
+#: templates.php:436
 msgid "transpose"
 msgstr ""
 
@@ -201,6 +222,6 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: templates.php:394
+#: templates.php:398
 msgid "view"
 msgstr ""

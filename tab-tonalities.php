@@ -6,7 +6,7 @@ if ( !defined( 'ABSPATH' ) )
 add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	$tab_list['tonalities'] = __( 'Tonalities', 'xt' );
 	return $tab_list;
-}, 20 );
+} );
 
 add_action( 'xt_tab_html_tonalities', function(): void {
 	$posts = get_posts( [
