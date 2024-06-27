@@ -433,55 +433,41 @@ function xt_attachment_chords( WP_Post $attachment ): void {
 		data-chords-lang="el"
 		data-chords-tonality="<?= esc_attr( $tonality ) ?>"
 		autocomplete="off">
-	<table>
-		<thead>
-			<tr>
-				<th colspan="2"><?= esc_html__( 'transpose', 'xt' ) ?>:</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th><?= esc_html__( 'tonality', 'xt' ) ?></th>
-				<td>
-					<select class="chords-dst"></select>
-				</td>
-			</tr>
-			<tr>
-				<th><?= esc_html__( 'interval', 'xt' ) ?></th>
-				<td>
-					<select class="chords-dir"></select>
-					<div class="together">
-						<select class="chords-diatonic"></select>
-						<select class="chords-primary"></select>
-						<select class="chords-secondary"></select>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div>
+	<h3 style="display: none;"><?= esc_html__( 'transpose', 'xt' ) ?>:</h3>
+	<div style="display: none;">
+		<label><?= esc_html__( 'interval', 'xt' ) ?></label>
+		<select class="chords-dir"></select>
 		<div class="together">
-			<button type="submit" class="xt-gtag"<?= xt_gtag_attachment_data( $attachment, 'show' ) ?>>
-				<?= esc_html__( 'show', 'xt' ) ?>
-			</button>
-			<button type="button" class="chords-hide">
-				<?= esc_html__( 'hide', 'xt' ) ?>
-			</button>
+			<select class="chords-diatonic"></select>
+			<select class="chords-primary"></select>
+			<select class="chords-secondary"></select>
 		</div>
-		<div class="together">
-			<button type="button" class="chords-larger">
-				<span class="fas fa-fw fa-search-plus"></span>
-			</button>
-			<button type="button" class="chords-smaller">
-				<span class="fas fa-fw fa-search-minus"></span>
-			</button>
-		</div>
-		<button type="button" class="chords-copy">
-			<span class="fas fa-fw fa-copy"></span>
-			<span><?= esc_html__( 'copy', 'xt' ) ?></span>
-			<span class="chords-copied"><?= esc_html__( 'copied!', 'xt' ) ?></span>
+	</div>
+	<div class="together">
+			<label><?= esc_html__( 'tonality', 'xt' ) ?></label>
+			<select class="chords-dst"></select>
+	</div>
+	<div class="together">
+		<button type="submit" class="xt-gtag"<?= xt_gtag_attachment_data( $attachment, 'show' ) ?>>
+			<?= esc_html__( 'show', 'xt' ) ?>
+		</button>
+		<button type="button" class="chords-hide">
+			<?= esc_html__( 'hide', 'xt' ) ?>
 		</button>
 	</div>
+	<div class="together">
+		<button type="button" class="chords-larger">
+			<span class="fas fa-fw fa-search-plus"></span>
+		</button>
+		<button type="button" class="chords-smaller">
+			<span class="fas fa-fw fa-search-minus"></span>
+		</button>
+	</div>
+	<button type="button" class="chords-copy">
+		<span class="fas fa-fw fa-copy"></span>
+		<span><?= esc_html__( 'copy', 'xt' ) ?></span>
+		<span class="chords-copied"><?= esc_html__( 'copied!', 'xt' ) ?></span>
+	</button>
 	<div class="chords-text"></div>
 </form>
 <?php
