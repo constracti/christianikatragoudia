@@ -120,7 +120,7 @@ function xt_track_list(): void {
 			echo sprintf( '<span>%d.</span>', $t + 1 ) . "\n";
 			echo sprintf( '<a href="%s">%s</a>', esc_url_raw( get_the_permalink( $song ) ), esc_html( get_the_title( $song ) ) ) . "\n";
 			echo '<br />' . "\n";
-			echo sprintf( '<i>%s</i>', esc_html( get_the_excerpt( $song ) ) ) . "\n";
+			echo sprintf( '<i>%s</i>', esc_html( xt_first_line( get_the_excerpt( $song ) ) ) ) . "\n";
 			echo '</div>' . "\n";
 		} elseif ( !is_null( $text ) ) {
 			echo '<div style="margin-bottom: 15px;">' . "\n";
@@ -152,6 +152,25 @@ function xt_track_count(): void {
 	<span><?= esc_html( _n( 'song', 'songs', $count, 'xt' ) ) ?></span>
 </p>
 <?php
+}
+
+// output the creators section
+function xt_song_creators(): void {
+	if ( !has_category( 'songs' ) )
+		return;
+	$excerpt = get_the_excerpt();
+	$verse = xt_first_line( $excerpt );
+	if ( $verse === $excerpt )
+		return;
+?>
+<h2><?= esc_html__( 'Creators', 'xt' ) ?></h2>
+<?php
+	$creators = mb_substr( $excerpt, mb_strlen( $verse ) );
+	foreach ( explode( "\r\n", $creators ) as $line ) {
+		if ( empty( $line ) )
+			continue;
+		echo sprintf( '<p>%s</p>', esc_html( $line ) ) . "\n";
+	}
 }
 
 // output a list of albums related to the current song

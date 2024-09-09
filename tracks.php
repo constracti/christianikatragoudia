@@ -162,7 +162,7 @@ final class XT_Tracks {
 		$html .= $title . "\n";
 		$html .= sprintf( '<div class="row-actions">%s</div>', implode( ' | ', $actions ) ) . "\n";
 		$html .= '</td>' . "\n";
-		$html .= sprintf( '<td>%s</td>', !is_null( $song ) ? esc_html( $song->post_excerpt ) : '&mdash;' ) . "\n";
+		$html .= sprintf( '<td>%s</td>', !is_null( $song ) ? esc_html( xt_first_line( $song->post_excerpt ) ) : '&mdash;' ) . "\n";
 		$html .= sprintf( '<td>%d</td>', $i + 1 ) . "\n";
 		$html .= '</tr>' . "\n";
 		return $html;
@@ -181,7 +181,7 @@ final class XT_Tracks {
 		$html .= '<select class="xt-table-field xt-leaf xt-flex-grow" data-xt-table-name="song" />' . "\n";
 		$html .= '<option value="">&mdash;</option>' . "\n";
 		foreach ( $songs as $song )
-			$html .= sprintf( '<option value="%d">%s</option>', $song->ID, esc_html( sprintf( '%s (%s)', $song->post_title, $song->post_excerpt ) ) ) . "\n";
+			$html .= sprintf( '<option value="%d">%s</option>', $song->ID, esc_html( sprintf( '%s (%s)', $song->post_title, xt_first_line( $song->post_excerpt ) ) ) ) . "\n";
 		$html .= '</select>' . "\n";
 		$html .= '</label>' . "\n";
 		$html .= '<label class="xt-flex-row xt-flex-justify-between xt-flex-align-center">' . "\n";

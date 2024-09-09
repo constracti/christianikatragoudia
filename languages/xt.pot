@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-21 14:38+0000\n"
+"POT-Creation-Date: 2024-06-27 22:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Albums"
 msgstr ""
 
-#: app.php:159
+#: app.php:160
 msgid "App Notification"
 msgstr ""
 
@@ -41,7 +41,7 @@ msgid "Chords"
 msgstr ""
 
 #. Name of the plugin
-#: index.php:90 index.php:91 index.php:104
+#: index.php:94 index.php:95 index.php:108
 msgid "Christianika Tragoudia"
 msgstr ""
 
@@ -55,6 +55,10 @@ msgstr ""
 
 #: templates.php:468
 msgid "copy"
+msgstr ""
+
+#: tab-creators.php:4 tab-creators.php:17
+msgid "Creators"
 msgstr ""
 
 #. Description of the plugin
@@ -74,7 +78,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: app.php:181
+#: app.php:182
 msgid ""
 "Devices that haven't applied updates after this date will receive a "
 "notification."
@@ -92,7 +96,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: tracks.php:102
+#: tracks.php:102 tab-creators.php:15
 msgid "Excerpt"
 msgstr ""
 
@@ -152,7 +156,7 @@ msgstr ""
 msgid "Scores"
 msgstr ""
 
-#: index.php:133
+#: index.php:137
 msgid "Settings"
 msgstr ""
 
@@ -186,11 +190,11 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: app.php:171
+#: app.php:172
 msgid "Timestamp"
 msgstr ""
 
-#: tracks.php:101
+#: tracks.php:101 tab-creators.php:14
 msgid "Title"
 msgstr ""
 
@@ -220,6 +224,10 @@ msgstr ""
 
 #: links.php:99 links.php:161
 msgid "URL"
+msgstr ""
+
+#: tab-creators.php:16
+msgid "Verse"
 msgstr ""
 
 #: templates.php:398

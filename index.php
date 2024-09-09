@@ -4,7 +4,7 @@
  * Plugin Name: Christianika Tragoudia
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
- * Version: 1.10.1
+ * Version: 1.11.0
  * Requires PHP: 8.0
  * Author: constracti
  * Author URI: https://github.com/constracti
@@ -71,6 +71,10 @@ final class XT {
 		if ( !wp_verify_nonce( $nonce, self::nonce_action( $action, ...$args ) ) )
 			exit( 'nonce' );
 	}
+}
+
+function xt_first_line( string $str ): string {
+	return explode( "\r\n", $str, 2 )[0];
 }
 
 // require php files

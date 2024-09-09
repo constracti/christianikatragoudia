@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Christianika Tragoudia\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-30 23:02+0000\n"
-"PO-Revision-Date: 2024-06-21 14:39+0000\n"
+"PO-Revision-Date: 2024-06-27 22:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el\n"
@@ -24,7 +24,7 @@ msgstr "Προσθήκη"
 msgid "Albums"
 msgstr "Συλλογές"
 
-#: app.php:159
+#: app.php:160
 msgid "App Notification"
 msgstr "Ειδοποίηση Εφαρμογής"
 
@@ -41,7 +41,7 @@ msgid "Chords"
 msgstr "Συγχορδίες"
 
 #. Name of the plugin
-#: index.php:90 index.php:91 index.php:104
+#: index.php:94 index.php:95 index.php:108
 msgid "Christianika Tragoudia"
 msgstr "Χριστιανικά Τραγούδια"
 
@@ -56,6 +56,10 @@ msgstr "αντιγράφηκε!"
 #: templates.php:468
 msgid "copy"
 msgstr "αντιγραφή"
+
+#: tab-creators.php:4 tab-creators.php:17
+msgid "Creators"
+msgstr "Δημιουργοί"
 
 #. Description of the plugin
 msgid "Customization plugin of Christianika Tragoudia website."
@@ -75,7 +79,7 @@ msgstr "Διαγραφή συνδέσμου %s;"
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: app.php:181
+#: app.php:182
 msgid ""
 "Devices that haven't applied updates after this date will receive a "
 "notification."
@@ -95,7 +99,7 @@ msgstr "λήψη"
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: tracks.php:102
+#: tracks.php:102 tab-creators.php:15
 msgid "Excerpt"
 msgstr "Απόσπασμα"
 
@@ -155,7 +159,7 @@ msgstr "Αντικατάσταση"
 msgid "Scores"
 msgstr "Παρτιτούρες"
 
-#: index.php:133
+#: index.php:137
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
@@ -189,11 +193,11 @@ msgstr "Υποβολή"
 msgid "Text"
 msgstr "Κείμενο"
 
-#: app.php:171
+#: app.php:172
 msgid "Timestamp"
 msgstr "Χρονοσήμανση"
 
-#: tracks.php:101
+#: tracks.php:101 tab-creators.php:14
 msgid "Title"
 msgstr "Τίτλος"
 
@@ -224,6 +228,10 @@ msgstr "Πάνω"
 #: links.php:99 links.php:161
 msgid "URL"
 msgstr "URL"
+
+#: tab-creators.php:16
+msgid "Verse"
+msgstr "Στίχος"
 
 #: templates.php:398
 msgid "view"
