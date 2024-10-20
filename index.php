@@ -4,7 +4,7 @@
  * Plugin Name: Christianika Tragoudia
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
- * Version: 1.11.0
+ * Version: 1.11.1
  * Requires PHP: 8.0
  * Author: constracti
  * Author URI: https://github.com/constracti
@@ -210,14 +210,18 @@ add_action( 'wp_head', function(): void {
 <?php
 } );
 
-// restore open graph title meta
+/**
+ * restore open graph title meta
+ */
 add_filter( 'open_graph_protocol_meta', function( string $content, string $property ): string {
 	if ( $property !== 'og:title' )
 		return $content;
 	return wp_get_document_title();
 }, 10, 2 );
 
-// set nopaging in selected queries
+/**
+ * set nopaging in selected queries
+ */
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( is_admin() )
 		return;
@@ -226,7 +230,27 @@ add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	$query->set( 'nopaging', TRUE );
 } );
 
-// choose some posts at random in selected queries
+/**
+ * simplify excerpt in main index query
+ */
+add_filter( 'the_posts', function( array $posts, WP_Query $query ): array {
+	if ( is_admin() )
+		return $posts;
+	global $wp_query;
+	if ( !$wp_query->is_page( 'index' ) )
+		return $posts;
+	if ( !$query->is_category( 'songs' ) )
+		return $posts;
+	if ( $query->query_vars['nopaging'] !== TRUE )
+		return $posts;
+	foreach ( $posts as $post )
+		$post->post_excerpt = xt_first_line( $post->post_excerpt );
+	return $posts;
+}, 10, 2 );
+
+/**
+ * choose some posts at random in selected queries
+ */
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( is_admin() )
 		return;
@@ -235,3 +259,20 @@ add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	$query->set( 'posts_per_page', 3 );
 	$query->set( 'orderby', 'rand' );
 } );
+
+/**
+ * simplify excerpt in random songs sidebar query
+ */
+add_filter( 'the_posts', function( array $posts, WP_Query $query ): array {
+	if ( is_admin() )
+		return $posts;
+	if ( !$query->is_category( 'songs' ) )
+		return $posts;
+	if ( $query->query_vars['posts_per_page'] !== 3 )
+		return $posts;
+	if ( $query->query_vars['orderby'] !== 'rand' )
+		return $posts;
+	foreach ( $posts as $post )
+		$post->post_excerpt = xt_first_line( $post->post_excerpt );
+	return $posts;
+}, 10, 2 );

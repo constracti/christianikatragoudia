@@ -29,7 +29,7 @@ function xt_statistics_guest(): void {
 ?>
 		<tr>
 			<td><a href="<?= $href ?>"><?= esc_html( $song->post_title ) ?></a></td>
-			<td><?= esc_html( $song->post_excerpt ) ?></td>
+			<td><?= esc_html( xt_first_line( $song->post_excerpt ) ) ?></td>
 		</tr>
 <?php
 	}
