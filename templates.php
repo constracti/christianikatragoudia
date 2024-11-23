@@ -3,7 +3,9 @@
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
-// display post tags using the cool tag cloud shortcode
+/**
+ * Display post tags using the cool tag cloud shortcode.
+ */
 function xt_tag_cloud(): void {
 	$tags = get_the_tags();
 	if ( empty( $tags ) )
@@ -13,7 +15,9 @@ function xt_tag_cloud(): void {
 	echo do_shortcode( '[cool_tag_cloud smallest="12" largest="12" number="0" include="' . $tags . '"]' );
 }
 
-// return the icon class for a specific link host
+/**
+ * Return the icon class for a specific link host.
+ */
 function xt_link_icon( string $host ): string {
 	switch ( $host ) {
 		case 'www.youtube.com':
@@ -25,6 +29,9 @@ function xt_link_icon( string $host ): string {
 	}
 }
 
+/**
+ * Display the thumbnail of an external video link.
+ */
 function xt_link_thumbnail( string $href ): void {
 	$host = parse_url( $href, PHP_URL_HOST );
 	switch ( $host ) {
@@ -66,7 +73,9 @@ function xt_link_thumbnail( string $href ): void {
 	}
 }
 
-// print links related to a post of any type
+/**
+ * Print links related to a post of any type.
+ */
 function xt_link_list(): void {
 	$links = XT_Links::load( get_post() );
 	if ( empty( $links ) )
@@ -95,7 +104,9 @@ function xt_link_list(): void {
 	}
 }
 
-// display a numbered list of the tracks for the current album
+/**
+ * Display a numbered list of the tracks for the current album.
+ */
 function xt_track_list(): void {
 	if ( !has_category( 'albums' ) )
 		return;
@@ -134,7 +145,9 @@ function xt_track_list(): void {
 <?php
 }
 
-// display the number of tracks for the current album
+/**
+ * Display the number of tracks for the current album.
+ */
 function xt_track_count(): void {
 	if ( !has_category( 'albums' ) )
 		return;
@@ -154,7 +167,9 @@ function xt_track_count(): void {
 <?php
 }
 
-// output the creators section
+/**
+ * Output the creators section.
+ */
 function xt_song_creators(): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -173,7 +188,9 @@ function xt_song_creators(): void {
 	}
 }
 
-// output a list of albums related to the current song
+/**
+ * Output a list of albums related to the current song.
+ */
 function xt_album_list( string $title = '' ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -266,7 +283,9 @@ function xt_album_list( string $title = '' ): void {
 	echo implode( $self );
 }
 
-// echo featured audio shortcode
+/**
+ * Echo featured audio shortcode.
+ */
 function xt_song_featured_audio( bool $full = FALSE ): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -299,7 +318,9 @@ function xt_song_featured_audio( bool $full = FALSE ): void {
 	}
 }
 
-// echo the attachment section
+/**
+ * Echo the attachment section.
+ */
 function xt_song_attachment_list(): void {
 	if ( !has_category( 'songs' ) )
 		return;
@@ -365,7 +386,9 @@ function xt_song_attachment_list(): void {
 	}
 }
 
-// echo the thumbnail image tag for the attachment
+/**
+ * Echo the thumbnail image tag for the attachment.
+ */
 function xt_thumbnail( WP_Post|int $attachment ): void {
 	if ( is_a( $attachment, 'WP_Post' ) )
 		$attachment = $attachment->ID;
@@ -377,7 +400,9 @@ function xt_thumbnail( WP_Post|int $attachment ): void {
 <?php
 }
 
-// echo the audio shortcode for the attachment
+/**
+ * Echo the audio shortcode for the attachment.
+ */
 function xt_player( WP_Post $attachment, string $suffix = '' ): void {
 	if ( $attachment->post_mime_type !== 'audio/mpeg' )
 		return;
@@ -396,7 +421,9 @@ function xt_player( WP_Post $attachment, string $suffix = '' ): void {
 <?php
 }
 
-// echo the download section for the attachment
+/**
+ * Echo the download section for the attachment.
+ */
 function xt_attachment_download( WP_Post $attachment ): void {
 	$url = wp_get_attachment_url( $attachment->ID );
 	$dir = get_attached_file( $attachment->ID );
@@ -423,7 +450,9 @@ function xt_attachment_download( WP_Post $attachment ): void {
 <?php
 }
 
-// return the icon class for a specific mime type
+/**
+ * Return the icon class for a specific mime type.
+ */
 function xt_mime_type_icon( string $mime_type ): string {
 	switch ( $mime_type ) {
 		case 'application/pdf':
@@ -441,7 +470,9 @@ function xt_mime_type_icon( string $mime_type ): string {
 	}
 }
 
-// echo controls for the chords attachments
+/**
+ * Echo controls for the chords attachments.
+ */
 function xt_attachment_chords( WP_Post $attachment ): void {
 	$url = wp_get_attachment_url( $attachment->ID );
 	$tonality = mb_split( '\s', $attachment->post_content );

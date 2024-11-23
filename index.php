@@ -4,13 +4,14 @@
  * Plugin Name: Christianika Tragoudia
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
- * Version: 1.11.1
+ * Version: 1.11.2
  * Requires PHP: 8.0
  * Author: constracti
  * Author URI: https://github.com/constracti
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: xt
+ * Domain Path: /languages
  */
 
 if ( !defined( 'ABSPATH' ) )
@@ -77,19 +78,25 @@ function xt_first_line( string $str ): string {
 	return explode( "\r\n", $str, 2 )[0];
 }
 
-// require php files
+/**
+ * Require php files.
+ */
 $files = glob( XT::dir( '*.php' ) );
 foreach ( $files as $file ) {
 	if ( $file !== __FILE__ )
 		require_once( $file );
 }
 
-// load plugin translations
+/**
+ * Load plugin translations.
+ */
 add_action( 'init', function(): void {
-	load_plugin_textdomain( 'xt', FALSE, basename( __DIR__ ) . DIRECTORY_SEPARATOR . 'languages' );
+	load_plugin_textdomain( 'xt' );
 } );
 
-// add options page
+/**
+ * Add options page.
+ */
 add_action( 'admin_menu', function(): void {
 	$page_title = esc_html__( 'Christianika Tragoudia', 'xt' );
 	$menu_title = esc_html__( 'Christianika Tragoudia', 'xt' );
@@ -129,7 +136,9 @@ add_action( 'admin_menu', function(): void {
 	} );
 } );
 
-// display a link to plugin settings
+/**
+ * Display a link to plugin settings.
+ */
 add_filter( 'plugin_action_links', function( array $actions, string $plugin_file ): array {
 	if ( $plugin_file !== basename( __DIR__ ) . DIRECTORY_SEPARATOR . basename( __FILE__ ) )
 		return $actions;
@@ -139,14 +148,16 @@ add_filter( 'plugin_action_links', function( array $actions, string $plugin_file
 	return $actions;
 }, 10, 2 );
 
-// allow xml file uploading
+/**
+ * Allow xml file uploading.
+ */
 add_filter( 'upload_mimes', function( array $mimes ): array {
 	$mimes['xml'] = 'text/xml';
 	return $mimes;
 } );
 
 /**
- * include the chords script for show, hide and transpose functionality
+ * Include the chords script for show, hide and transpose functionality.
  */
 add_action( 'wp_enqueue_scripts', function(): void {
 	if ( !is_singular() || !has_category( 'songs' ) )
@@ -211,7 +222,7 @@ add_action( 'wp_head', function(): void {
 } );
 
 /**
- * restore open graph title meta
+ * Restore open graph title meta.
  */
 add_filter( 'open_graph_protocol_meta', function( string $content, string $property ): string {
 	if ( $property !== 'og:title' )
@@ -220,7 +231,7 @@ add_filter( 'open_graph_protocol_meta', function( string $content, string $prope
 }, 10, 2 );
 
 /**
- * set nopaging in selected queries
+ * Set nopaging in selected queries.
  */
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( is_admin() )
@@ -231,7 +242,7 @@ add_action( 'pre_get_posts', function( WP_Query $query ): void {
 } );
 
 /**
- * simplify excerpt in main index query
+ * Simplify excerpt in main index query.
  */
 add_filter( 'the_posts', function( array $posts, WP_Query $query ): array {
 	if ( is_admin() )
@@ -249,7 +260,7 @@ add_filter( 'the_posts', function( array $posts, WP_Query $query ): array {
 }, 10, 2 );
 
 /**
- * choose some posts at random in selected queries
+ * Choose some posts at random in selected queries.
  */
 add_action( 'pre_get_posts', function( WP_Query $query ): void {
 	if ( is_admin() )
@@ -261,7 +272,7 @@ add_action( 'pre_get_posts', function( WP_Query $query ): void {
 } );
 
 /**
- * simplify excerpt in random songs sidebar query
+ * Simplify excerpt in random songs sidebar query.
  */
 add_filter( 'the_posts', function( array $posts, WP_Query $query ): array {
 	if ( is_admin() )
