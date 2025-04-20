@@ -445,7 +445,7 @@ function xt_attachment_download( WP_Post $attachment ): void {
 <?php
 	}
 ?>
-	<span><?= esc_html( sprintf( '[%s, %s]', $ext, size_format( filesize( $dir ), 2 ) ) ) ?></span>
+	<span><?= esc_html( sprintf( '[%s: %s]', $ext, size_format( filesize( $dir ), 1 ) ) ) ?></span>
 </div>
 <?php
 }
