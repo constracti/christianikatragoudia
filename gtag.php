@@ -28,4 +28,15 @@ function xt_gtag_attachment_data( WP_Post $attachment, string $action, string $s
  */
 add_action( 'wp_enqueue_scripts', function(): void {
 	wp_enqueue_script( 'xt-gtag', XT::url( 'gtag.js' ), [ 'jquery' ], XT::version() );
+	// https://developer.wordpress.org/reference/functions/wp_get_document_title/
+	$title = wp_get_document_title();
+	if ( !is_front_page() ) {
+		$sep = apply_filters( 'document_title_separator', '-' );
+		$sep = apply_filters( 'document_title', $sep );
+		$title = explode( ' ' . $sep . ' ', $title );
+		$title = $title[0];
+	}
+	wp_localize_script( 'xt-gtag', 'xt_gtag', [
+		'title' => $title,
+	] );
 } );

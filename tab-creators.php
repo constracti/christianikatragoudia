@@ -1,5 +1,8 @@
 <?php
 
+if ( !defined( 'ABSPATH' ) )
+	exit;
+
 add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	$tab_list['creators'] = __( 'Creators', 'xt' );
 	return $tab_list;

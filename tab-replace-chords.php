@@ -1,5 +1,10 @@
 <?php
 
+if ( !defined( 'ABSPATH' ) )
+	exit;
+
+return;
+
 add_filter( 'xt_tab_list', function( array $tab_list ): array {
 	$tab_list['replace_chords'] = __( 'Replace Chords', 'xt' );
 	return $tab_list;
