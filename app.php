@@ -125,6 +125,12 @@ add_action( 'wp_ajax_nopriv_xt_app_patch_2', function(): void {
 		if ( !mb_ereg( '^([A-G])(bb?|#|x)?', $tonality, $m ) )
 			return NULL;
 		$tonality = $m[1] . $m[2];
+		$speed = filter_var( $post->post_excerpt, FILTER_VALIDATE_FLOAT, [
+			'options' => [
+				'default' => NULL,
+				'min_range' => 0,
+			],
+		] );
 		return [
 			'id' => $post->ID,
 			'date' => $post->post_date_gmt,
@@ -132,6 +138,7 @@ add_action( 'wp_ajax_nopriv_xt_app_patch_2', function(): void {
 			'parent' => $post->post_parent,
 			'content' => $full ? $text : '',
 			'tonality' => $tonality,
+			'speed' => $speed,
 		];
 	}, $chord_list );
 	$chord_list = array_filter( $chord_list, 'is_array' );
