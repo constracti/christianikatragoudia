@@ -4,7 +4,7 @@
  * Plugin Name: Christianika Tragoudia
  * Plugin URI: https://github.com/constracti/christianikatragoudia
  * Description: Customization plugin of Christianika Tragoudia website.
- * Version: 1.13.1
+ * Version: 1.14.0
  * Requires PHP: 8.0
  * Author: constracti
  * Author URI: https://github.com/constracti
@@ -222,13 +222,38 @@ add_action( 'wp_head', function(): void {
 } );
 
 /**
- * Restore open graph title meta.
+ * Restore post open graph title property.
+ *
+ * Open Graph plugin removes the site title from the og:title property of posts.
  */
 add_filter( 'open_graph_protocol_meta', function( string $content, string $property ): string {
 	if ( $property !== 'og:title' )
 		return $content;
 	return wp_get_document_title();
 }, 10, 2 );
+
+/**
+ * Select landscape image as post open graph image property.
+ *
+ * First page thumbnail is portrait and, therefore, not suitable for the image property.
+ */
+add_filter( 'open_graph_protocol_metas', function( array $metas ): array {
+	if ( !is_singular( 'post' ) )
+		return $metas;
+	$id = get_post_thumbnail_id();
+	if ( $id === FALSE )
+		return $metas;
+	$image = wp_get_attachment_image_src( $id, 'total-blog-header' );
+	if ( $image === FALSE )
+		return $metas;
+	list( $src, $width, $height ) = $image;
+	$metas['og:image'] = $src;
+	$metas['og:image:url'] = $src;
+	$metas['og:image:secure_url'] = str_replace( 'http://', 'https://', $src );
+	$metas['og:image:width'] = $width;
+	$metas['og:image:height'] = $height;
+	return $metas;
+} );
 
 /**
  * Set nopaging in selected queries.
